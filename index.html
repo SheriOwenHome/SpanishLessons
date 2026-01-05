@@ -1,0 +1,1992 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Spanish Trainer – Ser/Estar + Vocab + Adjectives</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 18px; line-height: 1.35; }
+    .card { max-width: 1180px; border: 1px solid #ddd; border-radius: 14px; padding: 16px 16px 14px; }
+    .topbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom: 10px; }
+    .title { font-weight: 800; }
+    select, input[type="search"] { padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
+    .sentence { font-size: 1.28rem; margin: 8px 0 12px; }
+    .grid { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 10px; }
+    button { padding: 10px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+    button:hover { background: #f6f6f6; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .ok { color: #0a7a2f; font-weight: 800; }
+    .bad { color: #b00020; font-weight: 800; }
+    .meta { color: #555; margin-top: 10px; }
+    .row { display:flex; gap: 10px; align-items:center; margin-top: 12px; flex-wrap: wrap; }
+    .pill { font-size: .9rem; padding: 6px 10px; border-radius: 999px; border: 1px solid #ddd; color:#333; background:#fafafa; }
+    .muted { color:#777; }
+    .hidden { display:none !important; }
+	#teachPane table { font-size: 1rem; }
+    #teachPane { margin-top: 12px; }
+    #teachPane .teachTableWrap{ max-height: 65vh; overflow: auto; border: 1px solid #eee; border-radius: 12px; padding: 6px; background: #fff; }
+    .teachWrap { margin-top: 12px; border-top: 1px dashed #ddd; padding-top: 12px; }
+    .teachGrid { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 720px){
+      .grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+      .teachGrid { grid-template-columns: 1fr; }
+      .sentence { font-size: 1.18rem; }
+    }
+    table { width:100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #eee; padding: 10px; text-align:left; vertical-align: top; }
+    th { background:#fafafa; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.95em; padding:2px 6px; border:1px solid #ddd; border-bottom-width:2px; border-radius:6px; background:#fff; }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="topbar">
+      <div class="title">Spanish Trainer</div>
+
+      <label class="pill">
+        Mode
+        <select id="modeSel">
+          <option value="drill">Drill</option>
+          <option value="teach">Teaching</option>
+        </select>
+      </label>
+
+      <label class="pill">
+        Set
+        <select id="setSel"></select>
+      </label>
+
+      <label class="pill">
+        SR
+        <select id="srSel">
+          <option value="on">On</option>
+          <option value="off">Off</option>
+        </select>
+      </label>
+
+      <label class="pill">
+        Typed
+        <select id="typedSel">
+          <option value="auto">Auto</option>
+          <option value="on">On</option>
+          <option value="off">Off</option>
+        </select>
+      </label>
+
+      <input id="teachSearch" class="hidden" type="search" placeholder="Search teaching list (English/Spanish)…" />
+      <span class="pill muted">Tip: press <span class="kbd">Enter</span> to check typed answers</span>
+    </div>
+
+    <div id="drillPane">
+      <div class="sentence" id="sentence">Loading…</div>
+	  <div class="muted" id="enLine" style="margin:-6px 0 10px;"></div>
+
+
+      <div class="grid" id="options"></div>
+
+      <div id="typedRow" class="row" autocomplete="off">
+        <!-- Anti-autofill tricks (Chrome can still be “helpful”, but this reduces it) -->
+        <input type="text" style="display:none" name="fake_field" />
+        <input
+          id="typed"
+          name="x42_in_nothingness"
+          readonly
+          onfocus="this.removeAttribute('readonly');"
+          placeholder="Type answer here…"
+          type="text"
+          autocorrect="off"
+          spellcheck="false"
+          autocomplete="off"
+          inputmode="text"
+          style="padding:10px;border-radius:10px;border:1px solid #ccc;min-width:260px;"
+        />
+        <button id="checkTypedBtn">Check</button>
+      </div>
+	  
+	  <div id="typedHintRow" class="row hidden">
+	    <div class="pill muted" id="typedHintText">EN hint: …</div>
+	  </div>
+
+      <div class="row">
+        <button id="revealBtn" class="hidden">Reveal</button>
+        <button id="nextBtn">Next</button>
+        <div id="feedback"></div>
+      </div>
+
+      <div class="meta" id="meta"></div>
+    </div>
+
+    <div id="teachPane" class="hidden teachWrap">
+      <div class="teachGrid">
+        <div>
+          <div class="pill">Teaching list</div>
+          <div class="muted" style="margin-top:6px;">
+            This view shows all vocabulary items from the selected Set that include <span class="kbd">teach</span> entries.
+            Use the search box above to filter.
+          </div>
+        </div>
+        <div class="muted">
+          How to add teaching entries: see the commented examples in the EXERCISES section.
+        </div>
+      </div>
+
+      <div class="teachTableWrap" style="margin-top:10px;">
+		  <table>
+			<thead>
+			  <tr>
+				<th style="width:28%;">Spanish</th>
+				<th style="width:28%;">English</th>
+				<th>Notes</th>
+			  </tr>
+			</thead>
+			<tbody id="teachTable"></tbody>
+		  </table>
+	  </div>
+
+    </div>
+  </div>
+
+<script>
+/* ============================================================================
+   SPANISH TRAINER – Core Engine (you should NOT need to edit below often)
+   ============================================================================
+   How it works:
+   - You define exercise arrays in EXERCISES (commented area below).
+   - Each item can be:
+     1) Ser/Estar choice (pick from buttons):   { type:"serestar", q, a, why }
+     2) Multiple choice vocab:                 { type:"mc", q, a, opts:[...], why }
+     3) Typed vocab (no buttons needed):       { type:"typed", q, a, why }
+     4) Mixed verb+adjective (two-step):       { type:"mix_adj", q, aVerb, aAdj, adjOpts:[...], why }
+   - Optional teaching entries live in item.teach:
+       teach: { es:"la cocina", en:"kitchen", note:"room (f.)" }
+   - Tags allow filtering by “Set” (menu), without code changes.
+   - Light spaced repetition (SR) brings wrong items back sooner, right items later.
+   ========================================================================== */
+
+/* ---------------------------- Small utilities ---------------------------- */
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function norm(s){
+  return (s||"")
+    .toLowerCase()
+    .trim()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,""); // ignore accents
+}
+
+function uniqBy(arr, keyFn){
+  const seen = new Set();
+  const out = [];
+  for (const x of arr){
+    const k = keyFn(x);
+    if (!seen.has(k)){
+      seen.add(k);
+      out.push(x);
+    }
+  }
+  return out;
+}
+
+/* ============================================================================
+   ✅✅✅ EXERCISES GO HERE ✅✅✅
+   Add new Sets, add items, no other code changes needed.
+   ============================================================================
+   You can create as many Sets as you want. Each Set has:
+     - id: unique string
+     - name: label in dropdown
+     - items: array of exercise objects
+
+   ITEM EXAMPLES:
+
+   // 1) SER/ESTAR drill (buttons)
+   { type:"serestar", q:"Yo ____ valiente.", a:"soy", why:"Rasgo → ser." }
+
+   // 2) Multiple choice vocab (buttons)
+   { type:"mc", q:"Pick the Spanish for: kitchen", a:"la cocina",
+     opts:["la cocina","el baño","el salón","el pasillo"],
+     why:"Kitchen = la cocina.",
+     teach:{ es:"la cocina", en:"kitchen", note:"room (f.)" }
+   }
+
+   // 3) Typed vocab (type-in)
+   { type:"typed", q:"Type the Spanish: living room", a:"el salón",
+     why:"Room (m.)",
+     teach:{ es:"el salón", en:"living room", note:"room (m.)" }
+   }
+
+   // 4) Mixed SER/ESTAR + adjective agreement (two-step)
+   { type:"mix_adj",
+     q:"Las chicas ____ ____.",
+     aVerb:"son",
+     aAdj:"tímidas",
+     adjOpts:["tímidos","tímidas","tímido","tímida"],
+     why:"Rasgo (SER). Plural femenino: tímidas."
+   }
+
+// ===== MIXED SER/ESTAR + ADJ AGREEMENT (plural-heavy) =====
+   Notes:
+   - For SER/ESTAR drills, answers should match the choice buttons (below).
+   - For typed drills, accents are optional: "salon" will match "salón".
+*/
+const EXERCISES = [
+	
+
+];
+
+const EXERCISE_SETS = [
+  {
+    id: "Starter pack",
+    name: "All beginners",
+    items: [
+      // --- Put a few starter examples so you can see the app working immediately ---
+      { type:"serestar", q:"Yo ____ valiente.", a:"soy", why:"Rasgo/identidad → ser." },
+      { type:"serestar", q:"Nosotros ____ en casa.", a:"estamos", why:"Ubicación → estar." },
+
+      { type:"mc", q:"Pick the Spanish for: bathroom", a:"el baño",
+        opts:["el baño","la cocina","el salón","el pasillo"],
+        why:"Bathroom = el baño.",
+        teach:{ es:"el baño", en:"bathroom", note:"room (m.)" }
+      },
+
+      { type:"typed", q:"Type the Spanish: living room", a:"el salón",
+        why:"Room (m.)",
+        teach:{ es:"el salón", en:"living room", note:"room (m.)" }
+      },
+
+      { type:"mix_adj",
+	    q:"Las chicas ____ ____.",
+  	    en:"The girls are ____ (shy).",
+  	    aVerb:"son",
+  	    aAdj:"tímidas",
+	    adjOpts:["tímidos","tímidas","tímido","tímida"],
+	    why:"Rasgo (SER). Plural femenino.",
+	    teach:{ es:"tímido/tímida", en:"shy", note:"pl fem: tímidas" }
+	  },
+	  
+	  // ===== SER: personality traits (gender agreement practice) =====
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Ella ____ tímida.", a:"es", why:"Rasgo (ser).", teach:{es:"tímido/tímida", en:"shy", note:"Adjective changes: tímido → tímida."}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Él ____ tímido.", a:"es", why:"Rasgo (ser).", teach:{es:"tímido/tímida", en:"shy", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Mi amiga ____ habladora.", a:"es", why:"Rasgo (ser).", teach:{es:"hablador/habladora", en:"talkative", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Mi amigo ____ hablador.", a:"es", why:"Rasgo (ser).", teach:{es:"hablador/habladora", en:"talkative", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Ella ____ encantadora.", a:"es", why:"Rasgo (ser).", teach:{es:"encantador/encantadora", en:"charming", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Él ____ encantador.", a:"es", why:"Rasgo (ser).", teach:{es:"encantador/encantadora", en:"charming", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Nosotros ____ valientes.", a:"somos", why:"Rasgo (ser).", teach:{es:"valiente", en:"brave", note:"valiente (pl: valientes)."}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Ella ____ egoísta.", a:"es", why:"Rasgo (ser).", teach:{es:"egoísta", en:"selfish", note:"Same for masc/fem; plural: egoístas."}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Ellos ____ antipáticos.", a:"son", why:"Rasgo (ser).", teach:{es:"antipático/antipática", en:"unfriendly", note:"Accent: antipático."}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Ellas ____ antipáticas.", a:"son", why:"Rasgo (ser).", teach:{es:"antipático/antipática", en:"unfriendly", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Él ____ ambicioso.", a:"es", why:"Rasgo (ser).", teach:{es:"ambicioso/ambiciosa", en:"ambitious", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","ADJ"], q:"Ella ____ ambiciosa.", a:"es", why:"Rasgo (ser).", teach:{es:"ambicioso/ambiciosa", en:"ambitious", note:""}},
+
+
+		// ===== ESTAR: feelings / states =====
+		{ type:"serestar", tags:["SER_ESTAR","FEEL"], q:"Hoy yo ____ cansado/a.", a:"estoy", why:"Estado (estar).", teach:{es:"cansado/cansada", en:"tired", note:"Agreement with the person."}},
+		{ type:"serestar", tags:["SER_ESTAR","FEEL"], q:"Ella ____ preocupada.", a:"está", why:"Estado (estar).", teach:{es:"preocupado/preocupada", en:"worried", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","FEEL"], q:"Él ____ asustado.", a:"está", why:"Estado (estar).", teach:{es:"asustado/asustada", en:"scared", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","FEEL"], q:"Nosotros ____ aburridos/as.", a:"estamos", why:"Estado (estar).", teach:{es:"aburrido/aburrida", en:"bored", note:""}},
+		{ type:"serestar", tags:["SER_ESTAR","FEEL"], q:"Yo ____ de mal humor.", a:"estoy", why:"Expresión fija (estar).", teach:{es:"de mal humor", en:"in a bad mood", note:"Fixed phrase."}},
+		{ type:"serestar", tags:["SER_ESTAR","FEEL"], q:"Yo ____ sin palabras.", a:"estoy", why:"Expresión fija (estar).", teach:{es:"sin palabras", en:"speechless", note:"Fixed phrase."}},
+
+		// How are you scale (type-in is also good here)
+		{ type:"typein", tags:["VOCAB","FEEL"], prompt:"Type the Spanish: more or less", a:"más o menos", why:"Cómo estás: más o menos.", teach:{es:"más o menos", en:"more or less", note:"Phrase."}},
+		{ type:"typein", tags:["VOCAB","FEEL"], prompt:"Type the Spanish: so-so", a:"así así", why:"Cómo estás: así así.", teach:{es:"así así", en:"so-so", note:"Phrase."}},
+		{ type:"typein", tags:["VOCAB","FEEL"], prompt:"Type the Spanish: terrible", a:"fatal", why:"Cómo estás: fatal.", teach:{es:"fatal", en:"terrible", note:"Phrase."}},
+
+
+		// ===== Rooms / house =====
+		{ type:"typein", tags:["VOCAB","ROOMS"], prompt:"Type the Spanish: kitchen", a:"la cocina", why:"Room vocab.", teach:{es:"la cocina", en:"kitchen", note:"feminine"}},
+		{ type:"typein", tags:["VOCAB","ROOMS"], prompt:"Type the Spanish: living room", a:"el salón", why:"Room vocab.", teach:{es:"el salón", en:"living room", note:"masculine"}},
+		{ type:"typein", tags:["VOCAB","ROOMS"], prompt:"Type the Spanish: bathroom", a:"el baño", why:"Room vocab.", teach:{es:"el baño", en:"bathroom", note:"masculine"}},
+		{ type:"typein", tags:["VOCAB","ROOMS"], prompt:"Type the Spanish: stairs", a:"las escaleras", why:"Room vocab.", teach:{es:"las escaleras", en:"stairs", note:"plural"}},
+		{ type:"mc", tags:["VOCAB","ROOMS"], q:"Pick the Spanish for: roof (not ceiling)", a:"el tejado",
+		  opts:["el tejado","el techo","la pared","la chimenea"], why:"El tejado = roof (outside/roof).", teach:{es:"el tejado", en:"roof", note:"Techo can be ceiling/roof depending on context."}},
+		{ type:"mc", tags:["VOCAB","ROOMS"], q:"Pick the Spanish for: basement (ground floor)", a:"la planta baja",
+		  opts:["la planta baja","el desván","el garaje","el pasillo"], why:"Planta baja = ground floor.", teach:{es:"la planta baja", en:"ground floor", note:"Often used for first level."}},
+
+
+		// ===== Professions =====
+		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: teacher (m.)", a:"el maestro", why:"Profession vocab.", teach:{es:"el maestro / la maestra", en:"teacher", note:"gendered forms"}},
+		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: student", a:"el/la estudiante", why:"Same word; article changes.", teach:{es:"el/la estudiante", en:"student", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: police officer", a:"el/la policía", why:"Same word; article changes.", teach:{es:"el/la policía", en:"police officer", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: dentist", a:"el/la dentista", why:"Same word; article changes.", teach:{es:"el/la dentista", en:"dentist", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: engineer (f.)", a:"la ingeniera", why:"Profession vocab.", teach:{es:"el ingeniero / la ingeniera", en:"engineer", note:"gendered forms"}},
+
+
+		// ===== Verbs: infinitive =====
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to see", a:"ver", why:"Infinitive.", teach:{es:"ver", en:"to see", note:"yo veo"}},
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to say", a:"decir", why:"Infinitive.", teach:{es:"decir", en:"to say/tell", note:"yo digo"}},
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to go", a:"ir", why:"Infinitive.", teach:{es:"ir", en:"to go", note:"yo voy"}},
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to have", a:"tener", why:"Infinitive.", teach:{es:"tener", en:"to have", note:"yo tengo"}},
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to come", a:"venir", why:"Infinitive.", teach:{es:"venir", en:"to come", note:"yo vengo"}},
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to eat", a:"comer", why:"Infinitive.", teach:{es:"comer", en:"to eat", note:"yo como"}},
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to drink", a:"beber", why:"Infinitive.", teach:{es:"beber", en:"to drink", note:"yo bebo (also: tomar)"}},
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to learn", a:"aprender", why:"Infinitive.", teach:{es:"aprender", en:"to learn", note:"yo aprendo"}},
+		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to study", a:"estudiar", why:"Infinitive.", teach:{es:"estudiar", en:"to study", note:"yo estudio"}},
+
+
+		// ===== ADJECTIVE FORM DRILL (gender + plural) =====
+		// ADJ_FORMS with en: prompts added (English line shown under Spanish sentence)
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico es ____.", en:"The boy is ____ (brave).", a:"valiente", opts:["valiente","valientes","valienta","valientos"], why:"valiente is invariable in gender; singular here." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas son ____.", en:"The girls are ____ (brave).", a:"valientes", opts:["valiente","valientes","valientas","valientos"], why:"Plural: valiente → valientes." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El profesor es ____.", en:"The (male) teacher is ____ (serious).", a:"serio", opts:["serio","seria","serios","serias"], why:"Masculine singular: serio." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"La profesora es ____.", en:"The (female) teacher is ____ (serious).", a:"seria", opts:["serio","seria","serios","serias"], why:"Feminine singular: seria." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Los profesores son ____.", en:"The (male) teachers are ____ (serious).", a:"serios", opts:["serio","seria","serios","serias"], why:"Masculine plural: serios." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las profesoras son ____.", en:"The (female) teachers are ____ (serious).", a:"serias", opts:["serio","seria","serios","serias"], why:"Feminine plural: serias." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico es ____.", en:"The boy is ____ (loving / affectionate).", a:"cariñoso", opts:["cariñoso","cariñosa","cariñosos","cariñosas"], why:"Masculine singular: cariñoso." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"La chica es ____.", en:"The girl is ____ (loving / affectionate).", a:"cariñosa", opts:["cariñoso","cariñosa","cariñosos","cariñosas"], why:"Feminine singular: cariñosa." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Los chicos son ____.", en:"The boys are ____ (loving / affectionate).", a:"cariñosos", opts:["cariñoso","cariñosa","cariñosos","cariñosas"], why:"Masculine plural: cariñosos." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas son ____.", en:"The girls are ____ (loving / affectionate).", a:"cariñosas", opts:["cariñoso","cariñosa","cariñosos","cariñosas"], why:"Feminine plural: cariñosas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El alumno es ____.", en:"The (male) student is ____ (shy).", a:"tímido", opts:["tímido","tímida","tímidos","tímidas"], why:"Masculine singular: tímido." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"La alumna es ____.", en:"The (female) student is ____ (shy).", a:"tímida", opts:["tímido","tímida","tímidos","tímidas"], why:"Feminine singular: tímida." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Los alumnos son ____.", en:"The (male) students are ____ (shy).", a:"tímidos", opts:["tímido","tímida","tímidos","tímidas"], why:"Masculine plural: tímidos." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las alumnas son ____.", en:"The (female) students are ____ (shy).", a:"tímidas", opts:["tímido","tímida","tímidos","tímidas"], why:"Feminine plural: tímidas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mi amigo es ____.", en:"My (male) friend is ____ (selfish).", a:"egoísta", opts:["egoísta","egoístas","egoísto","egoístas"], why:"egoísta is invariable in gender; singular." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mis amigas son ____.", en:"My (female) friends are ____ (selfish).", a:"egoístas", opts:["egoísta","egoístas","egoístos","egoístas"], why:"Plural: egoísta → egoístas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El hombre es ____.", en:"The man is ____ (honest).", a:"honesto", opts:["honesto","honesta","honestos","honestas"], why:"Masculine singular: honesto." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"La mujer es ____.", en:"The woman is ____ (honest).", a:"honesta", opts:["honesto","honesta","honestos","honestas"], why:"Feminine singular: honesta." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Los hombres son ____.", en:"The men are ____ (honest).", a:"honestos", opts:["honesto","honesta","honestos","honestas"], why:"Masculine plural: honestos." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las mujeres son ____.", en:"The women are ____ (honest).", a:"honestas", opts:["honesto","honesta","honestos","honestas"], why:"Feminine plural: honestas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Él es ____.", en:"He is ____ (bad-tempered).", a:"malhumorado", opts:["malhumorado","malhumorada","malhumorados","malhumoradas"], why:"Masculine singular: malhumorado." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Ella es ____.", en:"She is ____ (bad-tempered).", a:"malhumorada", opts:["malhumorado","malhumorada","malhumorados","malhumoradas"], why:"Feminine singular: malhumorada." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Ellos son ____.", en:"They (m) are ____ (bad-tempered).", a:"malhumorados", opts:["malhumorado","malhumorada","malhumorados","malhumoradas"], why:"Masculine plural: malhumorados." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Ellas son ____.", en:"They (f) are ____ (bad-tempered).", a:"malhumoradas", opts:["malhumorado","malhumorada","malhumorados","malhumoradas"], why:"Feminine plural: malhumoradas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mi primo es ____.", en:"My (male) cousin is ____ (charming).", a:"encantador", opts:["encantador","encantadora","encantadores","encantadoras"], why:"Masculine singular: encantador." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mi prima es ____.", en:"My (female) cousin is ____ (charming).", a:"encantadora", opts:["encantador","encantadora","encantadores","encantadoras"], why:"Feminine singular: encantadora." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mis primos son ____.", en:"My (male) cousins are ____ (charming).", a:"encantadores", opts:["encantador","encantadora","encantadores","encantadoras"], why:"Masculine plural: encantadores." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mis primas son ____.", en:"My (female) cousins are ____ (charming).", a:"encantadoras", opts:["encantador","encantadora","encantadores","encantadoras"], why:"Feminine plural: encantadoras." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El niño es ____.", en:"The boy (child) is ____ (quiet).", a:"callado", opts:["callado","callada","callados","calladas"], why:"Masculine singular: callado." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"La niña es ____.", en:"The girl (child) is ____ (quiet).", a:"callada", opts:["callado","callada","callados","calladas"], why:"Feminine singular: callada." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Los niños son ____.", en:"The boys (children) are ____ (quiet).", a:"callados", opts:["callado","callada","callados","calladas"], why:"Masculine plural: callados." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las niñas son ____.", en:"The girls (children) are ____ (quiet).", a:"calladas", opts:["callado","callada","callados","calladas"], why:"Feminine plural: calladas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Tu vecino es ____.", en:"Your (male) neighbor is ____ (friendly).", a:"amistoso", opts:["amistoso","amistosa","amistosos","amistosas"], why:"Masculine singular: amistoso." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Tu vecina es ____.", en:"Your (female) neighbor is ____ (friendly).", a:"amistosa", opts:["amistoso","amistosa","amistosos","amistosas"], why:"Feminine singular: amistosa." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Tus vecinos son ____.", en:"Your (male) neighbors are ____ (friendly).", a:"amistosos", opts:["amistoso","amistosa","amistosos","amistosas"], why:"Masculine plural: amistosos." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Tus vecinas son ____.", en:"Your (female) neighbors are ____ (friendly).", a:"amistosas", opts:["amistoso","amistosa","amistosos","amistosas"], why:"Feminine plural: amistosas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El camarero es ____.", en:"The waiter is ____ (unfriendly / unpleasant).", a:"antipático", opts:["antipático","antipática","antipáticos","antipáticas"], why:"Masculine singular (accent!): antipático." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"La camarera es ____.", en:"The waitress is ____ (unfriendly / unpleasant).", a:"antipática", opts:["antipático","antipática","antipáticos","antipáticas"], why:"Feminine singular: antipática." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Los camareros son ____.", en:"The waiters are ____ (unfriendly / unpleasant).", a:"antipáticos", opts:["antipático","antipática","antipáticos","antipáticas"], why:"Masculine plural: antipáticos." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las camareras son ____.", en:"The waitresses are ____ (unfriendly / unpleasant).", a:"antipáticas", opts:["antipático","antipática","antipáticos","antipáticas"], why:"Feminine plural: antipáticas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico es ____.", en:"The boy is ____ (talkative).", a:"hablador", opts:["hablador","habladora","habladores","habladoras"], why:"Masculine singular: hablador." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"La chica es ____.", en:"The girl is ____ (talkative).", a:"habladora", opts:["hablador","habladora","habladores","habladoras"], why:"Feminine singular: habladora." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Los chicos son ____.", en:"The boys are ____ (talkative).", a:"habladores", opts:["hablador","habladora","habladores","habladoras"], why:"Masculine plural: habladores." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas son ____.", en:"The girls are ____ (talkative).", a:"habladoras", opts:["hablador","habladora","habladores","habladoras"], why:"Feminine plural: habladoras." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Él es ____.", en:"He is ____ (outgoing / extroverted).", a:"extrovertido", opts:["extrovertido","extrovertida","extrovertidos","extrovertidas"], why:"Masculine singular: extrovertido." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Ella es ____.", en:"She is ____ (outgoing / extroverted).", a:"extrovertida", opts:["extrovertido","extrovertida","extrovertidos","extrovertidas"], why:"Feminine singular: extrovertida." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Ellos son ____.", en:"They (m) are ____ (outgoing / extroverted).", a:"extrovertidos", opts:["extrovertido","extrovertida","extrovertidos","extrovertidas"], why:"Masculine plural: extrovertidos." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Ellas son ____.", en:"They (f) are ____ (outgoing / extroverted).", a:"extrovertidas", opts:["extrovertido","extrovertida","extrovertidos","extrovertidas"], why:"Feminine plural: extrovertidas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mi jefe es ____.", en:"My (male) boss is ____ (ambitious).", a:"ambicioso", opts:["ambicioso","ambiciosa","ambiciosos","ambiciosas"], why:"Masculine singular: ambicioso." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mi jefa es ____.", en:"My (female) boss is ____ (ambitious).", a:"ambiciosa", opts:["ambicioso","ambiciosa","ambiciosos","ambiciosas"], why:"Feminine singular: ambiciosa." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mis jefes son ____.", en:"My (male) bosses are ____ (ambitious).", a:"ambiciosos", opts:["ambicioso","ambiciosa","ambiciosos","ambiciosas"], why:"Masculine plural: ambiciosos." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Mis jefas son ____.", en:"My (female) bosses are ____ (ambitious).", a:"ambiciosas", opts:["ambicioso","ambiciosa","ambiciosos","ambiciosas"], why:"Feminine plural: ambiciosas." },
+
+		// --- ESTAR list (agreement drills) ---
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico está ____.", en:"The boy is ____ (angry).", a:"enfadado", opts:["enfadado","enfadada","enfadados","enfadadas"], why:"-ado/-ada agreement. (Spain: enfadado)" },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas están ____.", en:"The girls are ____ (angry).", a:"enfadadas", opts:["enfadados","enfadadas","enfadado","enfadada"], why:"Plural femenino: enfadadas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El niño está ____.", en:"The boy (child) is ____ (bored).", a:"aburrido", opts:["aburrido","aburrida","aburridos","aburridas"], why:"Agreement: aburrido." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las niñas están ____.", en:"The girls (children) are ____ (bored).", a:"aburridas", opts:["aburridos","aburridas","aburrido","aburrida"], why:"Plural femenino: aburridas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El hombre está ____.", en:"The man is ____ (confused).", a:"confundido", opts:["confundido","confundida","confundidos","confundidas"], why:"Agreement: confundido." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las mujeres están ____.", en:"The women are ____ (confused).", a:"confundidas", opts:["confundidos","confundidas","confundido","confundida"], why:"Plural femenino: confundidas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico está ____.", en:"The boy is ____ (scared).", a:"asustado", opts:["asustado","asustada","asustados","asustadas"], why:"Agreement: asustado." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas están ____.", en:"The girls are ____ (scared).", a:"asustadas", opts:["asustados","asustadas","asustado","asustada"], why:"Plural femenino: asustadas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El alumno está ____.", en:"The (male) student is ____ (tired).", a:"cansado", opts:["cansado","cansada","cansados","cansadas"], why:"Agreement: cansado." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las alumnas están ____.", en:"The (female) students are ____ (tired).", a:"cansadas", opts:["cansados","cansadas","cansado","cansada"], why:"Plural femenino: cansadas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico está ____.", en:"The boy is ____ (surprised).", a:"sorprendido", opts:["sorprendido","sorprendida","sorprendidos","sorprendidas"], why:"Agreement: sorprendido." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas están ____.", en:"The girls are ____ (surprised).", a:"sorprendidas", opts:["sorprendidos","sorprendidas","sorprendido","sorprendida"], why:"Plural femenino: sorprendidas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El hombre está ____.", en:"The man is ____ (satisfied).", a:"satisfecho", opts:["satisfecho","satisfecha","satisfechos","satisfechas"], why:"satisfecho has regular -o/-a forms." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las mujeres están ____.", en:"The women are ____ (satisfied).", a:"satisfechas", opts:["satisfechos","satisfechas","satisfecho","satisfecha"], why:"Plural femenino: satisfechas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico está ____.", en:"The boy is ____ (annoyed).", a:"molesto", opts:["molesto","molesta","molestos","molestas"], why:"molesto agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas están ____.", en:"The girls are ____ (annoyed).", a:"molestas", opts:["molestos","molestas","molesto","molesta"], why:"Plural femenino: molestas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El hombre está ____.", en:"The man is ____ (proud).", a:"orgulloso", opts:["orgulloso","orgullosa","orgullosos","orgullosas"], why:"orgulloso agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las mujeres están ____.", en:"The women are ____ (proud).", a:"orgullosas", opts:["orgullosos","orgullosas","orgulloso","orgullosa"], why:"Plural femenino: orgullosas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico está ____.", en:"The boy is ____ (anxious).", a:"ansioso", opts:["ansioso","ansiosa","ansiosos","ansiosas"], why:"ansioso agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas están ____.", en:"The girls are ____ (anxious).", a:"ansiosas", opts:["ansiosos","ansiosas","ansioso","ansiosa"], why:"Plural femenino: ansiosas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El hombre está ____.", en:"The man is ____ (relaxed).", a:"relajado", opts:["relajado","relajada","relajados","relajadas"], why:"-ado/-ada agreement." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las mujeres están ____.", en:"The women are ____ (relaxed).", a:"relajadas", opts:["relajados","relajadas","relajado","relajada"], why:"Plural femenino: relajadas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico está ____.", en:"The boy is ____ (drunk).", a:"borracho", opts:["borracho","borracha","borrachos","borrachas"], why:"borracho agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas están ____.", en:"The girls are ____ (drunk).", a:"borrachas", opts:["borrachos","borrachas","borracho","borracha"], why:"Plural femenino: borrachas." },
+
+		// --- extra from your list ---
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El vecino es ____.", en:"The (male) neighbor is ____ (arrogant).", a:"arrogante", opts:["arrogante","arrogantes","arroganta","arrogantos"], why:"arrogante is invariable in gender; plural: arrogantes." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las vecinas son ____.", en:"The (female) neighbors are ____ (arrogant).", a:"arrogantes", opts:["arrogante","arrogantes","arrogantas","arrogantos"], why:"Plural: arrogante → arrogantes." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico es ____.", en:"The boy is ____ (creative).", a:"creativo", opts:["creativo","creativa","creativos","creativas"], why:"creativo agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas son ____.", en:"The girls are ____ (creative).", a:"creativas", opts:["creativos","creativas","creativo","creativa"], why:"Plural femenino: creativas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El alumno es ____.", en:"The (male) student is ____ (curious).", a:"curioso", opts:["curioso","curiosa","curiosos","curiosas"], why:"curioso agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las alumnas son ____.", en:"The (female) students are ____ (curious).", a:"curiosas", opts:["curiosos","curiosas","curioso","curiosa"], why:"Plural femenino: curiosas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico es ____.", en:"The boy is ____ (lazy).", a:"perezoso", opts:["perezoso","perezosa","perezosos","perezosas"], why:"perezoso agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas son ____.", en:"The girls are ____ (lazy).", a:"perezosas", opts:["perezosos","perezosas","perezoso","perezosa"], why:"Plural femenino: perezosas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El compañero es ____.", en:"The (male) classmate is ____ (loyal).", a:"leal", opts:["leal","leales","leala","lealos"], why:"leal is invariable in gender; plural: leales." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las compañeras son ____.", en:"The (female) classmates are ____ (loyal).", a:"leales", opts:["leal","leales","lealas","lealos"], why:"Plural: leal → leales." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico es ____.", en:"The boy is ____ (nervous).", a:"nervioso", opts:["nervioso","nerviosa","nerviosos","nerviosas"], why:"nervioso agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas son ____.", en:"The girls are ____ (nervous).", a:"nerviosas", opts:["nerviosos","nerviosas","nervioso","nerviosa"], why:"Plural femenino: nerviosas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El chico es ____.", en:"The boy is ____ (stubborn).", a:"terco", opts:["terco","terca","tercos","tercas"], why:"terco agrees with gender/number." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las chicas son ____.", en:"The girls are ____ (stubborn).", a:"tercas", opts:["tercos","tercas","terco","terca"], why:"Plural femenino: tercas." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El coche es ____.", en:"The car is ____ (expensive).", a:"caro", opts:["caro","cara","caros","caras"], why:"caro agrees with gender/number (note: coche is masculine)." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las cosas son ____.", en:"Things are ____ (expensive).", a:"caras", opts:["caros","caras","caro","cara"], why:"Plural femenino: caras." },
+
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El libro es ____.", en:"The book is ____ (long).", a:"largo", opts:["largo","larga","largos","largas"], why:"Masculine singular: largo." },
+		{ type:"mc", tags:["ADJ_FORMS"], q:"Las películas son ____.", en:"The movies are ____ (long).", a:"largas", opts:["largos","largas","largo","larga"], why:"Plural femenino: largas." },
+
+		// (Optional — you had a note to delete if you want only your provided adjectives)
+		{ type:"mc", tags:["ADJ_FORMS"], q:"El examen es ____.", en:"The exam is ____ (difficult).", a:"difícil", opts:["difícil","difíciles","difícila","difícilos"], why:"(If you keep only provided adjectives, delete this one.)" },
+
+
+	// ===== MIXED SER/ESTAR — FULL PERSON SET (Spain) =====
+
+		// --- YO ---
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","YO"], q:"Yo ____ ____.", en:"I am shy. (SER)", aVerb:"soy", aAdj:"tímido/a",
+		  adjOpts:["tímido","tímida","tímidos","tímidas"],
+		  why:"Rasgo → SER. Yo takes gender agreement.",
+		  teach:{ es:"tímido/tímida", en:"shy", note:"Choose masculine or feminine form." }
+		},
+
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","YO","SER_ESTAR"], q:"Yo ____ ____.", en:"I am tired. (ESTAR)", aVerb:"estoy", aAdj:"cansado/a",
+		  adjOpts:["cansado","cansada","cansados","cansadas"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"cansado/cansada", en:"tired", note:"Temporary state → estar." }
+		},
+
+		// --- TÚ ---
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","TU"], q:"Tú ____ ____.", en:"You are outgoing. (SER)", aVerb:"eres", aAdj:"extrovertido/a",
+		  adjOpts:["extrovertido","extrovertida","extrovertidos","extrovertidas"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"extrovertido/extrovertida", en:"outgoing", note:"Agreement follows gender." }
+		},
+
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","TU","SER_ESTAR"], q:"Tú ____ ____.", en:"You are worried. (ESTAR)", aVerb:"estás", aAdj:"preocupado/a",
+		  adjOpts:["preocupado","preocupada","preocupados","preocupadas"],
+		  why:"Estado emocional → ESTAR.",
+		  teach:{ es:"preocupado/preocupada", en:"worried", note:"Temporary feeling → estar." }
+		},
+
+		// --- ÉL / ELLA ---
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","EL"], q:"Él ____ ____.", en:"He is ambitious. (SER)", aVerb:"es", aAdj:"ambicioso",
+		  adjOpts:["ambicioso","ambiciosa","ambiciosos","ambiciosas"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"ambicioso/ambiciosa", en:"ambitious", note:"Él → masculine singular." }
+		},
+
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","ELLA"], q:"Ella ____ ____.", en:"She is relaxed. (ESTAR)", aVerb:"está", aAdj:"relajada",
+		  adjOpts:["relajado","relajada","relajados","relajadas"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"relajado/relajada", en:"relaxed", note:"Temporary condition." }
+		},
+
+		// --- NOSOTROS / NOSOTRAS ---
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOSOTROS"], q:"Nosotros ____ ____.", en:"We are honest. (SER)", aVerb:"somos", aAdj:"honestos",
+		  adjOpts:["honestos","honestas","honesto","honesta"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"honesto/honesta", en:"honest", note:"Nosotros → plural masculine/mixed." }
+		},
+
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOSOTRAS"], q:"Nosotras ____ ____.", en:"We are bored. (ESTAR)", aVerb:"estamos", aAdj:"aburridas",
+		  adjOpts:["aburridos","aburridas","aburrido","aburrida"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"aburrido/aburrida", en:"bored", note:"Nosotras → plural feminine." }
+		},
+
+		// --- VOSOTROS / VOSOTRAS (Spain-specific) ---
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","VOSOTROS"], q:"Vosotros ____ ____.", en:"You all are friendly. (SER)", aVerb:"sois", aAdj:"amistosos",
+		  adjOpts:["amistosos","amistosas","amistoso","amistosa"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"amistoso/amistosa", en:"friendly", note:"Vosotros → plural masculine." }
+		},
+
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","VOSOTRAS"], q:"Vosotras ____ ____.", en:"You all are tired. (ESTAR)", aVerb:"estáis", aAdj:"cansadas",
+		  adjOpts:["cansados","cansadas","cansado","cansada"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"cansado/cansada", en:"tired", note:"Vosotras → plural feminine." }
+		},
+
+		// --- ELLOS / ELLAS ---
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","ELLOS"], q:"Ellos ____ ____.", en:"They are charming. (SER)", aVerb:"son", aAdj:"encantadores",
+		  adjOpts:["encantadores","encantadoras","encantador","encantadora"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"encantador/encantadora", en:"charming", note:"Ellos → plural masculine." }
+		},
+
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","ELLAS"], q:"Ellas ____ ____.", en:"They are excited. (ESTAR)", aVerb:"están", aAdj:"emocionadas",
+		  adjOpts:["emocionados","emocionadas","emocionado","emocionada"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"emocionado/emocionada", en:"excited", note:"Ellas → plural feminine." }
+		},
+
+		// --- NOUN SUBJECTS (teacher / boys / girls) ---
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOUN"], q:"El profesor ____ ____.", en:"The teacher is serious. (SER)", aVerb:"es", aAdj:"serio",
+		  adjOpts:["serio","seria","serios","serias"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"serio/seria", en:"serious", note:"El profesor → masculine singular." }
+		},
+
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOUN"], q:"Los chicos ____ ____.", en:"The boys are nervous. (ESTAR)", aVerb:"están", aAdj:"nerviosos",
+		  adjOpts:["nerviosos","nerviosas","nervioso","nerviosa"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"nervioso/nerviosa", en:"nervous", note:"Temporary emotion." }
+		},
+
+		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOUN"], q:"Las chicas ____ ____.", en:"The girls are confident. (SER)", aVerb:"son", aAdj:"seguras",
+		  adjOpts:["seguros","seguras","seguro","segura"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"seguro/segura", en:"confident", note:"Las chicas → plural feminine." }
+		},
+		// ===== PROFESSIONS — SINGULAR (SER) =====
+
+	// ===== EXPANSION PACK: PROFESSIONS (100 ITEMS) =====
+
+		/* 1–20: Singular — SER (identity) */
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Yo ____ médico.", en:"I am a doctor.", aVerb:"soy", aAdj:"médico",
+		  adjOpts:["médico","médica","médicos","médicas"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"médico/médica", en:"doctor", note:"SER for identity." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Yo ____ enfermera.", en:"I am a nurse.", aVerb:"soy", aAdj:"enfermera",
+		  adjOpts:["enfermero","enfermera","enfermeros","enfermeras"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"enfermero/enfermera", en:"nurse", note:"Gender agreement." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Tú ____ ingeniero.", en:"You are an engineer.", aVerb:"eres", aAdj:"ingeniero",
+		  adjOpts:["ingeniero","ingeniera","ingenieros","ingenieras"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"ingeniero/ingeniera", en:"engineer", note:"Tú form." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Él ____ profesor.", en:"He is a teacher.", aVerb:"es", aAdj:"profesor",
+		  adjOpts:["profesor","profesora","profesores","profesoras"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"profesor/profesora", en:"teacher", note:"No article needed." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Ella ____ profesora.", en:"She is a teacher.", aVerb:"es", aAdj:"profesora",
+		  adjOpts:["profesor","profesora","profesores","profesoras"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"profesor/profesora", en:"teacher", note:"Feminine form." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Yo ____ estudiante.", en:"I am a student.", aVerb:"soy", aAdj:"estudiante",
+		  adjOpts:["estudiante","estudiantes","estudianta","estudiantAs"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"estudiante", en:"student", note:"Same for m/f." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Él ____ bombero.", en:"He is a firefighter.", aVerb:"es", aAdj:"bombero",
+		  adjOpts:["bombero","bombera","bomberos","bomberas"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"bombero/bombera", en:"firefighter", note:"Spain term." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Ella ____ veterinaria.", en:"She is a veterinarian.", aVerb:"es", aAdj:"veterinaria",
+		  adjOpts:["veterinario","veterinaria","veterinarios","veterinarias"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"veterinario/veterinaria", en:"veterinarian", note:"Gendered ending." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Tú ____ cocinero.", en:"You are a cook.", aVerb:"eres", aAdj:"cocinero",
+		  adjOpts:["cocinero","cocinera","cocineros","cocineras"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"cocinero/cocinera", en:"cook", note:"Occupation." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"Él ____ piloto.", en:"He is a pilot.", aVerb:"es", aAdj:"piloto",
+		  adjOpts:["piloto","pilotos","pilota","pilotas"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"piloto", en:"pilot", note:"Same for m/f." }},
+
+		/* 21–50: Plural — SER */
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Nosotros ____ médicos.", en:"We are doctors.", aVerb:"somos", aAdj:"médicos",
+		  adjOpts:["médicos","médicas","médico","médica"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"médico/médica", en:"doctor", note:"Nosotros masculine plural." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Nosotras ____ enfermeras.", en:"We are nurses.", aVerb:"somos", aAdj:"enfermeras",
+		  adjOpts:["enfermeros","enfermeras","enfermero","enfermera"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"enfermero/enfermera", en:"nurse", note:"Nosotras feminine plural." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Vosotros ____ ingenieros.", en:"You all are engineers.", aVerb:"sois", aAdj:"ingenieros",
+		  adjOpts:["ingenieros","ingenieras","ingeniero","ingeniera"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"ingeniero/ingeniera", en:"engineer", note:"Vosotros (Spain)." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Vosotras ____ profesoras.", en:"You all are teachers.", aVerb:"sois", aAdj:"profesoras",
+		  adjOpts:["profesores","profesoras","profesor","profesora"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"profesor/profesora", en:"teacher", note:"Vosotras feminine." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Ellos ____ bomberos.", en:"They are firefighters.", aVerb:"son", aAdj:"bomberos",
+		  adjOpts:["bomberos","bomberas","bombero","bombera"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"bombero/bombera", en:"firefighter", note:"Plural masculine." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Ellas ____ veterinarias.", en:"They are veterinarians.", aVerb:"son", aAdj:"veterinarias",
+		  adjOpts:["veterinarios","veterinarias","veterinario","veterinaria"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"veterinario/veterinaria", en:"veterinarian", note:"Plural feminine." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Los alumnos ____ estudiantes.", en:"The students are students.", aVerb:"son", aAdj:"estudiantes",
+		  adjOpts:["estudiante","estudiantes","estudiantos","estudiantAs"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"estudiante", en:"student", note:"Invariant gender." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Las camareras ____ cocineras.", en:"The waitresses are cooks.", aVerb:"son", aAdj:"cocineras",
+		  adjOpts:["cocineros","cocineras","cocinero","cocinera"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"cocinero/cocinera", en:"cook", note:"Plural feminine." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Los policías ____ trabajadores.", en:"The police officers are workers.", aVerb:"son", aAdj:"trabajadores",
+		  adjOpts:["trabajadores","trabajadoras","trabajador","trabajadora"],
+		  why:"Profesión → SER.",
+		  teach:{ es:"trabajador/trabajadora", en:"worker", note:"Descriptive profession." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Las profesoras ____ pacientes.", en:"The teachers are patient.", aVerb:"son", aAdj:"pacientes",
+		  adjOpts:["paciente","pacientes","pacientas","pacientos"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"paciente", en:"patient", note:"Same form m/f." }},
+
+		/* 51–80: ESTAR — temporary states at work */
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"El médico ____ cansado.", en:"The doctor is tired.", aVerb:"está", aAdj:"cansado",
+		  adjOpts:["cansado","cansada","cansados","cansadas"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"cansado/cansada", en:"tired", note:"Temporary state." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR"], q:"La profesora ____ estresada.", en:"The teacher is stressed.", aVerb:"está", aAdj:"estresada",
+		  adjOpts:["estresado","estresada","estresados","estresadas"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"estresado/estresada", en:"stressed", note:"Temporary condition." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Los ingenieros ____ ocupados.", en:"The engineers are busy.", aVerb:"están", aAdj:"ocupados",
+		  adjOpts:["ocupados","ocupadas","ocupado","ocupada"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"ocupado/ocupada", en:"busy", note:"Work context." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Las enfermeras ____ tranquilas.", en:"The nurses are calm.", aVerb:"están", aAdj:"tranquilas",
+		  adjOpts:["tranquilos","tranquilas","tranquilo","tranquila"],
+		  why:"Estado emocional → ESTAR.",
+		  teach:{ es:"tranquilo/tranquila", en:"calm", note:"Feeling." }},
+
+		{ type:"mc", tags:["PROFESSION","SER_ESTAR","PLURAL"], q:"Los camareros ____ agotados.", en:"The waiters are exhausted.", aVerb:"están", aAdj:"agotados",
+		  adjOpts:["agotados","agotadas","agotado","agotada"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"agotado/agotada", en:"exhausted", note:"After work." }},
+
+		/* 81–100: Contrast — SER vs ESTAR */
+
+		{ type:"mc", tags:["PROFESSION","MIX"], q:"El policía ____ valiente.", en:"The police officer is brave.", aVerb:"es", aAdj:"valiente",
+		  adjOpts:["valiente","valientes","valienta","valientos"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"valiente", en:"brave", note:"Personality trait." }},
+
+		{ type:"mc", tags:["PROFESSION","MIX"], q:"El policía ____ nervioso.", en:"The police officer is nervous.", aVerb:"está", aAdj:"nervioso",
+		  adjOpts:["nervioso","nerviosa","nerviosos","nerviosas"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"nervioso/nerviosa", en:"nervous", note:"Temporary feeling." }},
+
+		{ type:"mc", tags:["PROFESSION","MIX"], q:"Los cocineros ____ creativos.", en:"The cooks are creative.", aVerb:"son", aAdj:"creativos",
+		  adjOpts:["creativos","creativas","creativo","creativa"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"creativo/creativa", en:"creative", note:"Characteristic." }},
+
+		{ type:"mc", tags:["PROFESSION","MIX"], q:"Los cocineros ____ enfadados.", en:"The cooks are angry.", aVerb:"están", aAdj:"enfadados",
+		  adjOpts:["enfadados","enfadadas","enfadado","enfadada"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"enfadado/enfadada", en:"angry", note:"Emotional state." }},
+
+		{ type:"mc", tags:["PROFESSION","MIX"], q:"Las profesoras ____ organizadas.", en:"The teachers are organized.", aVerb:"son", aAdj:"organizadas",
+		  adjOpts:["organizados","organizadas","organizado","organizada"],
+		  why:"Rasgo → SER.",
+		  teach:{ es:"organizado/organizada", en:"organized", note:"General quality." }},
+
+		{ type:"mc", tags:["PROFESSION","MIX"], q:"Las profesoras ____ confundidas.", en:"The teachers are confused.", aVerb:"están", aAdj:"confundidas",
+		  adjOpts:["confundidos","confundidas","confundido","confundida"],
+		  why:"Estado → ESTAR.",
+		  teach:{ es:"confundido/confundida", en:"confused", note:"Temporary." }},
+		  
+		  // ===== EXPANSION PACK: VERBS (100 ITEMS) =====
+		/* -------------------------
+		   VER (to see) — 1–10
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Yo ____ la tele.", en:"I watch TV.", aVerb:"veo",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': yo → veo.",
+		  teach:{ infinitive:"ver", en:"to see/watch", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"In Spain: vosotros → veis." }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Tú ____ el menú.", en:"You see the menu.", aVerb:"ves",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': tú → ves.",
+		  teach:{ infinitive:"ver", en:"to see", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Él ____ a sus amigos.", en:"He sees his friends.", aVerb:"ve",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': él/ella → ve.",
+		  teach:{ infinitive:"ver", en:"to see", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Ella ____ la película.", en:"She watches the movie.", aVerb:"ve",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': ella → ve.",
+		  teach:{ infinitive:"ver", en:"to watch", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Nosotros ____ el museo.", en:"We see the museum.", aVerb:"vemos",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': nosotros → vemos.",
+		  teach:{ infinitive:"ver", en:"to see", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Nosotras ____ la ciudad.", en:"We see the city.", aVerb:"vemos",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': nosotras → vemos.",
+		  teach:{ infinitive:"ver", en:"to see", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"Same form nosotras/nosotros." }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Vosotros ____ el partido.", en:"You all watch the match.", aVerb:"veis",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': vosotros → veis.",
+		  teach:{ infinitive:"ver", en:"to watch", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"Spain: vosotros is common." }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Vosotras ____ las fotos.", en:"You all see the photos.", aVerb:"veis",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': vosotras → veis.",
+		  teach:{ infinitive:"ver", en:"to see", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"Vosotras uses same form as vosotros." }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Ellos ____ la puerta.", en:"They see the door.", aVerb:"ven",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': ellos/ellas → ven.",
+		  teach:{ infinitive:"ver", en:"to see", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VER"], q:"Ellas ____ el tren.", en:"They see the train.", aVerb:"ven",
+		  verbOpts:["veo","ves","ve","vemos","veis","ven"],
+		  why:"Presente de 'ver': ellas → ven.",
+		  teach:{ infinitive:"ver", en:"to see", forms:{yo:"veo",tu:"ves",el:"ve",nos:"vemos",vos:"veis",ellos:"ven"}, note:"" }},
+
+		/* -------------------------
+		   DECIR (to say) — 11–20
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Yo ____ la verdad.", en:"I tell the truth.", aVerb:"digo",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Presente de 'decir': yo → digo (irregular).",
+		  teach:{ infinitive:"decir", en:"to say/tell", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"Yo form is irregular: digo." }},
+
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Tú ____ eso.", en:"You say that.", aVerb:"dices",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Presente de 'decir': tú → dices.",
+		  teach:{ infinitive:"decir", en:"to say", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Él ____ que sí.", en:"He says yes.", aVerb:"dice",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Presente de 'decir': él/ella → dice.",
+		  teach:{ infinitive:"decir", en:"to say", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Nosotros ____ la respuesta.", en:"We say the answer.", aVerb:"decimos",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Presente de 'decir': nosotros → decimos.",
+		  teach:{ infinitive:"decir", en:"to say", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Vosotros ____ la misma frase.", en:"You all say the same phrase.", aVerb:"decís",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Presente de 'decir': vosotros → decís.",
+		  teach:{ infinitive:"decir", en:"to say", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"Accent in decís." }},
+
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Ellas ____ la verdad.", en:"They tell the truth.", aVerb:"dicen",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Presente de 'decir': ellas → dicen.",
+		  teach:{ infinitive:"decir", en:"to tell", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"" }},
+
+		// (We'll keep variety but maintain same verb set)
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Ella ____ una broma.", en:"She tells a joke.", aVerb:"dice",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Ella → dice.",
+		  teach:{ infinitive:"decir", en:"to say/tell", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Nosotras ____ lo mismo.", en:"We say the same thing.", aVerb:"decimos",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Nosotras → decimos.",
+		  teach:{ infinitive:"decir", en:"to say", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Ellos ____ ‘hola’.", en:"They say 'hello'.", aVerb:"dicen",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Ellos → dicen.",
+		  teach:{ infinitive:"decir", en:"to say", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","DECIR"], q:"Vosotras ____ la verdad.", en:"You all tell the truth.", aVerb:"decís",
+		  verbOpts:["digo","dices","dice","decimos","decís","dicen"],
+		  why:"Vosotras → decís.",
+		  teach:{ infinitive:"decir", en:"to tell", forms:{yo:"digo",tu:"dices",el:"dice",nos:"decimos",vos:"decís",ellos:"dicen"}, note:"" }},
+
+		/* -------------------------
+		   IR (to go) — 21–30
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Yo ____ al trabajo.", en:"I go to work.", aVerb:"voy",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Presente de 'ir': yo → voy.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"Very common verb." }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Tú ____ a casa.", en:"You go home.", aVerb:"vas",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Tú → vas.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Él ____ al gimnasio.", en:"He goes to the gym.", aVerb:"va",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Él/Ella → va.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Nosotros ____ al restaurante.", en:"We go to the restaurant.", aVerb:"vamos",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Nosotros → vamos.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Vosotros ____ al parque.", en:"You all go to the park.", aVerb:"vais",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Vosotros → vais.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"Spain: vais." }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Ellas ____ a la universidad.", en:"They go to the university.", aVerb:"van",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Ellas → van.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Ella ____ al banco.", en:"She goes to the bank.", aVerb:"va",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Ella → va.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Nosotras ____ a la cafetería.", en:"We go to the café.", aVerb:"vamos",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Nosotras → vamos.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Vosotras ____ a clase.", en:"You all go to class.", aVerb:"vais",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Vosotras → vais.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","IR"], q:"Ellos ____ al aeropuerto.", en:"They go to the airport.", aVerb:"van",
+		  verbOpts:["voy","vas","va","vamos","vais","van"],
+		  why:"Ellos → van.",
+		  teach:{ infinitive:"ir", en:"to go", forms:{yo:"voy",tu:"vas",el:"va",nos:"vamos",vos:"vais",ellos:"van"}, note:"" }},
+
+		/* -------------------------
+		   TENER (to have) — 31–40
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Yo ____ un coche.", en:"I have a car.", aVerb:"tengo",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Presente de 'tener': yo → tengo.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"Yo form irregular: tengo." }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Tú ____ razón.", en:"You are right. (You have reason.)", aVerb:"tienes",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Tú → tienes.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"Useful phrase: tienes razón." }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Él ____ hambre.", en:"He is hungry. (He has hunger.)", aVerb:"tiene",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Él/Ella → tiene.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"Tener + hambre/sed = hungry/thirsty." }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Ella ____ sed.", en:"She is thirsty. (She has thirst.)", aVerb:"tiene",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Ella → tiene.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"tener sed = to be thirsty." }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Nosotros ____ tiempo.", en:"We have time.", aVerb:"tenemos",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Nosotros → tenemos.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Vosotros ____ un examen.", en:"You all have an exam.", aVerb:"tenéis",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Vosotros → tenéis.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"Accent: tenéis." }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Ellos ____ prisa.", en:"They are in a hurry. (They have hurry.)", aVerb:"tienen",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Ellos/Ellas → tienen.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"tener prisa = to be in a hurry." }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Yo ____ miedo.", en:"I am afraid. (I have fear.)", aVerb:"tengo",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Yo → tengo.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"tener miedo = to be afraid." }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Vosotras ____ suerte.", en:"You all are lucky. (You have luck.)", aVerb:"tenéis",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Vosotras → tenéis.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"tener suerte = to be lucky." }},
+
+		{ type:"typein", tags:["VERB","PRES","TENER"], q:"Nosotras ____ ganas de aprender.", en:"We feel like learning. (We have desire to learn.)", aVerb:"tenemos",
+		  verbOpts:["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+		  why:"Nosotras → tenemos.",
+		  teach:{ infinitive:"tener", en:"to have", forms:{yo:"tengo",tu:"tienes",el:"tiene",nos:"tenemos",vos:"tenéis",ellos:"tienen"}, note:"tener ganas de + infinitive." }},
+
+		/* -------------------------
+		   VENIR (to come) — 41–50
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Yo ____ de Madrid.", en:"I come from Madrid.", aVerb:"vengo",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Presente de 'venir': yo → vengo.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"Yo form irregular: vengo." }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Tú ____ conmigo.", en:"You come with me.", aVerb:"vienes",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Tú → vienes.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Él ____ a casa.", en:"He comes home.", aVerb:"viene",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Él/Ella → viene.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Nosotros ____ mañana.", en:"We come tomorrow.", aVerb:"venimos",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Nosotros → venimos.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Vosotros ____ a la fiesta.", en:"You all come to the party.", aVerb:"venís",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Vosotros → venís.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"Accent: venís." }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Ellas ____ del trabajo.", en:"They come from work.", aVerb:"vienen",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Ellas → vienen.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Yo ____ a verte.", en:"I come to see you.", aVerb:"vengo",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Yo → vengo.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"venir a + infinitive." }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Vosotras ____ conmigo.", en:"You all come with me.", aVerb:"venís",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Vosotras → venís.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Nosotras ____ de la oficina.", en:"We come from the office.", aVerb:"venimos",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Nosotras → venimos.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","VENIR"], q:"Ellos ____ a clase.", en:"They come to class.", aVerb:"vienen",
+		  verbOpts:["vengo","vienes","viene","venimos","venís","vienen"],
+		  why:"Ellos → vienen.",
+		  teach:{ infinitive:"venir", en:"to come", forms:{yo:"vengo",tu:"vienes",el:"viene",nos:"venimos",vos:"venís",ellos:"vienen"}, note:"" }},
+
+		/* -------------------------
+		   COMER (to eat) — 51–60
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Yo ____ en casa.", en:"I eat at home.", aVerb:"como",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Presente de 'comer': yo → como.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"Regular -er verb." }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Tú ____ una manzana.", en:"You eat an apple.", aVerb:"comes",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Tú → comes.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Él ____ en el restaurante.", en:"He eats at the restaurant.", aVerb:"come",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Él/Ella → come.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Nosotros ____ juntos.", en:"We eat together.", aVerb:"comemos",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Nosotros → comemos.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Vosotros ____ tarde.", en:"You all eat late.", aVerb:"coméis",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Vosotros → coméis.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"Accent: coméis." }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Ellas ____ ensalada.", en:"They eat salad.", aVerb:"comen",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Ellas → comen.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Ella ____ pan.", en:"She eats bread.", aVerb:"come",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Ella → come.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Nosotras ____ a las dos.", en:"We eat at two.", aVerb:"comemos",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Nosotras → comemos.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"Time expressions are common." }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Vosotras ____ aquí.", en:"You all eat here.", aVerb:"coméis",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Vosotras → coméis.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","COMER"], q:"Ellos ____ pescado.", en:"They eat fish.", aVerb:"comen",
+		  verbOpts:["como","comes","come","comemos","coméis","comen"],
+		  why:"Ellos → comen.",
+		  teach:{ infinitive:"comer", en:"to eat", forms:{yo:"como",tu:"comes",el:"come",nos:"comemos",vos:"coméis",ellos:"comen"}, note:"" }},
+
+		/* -------------------------
+		   BEBER (to drink) — 61–70
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Yo ____ agua.", en:"I drink water.", aVerb:"bebo",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Presente de 'beber': yo → bebo.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"Regular -er verb." }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Tú ____ café.", en:"You drink coffee.", aVerb:"bebes",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Tú → bebes.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Ella ____ té.", en:"She drinks tea.", aVerb:"bebe",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Ella → bebe.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Nosotros ____ vino.", en:"We drink wine.", aVerb:"bebemos",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Nosotros → bebemos.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Vosotros ____ agua.", en:"You all drink water.", aVerb:"bebéis",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Vosotros → bebéis.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"Accent: bebéis." }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Ellos ____ cerveza.", en:"They drink beer.", aVerb:"beben",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Ellos → beben.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Él ____ leche.", en:"He drinks milk.", aVerb:"bebe",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Él → bebe.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Nosotras ____ zumo.", en:"We drink juice.", aVerb:"bebemos",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Nosotras → bebemos.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Vosotras ____ agua.", en:"You all drink water.", aVerb:"bebéis",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Vosotras → bebéis.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Ellas ____ café.", en:"They drink coffee.", aVerb:"beben",
+		  verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"],
+		  why:"Ellas → beben.",
+		  teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"}, note:"" }},
+
+		/* -------------------------
+		   APRENDER (to learn) — 71–80
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Yo ____ español.", en:"I learn Spanish.", aVerb:"aprendo",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Presente de 'aprender': yo → aprendo.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"Regular -er verb." }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Tú ____ rápido.", en:"You learn quickly.", aVerb:"aprendes",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Tú → aprendes.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Ella ____ mucho.", en:"She learns a lot.", aVerb:"aprende",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Ella → aprende.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Nosotros ____ en clase.", en:"We learn in class.", aVerb:"aprendemos",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Nosotros → aprendemos.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Vosotros ____ mucho.", en:"You all learn a lot.", aVerb:"aprendéis",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Vosotros → aprendéis.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"Accent: aprendéis." }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Ellos ____ juntos.", en:"They learn together.", aVerb:"aprenden",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Ellos → aprenden.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Él ____ con vídeos.", en:"He learns with videos.", aVerb:"aprende",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Él → aprende.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Nosotras ____ español.", en:"We learn Spanish.", aVerb:"aprendemos",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Nosotras → aprendemos.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Vosotras ____ con paciencia.", en:"You all learn with patience.", aVerb:"aprendéis",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Vosotras → aprendéis.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","APRENDER"], q:"Ellas ____ en la universidad.", en:"They learn at the university.", aVerb:"aprenden",
+		  verbOpts:["aprendo","aprendes","aprende","aprendemos","aprendéis","aprenden"],
+		  why:"Ellas → aprenden.",
+		  teach:{ infinitive:"aprender", en:"to learn", forms:{yo:"aprendo",tu:"aprendes",el:"aprende",nos:"aprendemos",vos:"aprendéis",ellos:"aprenden"}, note:"" }},
+
+		/* -------------------------
+		   ESTUDIAR (to study) — 81–90
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Yo ____ por la noche.", en:"I study at night.", aVerb:"estudio",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Presente de 'estudiar': yo → estudio.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"Regular -ar verb." }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Tú ____ mucho.", en:"You study a lot.", aVerb:"estudias",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Tú → estudias.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Él ____ medicina.", en:"He studies medicine.", aVerb:"estudia",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Él → estudia.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Nosotros ____ en casa.", en:"We study at home.", aVerb:"estudiamos",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Nosotros → estudiamos.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Vosotros ____ en la biblioteca.", en:"You all study in the library.", aVerb:"estudiáis",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Vosotros → estudiáis.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"Accent: estudiáis." }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Ellas ____ español.", en:"They study Spanish.", aVerb:"estudian",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Ellas → estudian.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Ella ____ en la universidad.", en:"She studies at the university.", aVerb:"estudia",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Ella → estudia.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Nosotras ____ juntas.", en:"We study together.", aVerb:"estudiamos",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Nosotras → estudiamos.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Vosotras ____ aquí.", en:"You all study here.", aVerb:"estudiáis",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Vosotras → estudiáis.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","ESTUDIAR"], q:"Ellos ____ para el examen.", en:"They study for the exam.", aVerb:"estudian",
+		  verbOpts:["estudio","estudias","estudia","estudiamos","estudiáis","estudian"],
+		  why:"Ellos → estudian.",
+		  teach:{ infinitive:"estudiar", en:"to study", forms:{yo:"estudio",tu:"estudias",el:"estudia",nos:"estudiamos",vos:"estudiáis",ellos:"estudian"}, note:"" }},
+
+		/* -------------------------
+		   HABLAR (to speak) — 91–100
+		-------------------------- */
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Yo ____ español.", en:"I speak Spanish.", aVerb:"hablo",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Presente de 'hablar': yo → hablo.",
+		  teach:{ infinitive:"hablar", en:"to speak/talk", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"Regular -ar verb." }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Tú ____ con tu amigo.", en:"You talk with your friend.", aVerb:"hablas",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Tú → hablas.",
+		  teach:{ infinitive:"hablar", en:"to talk", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Él ____ inglés.", en:"He speaks English.", aVerb:"habla",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Él/Ella → habla.",
+		  teach:{ infinitive:"hablar", en:"to speak", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Nosotros ____ en clase.", en:"We speak in class.", aVerb:"hablamos",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Nosotros → hablamos.",
+		  teach:{ infinitive:"hablar", en:"to speak", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Vosotros ____ mucho.", en:"You all talk a lot.", aVerb:"habláis",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Vosotros → habláis.",
+		  teach:{ infinitive:"hablar", en:"to talk", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"Accent: habláis." }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Ellas ____ por teléfono.", en:"They talk on the phone.", aVerb:"hablan",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Ellas → hablan.",
+		  teach:{ infinitive:"hablar", en:"to talk", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Ella ____ con su madre.", en:"She talks with her mother.", aVerb:"habla",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Ella → habla.",
+		  teach:{ infinitive:"hablar", en:"to talk", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Nosotras ____ despacio.", en:"We speak slowly.", aVerb:"hablamos",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Nosotras → hablamos.",
+		  teach:{ infinitive:"hablar", en:"to speak", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Vosotras ____ en español.", en:"You all speak in Spanish.", aVerb:"habláis",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Vosotras → habláis.",
+		  teach:{ infinitive:"hablar", en:"to speak", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"" }},
+
+		{ type:"typein", tags:["VERB","PRES","HABLAR"], q:"Ellos ____ muy rápido.", en:"They speak very fast.", aVerb:"hablan",
+		  verbOpts:["hablo","hablas","habla","hablamos","habláis","hablan"],
+		  why:"Ellos → hablan.",
+		  teach:{ infinitive:"hablar", en:"to speak", forms:{yo:"hablo",tu:"hablas",el:"habla",nos:"hablamos",vos:"habláis",ellos:"hablan"}, note:"" }},
+
+		// ===== EXPANSION PACK: ADJECTIVES (100 ITEMS) =====
+	// Type-in: user types the adjective form that matches the subject.
+	// SER = traits; ESTAR = states/conditions/feelings.
+
+		/* 1–10: tímido/a/os/as (SER) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","PLUR","TÍMIDO"], q:"Las chicas son ____.", en:"The girls are ____.", enHint:"shy", aAdj:"tímidas",
+		  why:"SER + rasgo. Femenino plural: tímidas.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","PLUR","TÍMIDO"], q:"Los chicos son ____.", en:"The boys are ____.", enHint:"shy", aAdj:"tímidos",
+		  why:"Masculino plural: tímidos.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO"], q:"Yo soy ____.", en:"I am ____.", enHint:"shy", aAdj:"tímido",
+		  why:"Yo (masc) → tímido (change as needed).", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"If you want gender-flexible answers, allow tímido/tímida." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO"], q:"Tú eres ____.", en:"You are ____.", enHint:"shy", aAdj:"tímido",
+		  why:"Tú (masc) → tímido (adjust if needed).", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO"], q:"Ella es ____.", en:"She is ____.", enHint:"shy", aAdj:"tímida",
+		  why:"Femenino singular: tímida.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO"], q:"Él es ____.", en:"He is ____.", enHint:"shy", aAdj:"tímido",
+		  why:"Masculino singular: tímido.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO"], q:"Nosotras somos ____.", en:"We (f) are ____.", enHint:"shy", aAdj:"tímidas",
+		  why:"Femenino plural: tímidas.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO"], q:"Nosotros somos ____.", en:"We (m) are ____.", enHint:"shy", aAdj:"tímidos",
+		  why:"Masculino plural: tímidos.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO","VOS"], q:"Vosotras sois ____.", en:"You all (f) are ____.", enHint:"shy", aAdj:"tímidas",
+		  why:"Vosotras → f plural.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"Spain: vosotros/as." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO","VOS"], q:"Vosotros sois ____.", en:"You all (m) are ____.", enHint:"shy", aAdj:"tímidos",
+		  why:"Vosotros → m plural.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
+
+		/* 11–20: extrovertido/a/os/as (SER) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO"], q:"Los vecinos son ____.", en:"The neighbors (m) are ____.", enHint:"outgoing", aAdj:"extrovertidos",
+		  why:"Masculino plural: extrovertidos.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO"], q:"Las vecinas son ____.", en:"The neighbors (f) are ____.", enHint:"outgoing", aAdj:"extrovertidas",
+		  why:"Femenino plural: extrovertidas.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO"], q:"El alumno es ____.", en:"The (male) student is ____.", enHint:"outgoing", aAdj:"extrovertido",
+		  why:"Masculino singular.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"profesiones: alumno." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO"], q:"La alumna es ____.", en:"The (female) student is ____.", enHint:"outgoing", aAdj:"extrovertida",
+		  why:"Femenino singular.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO"], q:"Nosotros somos ____.", en:"We (m) are ____.", enHint:"outgoing", aAdj:"extrovertidos",
+		  why:"Masculino plural.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO"], q:"Nosotras somos ____.", en:"We (f) are ____.", enHint:"outgoing", aAdj:"extrovertidas",
+		  why:"Femenino plural.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO","VOS"], q:"Vosotros sois ____.", en:"You all (m) are ____.", enHint:"outgoing", aAdj:"extrovertidos",
+		  why:"Vosotros → m plural.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO","VOS"], q:"Vosotras sois ____.", en:"You all (f) are ____.", enHint:"outgoing", aAdj:"extrovertidas",
+		  why:"Vosotras → f plural.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO"], q:"Ellos son ____.", en:"They (m) are ____.", enHint:"outgoing", aAdj:"extrovertidos",
+		  why:"Ellos → m plural.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","EXTROVERTIDO"], q:"Ellas son ____.", en:"They (f) are ____.", enHint:"outgoing", aAdj:"extrovertidas",
+		  why:"Ellas → f plural.", teach:{es:"extrovertido/extrovertida", en:"outgoing", forms:{m_s:"extrovertido", f_s:"extrovertida", m_p:"extrovertidos", f_p:"extrovertidas"}, note:"" }},
+
+		/* 21–30: serio/a/os/as (SER) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO"], q:"El médico es ____.", en:"The doctor (m) is ____.", enHint:"serious", aAdj:"serio",
+		  why:"Masculino singular: serio.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"profesión: médico." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO"], q:"La médica es ____.", en:"The doctor (f) is ____.", enHint:"serious", aAdj:"seria",
+		  why:"Femenino singular: seria.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO"], q:"Los profesores son ____.", en:"The teachers (m) are ____.", enHint:"serious", aAdj:"serios",
+		  why:"Masculino plural: serios.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO"], q:"Las profesoras son ____.", en:"The teachers (f) are ____.", enHint:"serious", aAdj:"serias",
+		  why:"Femenino plural: serias.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO","VOS"], q:"Vosotros sois ____.", en:"You all (m) are ____.", enHint:"serious", aAdj:"serios",
+		  why:"Vosotros → m plural.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO","VOS"], q:"Vosotras sois ____.", en:"You all (f) are ____.", enHint:"serious", aAdj:"serias",
+		  why:"Vosotras → f plural.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO"], q:"Nosotros somos ____.", en:"We (m) are ____.", enHint:"serious", aAdj:"serios",
+		  why:"Nosotros → m plural.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO"], q:"Nosotras somos ____.", en:"We (f) are ____.", enHint:"serious", aAdj:"serias",
+		  why:"Nosotras → f plural.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO"], q:"Ellos son ____.", en:"They (m) are ____.", enHint:"serious", aAdj:"serios",
+		  why:"Ellos → m plural.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","SERIO"], q:"Ellas son ____.", en:"They (f) are ____.", enHint:"serious", aAdj:"serias",
+		  why:"Ellas → f plural.", teach:{es:"serio/seria", en:"serious", forms:{m_s:"serio", f_s:"seria", m_p:"serios", f_p:"serias"}, note:"" }},
+
+		/* 31–40: honesto/a/os/as (SER) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO"], q:"El policía es ____.", en:"The police officer (m) is ____.", enHint:"honest", aAdj:"honesto",
+		  why:"Masculino singular.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"profesión: policía." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO"], q:"La enfermera es ____.", en:"The nurse (f) is ____.", enHint:"honest", aAdj:"honesta",
+		  why:"Femenino singular.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO"], q:"Los alumnos son ____.", en:"The students (m) are ____.", enHint:"honest", aAdj:"honestos",
+		  why:"Masculino plural.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO"], q:"Las alumnas son ____.", en:"The students (f) are ____.", enHint:"honest", aAdj:"honestas",
+		  why:"Femenino plural.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO","VOS"], q:"Vosotros sois ____.", en:"You all (m) are ____.", enHint:"honest", aAdj:"honestos",
+		  why:"Vosotros → m plural.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO","VOS"], q:"Vosotras sois ____.", en:"You all (f) are ____.", enHint:"honest", aAdj:"honestas",
+		  why:"Vosotras → f plural.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO"], q:"Nosotros somos ____.", en:"We (m) are ____.", enHint:"honest", aAdj:"honestos",
+		  why:"Nosotros → m plural.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO"], q:"Nosotras somos ____.", en:"We (f) are ____.", enHint:"honest", aAdj:"honestas",
+		  why:"Nosotras → f plural.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO"], q:"Ellos son ____.", en:"They (m) are ____.", enHint:"honest", aAdj:"honestos",
+		  why:"Ellos → m plural.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","HONESTO"], q:"Ellas son ____.", en:"They (f) are ____.", enHint:"honest", aAdj:"honestas",
+		  why:"Ellas → f plural.", teach:{es:"honesto/honesta", en:"honest", forms:{m_s:"honesto", f_s:"honesta", m_p:"honestos", f_p:"honestas"}, note:"" }},
+
+		/* 41–50: antipático/a/os/as (SER) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO"], q:"El tendero es ____.", en:"The shopkeeper (m) is ____.", enHint:"unfriendly", aAdj:"antipático",
+		  why:"Masculino singular; con tilde: antipático.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"Accent matters: antipático." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO"], q:"La secretaria es ____.", en:"The secretary (f) is ____.", enHint:"unfriendly", aAdj:"antipática",
+		  why:"Femenino singular: antipática.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO"], q:"Los vecinos son ____.", en:"The neighbors (m) are ____.", enHint:"unfriendly", aAdj:"antipáticos",
+		  why:"Masculino plural: antipáticos.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO"], q:"Las camareras son ____.", en:"The waitresses are ____.", enHint:"unfriendly", aAdj:"antipáticas",
+		  why:"Femenino plural: antipáticas.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO","VOS"], q:"Vosotros sois ____.", en:"You all (m) are ____.", enHint:"unfriendly", aAdj:"antipáticos",
+		  why:"Vosotros → m plural.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO","VOS"], q:"Vosotras sois ____.", en:"You all (f) are ____.", enHint:"unfriendly", aAdj:"antipáticas",
+		  why:"Vosotras → f plural.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO"], q:"Nosotros somos ____.", en:"We (m) are ____.", enHint:"unfriendly", aAdj:"antipáticos",
+		  why:"Nosotros → m plural.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO"], q:"Nosotras somos ____.", en:"We (f) are ____.", enHint:"unfriendly", aAdj:"antipáticas",
+		  why:"Nosotras → f plural.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO"], q:"Ellos son ____.", en:"They (m) are ____.", enHint:"unfriendly", aAdj:"antipáticos",
+		  why:"Ellos → m plural.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ANTIPÁTICO"], q:"Ellas son ____.", en:"They (f) are ____.", enHint:"unfriendly", aAdj:"antipáticas",
+		  why:"Ellas → f plural.", teach:{es:"antipático/antipática", en:"unfriendly", forms:{m_s:"antipático", f_s:"antipática", m_p:"antipáticos", f_p:"antipáticas"}, note:"" }},
+
+		/* 51–60: encantador/a/es/as (SER) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR"], q:"El actor es ____.", en:"The actor is ____.", enHint:"charming", aAdj:"encantador",
+		  why:"Masculino singular.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"Spelling: encantador." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR"], q:"La cantante es ____.", en:"The singer (f) is ____.", enHint:"charming", aAdj:"encantadora",
+		  why:"Femenino singular.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR"], q:"Los clientes son ____.", en:"The customers (m) are ____.", enHint:"charming", aAdj:"encantadores",
+		  why:"Masculino plural.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR"], q:"Las clientes son ____.", en:"The customers (f) are ____.", enHint:"charming", aAdj:"encantadoras",
+		  why:"Femenino plural.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"(Often: las clientas.)" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR","VOS"], q:"Vosotros sois ____.", en:"You all (m) are ____.", enHint:"charming", aAdj:"encantadores",
+		  why:"Vosotros → m plural.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR","VOS"], q:"Vosotras sois ____.", en:"You all (f) are ____.", enHint:"charming", aAdj:"encantadoras",
+		  why:"Vosotras → f plural.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR"], q:"Nosotros somos ____.", en:"We (m) are ____.", enHint:"charming", aAdj:"encantadores",
+		  why:"Nosotros → m plural.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR"], q:"Nosotras somos ____.", en:"We (f) are ____.", enHint:"charming", aAdj:"encantadoras",
+		  why:"Nosotras → f plural.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR"], q:"Ellos son ____.", en:"They (m) are ____.", enHint:"charming", aAdj:"encantadores",
+		  why:"Ellos → m plural.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ENCANTADOR"], q:"Ellas son ____.", en:"They (f) are ____.", enHint:"charming", aAdj:"encantadoras",
+		  why:"Ellas → f plural.", teach:{es:"encantador/encantadora", en:"charming", forms:{m_s:"encantador", f_s:"encantadora", m_p:"encantadores", f_p:"encantadoras"}, note:"" }},
+
+		/* 61–70: callado/a/os/as (SER) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO"], q:"El taxista es ____.", en:"The taxi driver (m) is ____.", enHint:"quiet", aAdj:"callado",
+		  why:"Masculino singular.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO"], q:"La fotógrafa es ____.", en:"The photographer (f) is ____.", enHint:"quiet", aAdj:"callada",
+		  why:"Femenino singular.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO"], q:"Los alumnos son ____.", en:"The students (m) are ____.", enHint:"quiet", aAdj:"callados",
+		  why:"Masculino plural.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO"], q:"Las niñas son ____.", en:"The girls are ____.", enHint:"quiet", aAdj:"calladas",
+		  why:"Femenino plural.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO","VOS"], q:"Vosotros sois ____.", en:"You all (m) are ____.", enHint:"quiet", aAdj:"callados",
+		  why:"Vosotros → m plural.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO","VOS"], q:"Vosotras sois ____.", en:"You all (f) are ____.", enHint:"quiet", aAdj:"calladas",
+		  why:"Vosotras → f plural.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO"], q:"Nosotros somos ____.", en:"We (m) are ____.", enHint:"quiet", aAdj:"callados",
+		  why:"Nosotros → m plural.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO"], q:"Nosotras somos ____.", en:"We (f) are ____.", enHint:"quiet", aAdj:"calladas",
+		  why:"Nosotras → f plural.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO"], q:"Ellos son ____.", en:"They (m) are ____.", enHint:"quiet", aAdj:"callados",
+		  why:"Ellos → m plural.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CALLADO"], q:"Ellas son ____.", en:"They (f) are ____.", enHint:"quiet", aAdj:"calladas",
+		  why:"Ellas → f plural.", teach:{es:"callado/callada", en:"quiet", forms:{m_s:"callado", f_s:"callada", m_p:"callados", f_p:"calladas"}, note:"" }},
+
+		/* 71–80: ambicioso/a/os/as (SER) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO"], q:"El ingeniero es ____.", en:"The engineer (m) is ____.", enHint:"ambitious", aAdj:"ambicioso",
+		  why:"Masculino singular.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO"], q:"La ingeniera es ____.", en:"The engineer (f) is ____.", enHint:"ambitious", aAdj:"ambiciosa",
+		  why:"Femenino singular.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO"], q:"Los jefes son ____.", en:"The bosses (m) are ____.", enHint:"ambitious", aAdj:"ambiciosos",
+		  why:"Masculino plural.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO"], q:"Las jefas son ____.", en:"The bosses (f) are ____.", enHint:"ambitious", aAdj:"ambiciosas",
+		  why:"Femenino plural.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO","VOS"], q:"Vosotros sois ____.", en:"You all (m) are ____.", enHint:"ambitious", aAdj:"ambiciosos",
+		  why:"Vosotros → m plural.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO","VOS"], q:"Vosotras sois ____.", en:"You all (f) are ____.", enHint:"ambitious", aAdj:"ambiciosas",
+		  why:"Vosotras → f plural.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO"], q:"Nosotros somos ____.", en:"We (m) are ____.", enHint:"ambitious", aAdj:"ambiciosos",
+		  why:"Nosotros → m plural.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO"], q:"Nosotras somos ____.", en:"We (f) are ____.", enHint:"ambitious", aAdj:"ambiciosas",
+		  why:"Nosotras → f plural.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO"], q:"Ellos son ____.", en:"They (m) are ____.", enHint:"ambitious", aAdj:"ambiciosos",
+		  why:"Ellos → m plural.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","AMBIOSO"], q:"Ellas son ____.", en:"They (f) are ____.", enHint:"ambitious", aAdj:"ambiciosas",
+		  why:"Ellas → f plural.", teach:{es:"ambicioso/ambiciosa", en:"ambitious", forms:{m_s:"ambicioso", f_s:"ambiciosa", m_p:"ambiciosos", f_p:"ambiciosas"}, note:"" }},
+
+		/* 81–90: cansado/a/os/as (ESTAR) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO"], q:"Estoy ____.", en:"I am ____.", enHint:"tired", aAdj:"cansado",
+		  why:"ESTAR + estado. (Default masc form.)", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"Allow cansado/cansada if you want gender-flexible 'yo'." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO"], q:"Tú estás ____.", en:"You are ____.", enHint:"tired", aAdj:"cansado",
+		  why:"Tú (default masc) → cansado.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO"], q:"Ella está ____.", en:"She is ____.", enHint:"tired", aAdj:"cansada",
+		  why:"Femenino singular: cansada.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO"], q:"Él está ____.", en:"He is ____.", enHint:"tired", aAdj:"cansado",
+		  why:"Masculino singular: cansado.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO"], q:"Nosotras estamos ____.", en:"We (f) are ____.", enHint:"tired", aAdj:"cansadas",
+		  why:"Femenino plural: cansadas.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO"], q:"Nosotros estamos ____.", en:"We (m) are ____.", enHint:"tired", aAdj:"cansados",
+		  why:"Masculino plural: cansados.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO","VOS"], q:"Vosotras estáis ____.", en:"You all (f) are ____.", enHint:"tired", aAdj:"cansadas",
+		  why:"Vosotras → f plural.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO","VOS"], q:"Vosotros estáis ____.", en:"You all (m) are ____.", enHint:"tired", aAdj:"cansados",
+		  why:"Vosotros → m plural.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO"], q:"Ellas están ____.", en:"They (f) are ____.", enHint:"tired", aAdj:"cansadas",
+		  why:"Ellas → f plural.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","CANSADO"], q:"Ellos están ____.", en:"They (m) are ____.", enHint:"tired", aAdj:"cansados",
+		  why:"Ellos → m plural.", teach:{es:"cansado/cansada", en:"tired", forms:{m_s:"cansado", f_s:"cansada", m_p:"cansados", f_p:"cansadas"}, note:"" }},
+
+		/* 91–100: aburrido/a/os/as (ESTAR) */
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO"], q:"Estoy ____.", en:"I am ____.", enHint:"bored", aAdj:"aburrido",
+		  why:"ESTAR + estado. (Default masc form.)", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"Allow aburrido/aburrida for 'yo' if desired." }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO"], q:"Tú estás ____.", en:"You are ____.", enHint:"bored", aAdj:"aburrido",
+		  why:"Default masc: aburrido.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO"], q:"Ella está ____.", en:"She is ____.", enHint:"bored", aAdj:"aburrida",
+		  why:"Femenino singular: aburrida.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO"], q:"Él está ____.", en:"He is ____.", enHint:"bored", aAdj:"aburrido",
+		  why:"Masculino singular: aburrido.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO"], q:"Nosotras estamos ____.", en:"We (f) are ____.", enHint:"bored", aAdj:"aburridas",
+		  why:"Femenino plural: aburridas.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO"], q:"Nosotros estamos ____.", en:"We (m) are ____.", enHint:"bored", aAdj:"aburridos",
+		  why:"Masculino plural: aburridos.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO","VOS"], q:"Vosotras estáis ____.", en:"You all (f) are ____.", enHint:"bored", aAdj:"aburridas",
+		  why:"Vosotras → f plural.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO","VOS"], q:"Vosotros estáis ____.", en:"You all (m) are ____.", enHint:"bored", aAdj:"aburridos",
+		  why:"Vosotros → m plural.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO"], q:"Ellas están ____.", en:"They (f) are ____.", enHint:"bored", aAdj:"aburridas",
+		  why:"Ellas → f plural.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
+		{ type:"typein", tags:["ADJ","SER_ESTAR","ABURRIDO"], q:"Ellos están ____.", en:"They (m) are ____.", enHint:"bored", aAdj:"aburridos",
+		  why:"Ellos → m plural.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }}
+
+    ]
+  },
+];
+
+/* ============================================================================
+   Engine constants (rarely changed)
+   ========================================================================== */
+
+// For ser/estar drills (present indicative) — Spain is fine here
+const SER_ESTAR_CHOICES = ["soy","eres","es","somos","sois","son","estoy","estás","está","estamos","estáis","están"];
+const SER_ESTAR_TEN = ["soy","eres","es","somos","son","estoy","estás","está","estamos","están"]; // compact set
+
+// For mix_adj verb step (3rd person singular/plural is usually what you want in adjective sentences)
+const MIX_VERB_CHOICES = ["es","son","está","están"];
+
+/* ============================================================================
+   State
+   ========================================================================== */
+let mode = "drill";        // drill | teach
+let srMode = "on";         // on | off
+let typedMode = "auto";    // auto | on | off
+let setId = EXERCISE_SETS[0]?.id || "all_demo";
+
+let items = [];            // active items for chosen set
+let currentIndex = 0;
+let locked = false;
+// Hint / reveal state for typed items
+let hintShown = false;     // show the English hint line?
+let hintAutoOnWrong = true; // optional: auto-show hint after wrong typed attempt
+
+
+// mix_adj two-step state
+let stage = "one";         // "verb" or "adj"
+let pickedVerb = null;
+
+// SR state
+let due = [];              // queue of { idx, dueAt }
+let steps = 0;
+let stats = {};            // idx -> { correct, wrong, streak }
+
+/* ============================================================================
+   SR Engine (light spaced repetition)
+   ========================================================================== */
+function initSR(){
+  due = [];
+  steps = 0;
+  stats = {};
+  for (let i=0; i<items.length; i++){
+    stats[i] = { correct:0, wrong:0, streak:0 };
+    due.push({ idx:i, dueAt:0 }); // seed all
+  }
+}
+
+function pickNextIndex(){
+  if (items.length === 0) return 0;
+  steps++;
+
+  if (srMode === "off"){
+    return Math.floor(Math.random() * items.length);
+  }
+
+  const ready = due.filter(x => x.dueAt <= steps);
+  if (ready.length === 0){
+    due.sort((a,b)=>a.dueAt-b.dueAt);
+    return due[0].idx;
+  }
+  const choice = ready[Math.floor(Math.random() * ready.length)];
+  return choice.idx;
+}
+
+function scheduleAfter(wasCorrect){
+  if (srMode === "off") return;
+
+  const s = stats[currentIndex] || { correct:0, wrong:0, streak:0 };
+
+  if (wasCorrect){
+    s.correct++;
+    s.streak++;
+  } else {
+    s.wrong++;
+    s.streak = 0;
+  }
+  stats[currentIndex] = s;
+
+  // remove existing entries for this idx
+  due = due.filter(x => x.idx !== currentIndex);
+
+  // wrong comes back soon; right later; streak extends a little
+  const base = wasCorrect ? 10 : 2;
+  const jitter = wasCorrect ? Math.floor(Math.random()*9) : Math.floor(Math.random()*3);
+  const stretch = wasCorrect ? Math.min(12, s.streak * 2) : 0;
+  const interval = base + jitter + stretch;
+
+  due.push({ idx: currentIndex, dueAt: steps + interval });
+}
+
+function dueCountNow(){
+  return due.filter(x => x.dueAt <= steps).length;
+}
+
+/* ============================================================================
+   UI helpers
+   ========================================================================== */
+const $ = (id) => document.getElementById(id);
+
+function setHidden(el, hide){
+  if (!el) return;
+  el.classList.toggle("hidden", !!hide);
+}
+
+function setText(el, t){
+  if (!el) return;
+  el.textContent = t;
+}
+
+function setHTML(el, h){
+  if (!el) return;
+  el.innerHTML = h;
+}
+
+function showFeedbackOk(html){
+  setHTML($("feedback"), `<span class="ok">✓</span> ${html}`);
+}
+
+function showFeedbackBad(html){
+  setHTML($("feedback"), `<span class="bad">✗</span> ${html}`);
+}
+
+function escapeHtml(s){
+  return (s ?? "").toString().replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+
+// Gets an English hint for type-ins (supports multiple item shapes)
+function getEnglishHint(item){
+  // Prefer explicit enHint
+  if (item?.enHint) return item.enHint;
+
+  // If you store the English question on typed items as "en", use that as fallback
+  // Example: en:"Type the Spanish: living room"
+  if (item?.en) return item.en;
+
+  // If teach.en exists, that’s usually the word/phrase you want
+  if (item?.teach?.en) return item.teach.en;
+
+  return "";
+}
+
+function setTypedHintVisible(show, item){
+  hintShown = !!show;
+  const row = $("typedHintRow");
+  const txt = $("typedHintText");
+  if (!row || !txt) return;
+
+  if (!hintShown){
+    row.classList.add("hidden");
+    txt.textContent = "";
+    return;
+  }
+
+  const hint = getEnglishHint(item);
+  if (!hint){
+    row.classList.add("hidden");
+    txt.textContent = "";
+    return;
+  }
+
+  row.classList.remove("hidden");
+  txt.innerHTML = `EN hint: <b>${escapeHtml(hint)}</b>`;
+}
+
+
+/* ============================================================================
+   Teaching list builder
+   ========================================================================== */
+function getTeachEntriesForActiveSet(){
+  const entries = [];
+
+  for (const it of items){
+    if (it.teach && (it.teach.es || it.teach.en)){
+      const es = (it.teach.es || "").trim();
+      const en = (it.teach.en || "").trim();
+      const note = (it.teach.note || "").trim();
+
+      // ✅ Skip anything with blank English
+      if (!en) continue;
+
+      entries.push({ es, en, note });
+    }
+  }
+
+  // de-dupe by normalized ES+EN
+  const deduped = uniqBy(entries, x => norm(x.es) + "|" + norm(x.en));
+
+  // ✅ Safety: skip any blanks that slip through
+  return deduped
+    .filter(x => (x.en || "").trim().length > 0)
+    .sort((a,b) => (a.es||"").localeCompare(b.es||"", "es"));
+}
+
+function renderTeachTable(){
+  const q = norm($("teachSearch").value);
+  const rows = getTeachEntriesForActiveSet()
+    .filter(x => !q || norm(x.es).includes(q) || norm(x.en).includes(q) || norm(x.note).includes(q));
+
+  const tbody = $("teachTable");
+  tbody.innerHTML = "";
+  for (const r of rows){
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><b>${r.es || ""}</b></td>
+      <td>${r.en || ""}</td>
+      <td class="muted">${r.note || ""}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+/* ============================================================================
+   Rendering / interaction
+   ========================================================================== */
+function wantsTypedUI(item){
+  if (!item) return false;
+  if (typedMode === "on") return true;
+  if (typedMode === "off") return false;
+
+  // auto:
+  return item.type === "typein" || item.type === "typed";
+}
+
+
+
+function render(){
+  locked = false;
+  const item = items[currentIndex];
+  const typedOnly = (item.type === "typed" || item.input === "typed" || item.type === "typein" || item.input === "typein");
+
+
+  // reset two-step state
+  stage = "verb";
+  pickedVerb = null;
+
+  setText($("sentence"), item?.q || "No items in this set.");
+  setText($("feedback"), "");
+  // English prompt line (auto-shows when item.en exists)
+  //setText($("enLine"), item?.en ? item.en : "");
+  //setHidden($("enLine"), !item?.en);
+  
+  const showEn = (item?.type === "typed" || wantsTypedUI(item)) && !!item?.en;
+  setText($("enLine"), showEn ? item.en : "");
+  setHidden($("enLine"), !showEn);
+
+  setTypedHintVisible(false, item);
+
+  // meta
+  if (srMode === "on"){
+    setText($("meta"), `SR mode • Due now: ${dueCountNow()} • Step: ${steps} • Set: ${setId}`);
+  } else {
+    setText($("meta"), `Random mode • Set: ${setId}`);
+  }
+
+  // typed UI visibility
+  setHidden($("typedRow"), !wantsTypedUI(item));
+
+  // clear typed box
+  const t = $("typed");
+  if (t) t.value = "";
+
+  // options buttons
+  // options buttons
+  const opts = $("options");
+  opts.innerHTML = "";
+
+  let optionList = [];
+
+  if (!item) return;
+
+  // 1) MIX_ADJ step 1 = verb choices (allow per-item verbOpts)
+  if (item.type === "mix_adj") {
+    optionList = shuffle(
+      Array.isArray(item.verbOpts) && item.verbOpts.length
+        ? item.verbOpts
+        : MIX_VERB_CHOICES
+    );
+
+  // 2) Anything with explicit opts (mc, mc, etc.)
+  } else if (Array.isArray(item.opts) && item.opts.length) {
+    optionList = shuffle(item.opts);
+
+  // 3) SER/ESTAR drill (allow per-item verbOpts too, if you ever want it)
+  } else if (item.type === "serestar") {
+    optionList = shuffle(
+      Array.isArray(item.verbOpts) && item.verbOpts.length
+        ? item.verbOpts
+        : SER_ESTAR_TEN
+    );
+
+  // 4) Typed-only
+  } else if (item.type === "typed" || item.type === "typein") {
+	optionList = [];
+
+
+  // 5) Fallback (don’t force ser/estar if you forgot opts; show none)
+  } else {
+    optionList = [];
+  }
+
+  optionList.forEach(opt => {
+    const b = document.createElement("button");
+    b.textContent = opt;
+    b.onclick = () => check(opt);
+    opts.appendChild(b);
+  });
+
+  // typed-only helper text
+  if (item.type === "typed" || item.type === "typein") {
+    //const hint = document.createElement("div");
+    //hint.className = "muted";
+    //hint.style.marginTop = "8px";
+    //hint.innerHTML = `Type your answer above, then press <span class="kbd">Enter</span> or click <b>Check</b>.`;
+    //opts.appendChild(hint);
+	setTypedHintVisible(wantsTypedUI(item), item);
+  }
+
+}
+
+function check(pick){
+  if (locked) return;
+  const item = items[currentIndex];
+
+  // MIX_ADJ: two-step (verb then adjective)
+  if (item.type === "mix_adj"){
+
+    // step 1: verb
+    if (stage === "verb"){
+      pickedVerb = pick;
+
+      if (pick !== item.aVerb){
+        locked = true;
+        showFeedbackBad(`You chose <b>${pick}</b>. Correct: <b>${item.aVerb}</b>. ${item.why || ""}`);
+        scheduleAfter(false);
+        return;
+      }
+
+      // correct verb → step 2
+      stage = "adj";
+      showFeedbackOk(`<b>${pick}</b> is right. Now choose the adjective form.`);
+
+      const opts = $("options");
+      opts.innerHTML = "";
+      shuffle(item.adjOpts).forEach(opt => {
+        const b = document.createElement("button");
+        b.textContent = opt;
+        b.onclick = () => check(opt);
+        opts.appendChild(b);
+      });
+      return;
+    }
+
+    // step 2: adjective
+    if (stage === "adj"){
+      locked = true;
+      if (pick === item.aAdj){
+        showFeedbackOk(`Correct: <b>${item.aVerb} ${item.aAdj}</b>. ${item.why || ""}`);
+        scheduleAfter(true);
+      } else {
+        showFeedbackBad(`You chose <b>${pick}</b>. Correct: <b>${item.aAdj}</b>. ${item.why || ""}`);
+        scheduleAfter(false);
+      }
+      return;
+    }
+  }
+
+  // everything else: single-step
+  locked = true;
+  if (pick === item.a){
+    showFeedbackOk(`Correct: <b>${pick}</b>. ${item.why || ""}`);
+    scheduleAfter(true);
+  } else {
+    showFeedbackBad(`You chose <b>${pick}</b>. Correct: <b>${item.a}</b>. ${item.why || ""}`);
+    scheduleAfter(false);
+  }
+}
+
+function checkTyped(typed){
+  if (locked) return;
+  const item = items[currentIndex];
+
+  locked = true;
+
+  const expected =
+    item.type === "mix_adj" ? (item.aVerb + " " + item.aAdj) :
+    (item.aAdj ?? item.aVerb ?? item.a);
+
+  if (norm(typed) === norm(expected)){
+    showFeedbackOk(`Correct: <b>${expected}</b>. ${item.why || ""}`);
+    scheduleAfter(true);
+  } else {
+    showFeedbackBad(`You typed <b>${typed || "(blank)"}</b>. Correct: <b>${expected}</b>. ${item.why || ""}`);
+    scheduleAfter(false);
+  }
+}
+
+
+function revealAnswer(){
+  if (locked) return;
+  const item = items[currentIndex];
+  locked = true;
+
+  showFeedbackBad(`Revealed: <b>${item.type === "mix_adj" ? (item.aVerb + " " + item.aAdj) : item.a}</b>. ${item.why || ""}`);
+  setTypedHintVisible(true, item);
+  scheduleAfter(false);
+}
+
+function nextQuestion(){
+  currentIndex = pickNextIndex();
+  render();
+}
+
+/* ============================================================================
+   Wiring
+   ========================================================================== */
+function populateSetDropdown(){
+  const sel = $("setSel");
+  sel.innerHTML = "";
+  EXERCISE_SETS.forEach(s => {
+    const o = document.createElement("option");
+    o.value = s.id;
+    o.textContent = s.name;
+    sel.appendChild(o);
+  });
+  sel.value = setId;
+}
+
+function applyActiveSet(){
+  const set = EXERCISE_SETS.find(s => s.id === setId) || EXERCISE_SETS[0];
+  setId = set.id;
+  items = set.items || [];
+
+  // reset SR
+  initSR();
+  currentIndex = pickNextIndex();
+  render();
+
+  // teaching table refresh
+  renderTeachTable();
+}
+
+function updateModeUI(){
+  setHidden($("drillPane"), mode !== "drill");
+  setHidden($("teachPane"), mode !== "teach");
+  setHidden($("teachSearch"), mode !== "teach");
+  if (mode === "teach"){
+    renderTeachTable();
+  }
+}
+
+function wireTypedUI(){
+  const btn = $("checkTypedBtn");
+  const input = $("typed");
+  if (!btn || !input) return;
+
+  btn.onclick = () => {
+    if (locked) return;
+    const item = items[currentIndex];
+    // allow typed checks even if it’s not a typed item (your preference)
+    checkTyped(input.value);
+  };
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter"){
+      e.preventDefault();
+      btn.click();
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // initial dropdowns
+  populateSetDropdown();
+
+  // wire controls
+  $("modeSel").onchange = (e) => { mode = e.target.value; updateModeUI(); };
+  $("srSel").onchange = (e) => { srMode = e.target.value; applyActiveSet(); };
+  $("typedSel").onchange = (e) => { typedMode = e.target.value; render(); };
+  $("setSel").onchange = (e) => { setId = e.target.value; applyActiveSet(); };
+
+  $("teachSearch").addEventListener("input", renderTeachTable);
+
+  $("revealBtn").onclick = revealAnswer;
+  $("nextBtn").onclick = nextQuestion;
+
+  // typed UI + initial set
+  wireTypedUI();
+  applyActiveSet();
+  updateModeUI();
+});
+</script>
+</body>
+</html>
