@@ -1787,8 +1787,7 @@ function render(){
   // 1) MIX_ADJ step 1 = verb choices (allow per-item verbOpts)
   if (item.type === "mix_adj") {
     optionList = buildVerbOptionsForMix(item, 12);
-  }
-
+  
   // 2) Anything with explicit opts (mc, mc, etc.)
   } else if (Array.isArray(item.opts) && item.opts.length) {
     optionList = shuffle(item.opts);
@@ -2000,6 +1999,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
 
 
 
