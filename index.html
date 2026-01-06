@@ -1622,6 +1622,13 @@ function setHTML(el, h){
   el.innerHTML = h;
 }
 
+function focusNextBtn(){
+  const b = $("nextBtn");
+  if (!b) return;
+  // tiny timeout so it works after DOM updates + button rebuilds
+  setTimeout(() => b.focus(), 0);
+}
+
 function showFeedbackOk(html){
   lastOutcome = true;
   setHTML($("feedback"), `<span class="ok">✓</span> ${html}`);
@@ -1902,6 +1909,7 @@ function check(pick){
 		locked = true;
         showFeedbackOk(`Correct: <b>${item.aVerb} ${item.aAdj}</b>. ${item.why || ""}`);
         scheduleAfter(true);
+		focusNextBtn(); 
       } else {
         showFeedbackBad(`Not quite. Try again.`);
         scheduleAfter(false);
@@ -1917,6 +1925,7 @@ function check(pick){
     locked = true; // lock only when correct
     showFeedbackOk(`Correct: <b>${pick}</b>. ${item.why || ""}`);
     scheduleAfter(true);
+	focusNextBtn(); 
   } else {
     // keep unlocked so you can try again
     showFeedbackBad(`Not quite. You chose <b>${pick}</b>. Try again. ${item.why || ""}`);
@@ -1939,6 +1948,7 @@ function checkTyped(typed){
 	locked = true;
     showFeedbackOk(`Correct: <b>${expected}</b>. ${item.why || ""}`);
     scheduleAfter(true);
+	focusNextBtn(); 
   } else {
     showFeedbackBad(`Not quite. Try again using <b>${expected}</b>.`);
     scheduleAfter(false);
@@ -2042,6 +2052,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
 
 
 
