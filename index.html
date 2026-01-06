@@ -11,7 +11,7 @@
     .title { font-weight: 800; }
     select, input[type="search"] { padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
     .sentence { font-size: 1.28rem; margin: 8px 0 12px; }
-    .grid { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 10px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(120px, 1fr)); gap: 10px; }
     button { padding: 10px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
     button:hover { background: #f6f6f6; }
     button:disabled { opacity: .6; cursor: not-allowed; }
@@ -1623,21 +1623,22 @@ function escapeHtml(s){
   }[ch]));
 }
 
-function buildVerbOptionsForMix(item, count = 8){
-  // If caller provided verbOpts, trust them (but still guarantee correct answer is included)
-  let pool = Array.isArray(item.verbOpts) && item.verbOpts.length ? item.verbOpts.slice()
-           : SER_ESTAR_CHOICES.slice();
+function buildVerbOptionsForMix(item, count = 12){
+  // Use custom verbOpts if provided, else use the full SER/ESTAR list
+  let pool = (Array.isArray(item.verbOpts) && item.verbOpts.length)
+    ? item.verbOpts.slice()
+    : SER_ESTAR_CHOICES.slice();
 
-  // Always include the correct verb
   const correct = item.aVerb;
+
+  // Remove the correct from the pool so we can add it back once
   pool = pool.filter(v => v !== correct);
 
-  // Pick random distractors
-  pool = shuffle(pool).slice(0, Math.max(0, count - 1));
-
-  // Add correct and shuffle
-  return shuffle([correct, ...pool]);
+  // Pick (count-1) distractors, then add correct, then shuffle
+  const distractors = shuffle(pool).slice(0, Math.max(0, count - 1));
+  return shuffle([correct, ...distractors]);
 }
+
 	
 // Gets an English hint for type-ins (supports multiple item shapes)
 function getEnglishHint(item){
@@ -1999,5 +2000,6 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
 
 
