@@ -15,6 +15,18 @@
     button { padding: 10px; border-radius: 10px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
     button:hover { background: #f6f6f6; }
     button:disabled { opacity: .6; cursor: not-allowed; }
+    /* Always-blue primary action */
+    .btnPrimary {
+      background: #1a73e8;   /* blue */
+      color: #fff;
+      border-color: #1a73e8;
+    }
+    .btnPrimary:hover { filter: brightness(0.95); }
+    /* Next button state colors */
+    .btnNextNeutral { background:#fff; color:#111; border-color:#ccc; }
+    .btnNextGood    { background:#34a853; color:#fff; border-color:#34a853; } /* green */
+    .btnNextBad     { background:#fbbc04; color:#111; border-color:#fbbc04; } /* yellow */
+
     .ok { color: #0a7a2f; font-weight: 800; }
     .bad { color: #b00020; font-weight: 800; }
     .meta { color: #555; margin-top: 10px; }
@@ -101,7 +113,7 @@
           inputmode="text"
           style="padding:10px;border-radius:10px;border:1px solid #ccc;min-width:260px;"
         />
-        <button id="checkTypedBtn">Check</button>
+        <button id="checkTypedBtn" class="btnPrimary">Check</button>
       </div>
 	  
 	  <div id="typedHintRow" class="row hidden">
@@ -110,7 +122,7 @@
 
       <div class="row">
         <button id="revealBtn" class="hidden">Reveal</button>
-        <button id="nextBtn">Next</button>
+        <button id="nextBtn" class="btnNextNeutral">Next</button>
         <div id="feedback"></div>
       </div>
 
@@ -1528,6 +1540,7 @@ let pickedVerb = null;
 let due = [];              // queue of { idx, dueAt }
 let steps = 0;
 let stats = {};            // idx -> { correct, wrong, streak }
+let lastOutcome = null;    //null, true, false
 
 /* ============================================================================
    SR Engine (light spaced repetition)
@@ -1610,11 +1623,15 @@ function setHTML(el, h){
 }
 
 function showFeedbackOk(html){
+  lastOutcome = true;
   setHTML($("feedback"), `<span class="ok">✓</span> ${html}`);
+  updateNextButtonColor();
 }
 
 function showFeedbackBad(html){
+  lastOutcome = false;
   setHTML($("feedback"), `<span class="bad">✗</span> ${html}`);
+  updateNextButtonColor();
 }
 
 function escapeHtml(s){
@@ -1637,6 +1654,17 @@ function buildVerbOptionsForMix(item, count = 12){
   // Pick (count-1) distractors, then add correct, then shuffle
   const distractors = shuffle(pool).slice(0, Math.max(0, count - 1));
   return shuffle([correct, ...distractors]);
+}
+
+function updateNextButtonColor(){
+  const b = $("nextBtn");
+  if (!b) return;
+
+  b.classList.remove("btnNextNeutral","btnNextGood","btnNextBad");
+
+  if (lastOutcome === true) b.classList.add("btnNextGood");
+  else if (lastOutcome === false) b.classList.add("btnNextBad");
+  else b.classList.add("btnNextNeutral");
 }
 
 	
@@ -1755,9 +1783,19 @@ function render(){
   //setText($("enLine"), item?.en ? item.en : "");
   //setHidden($("enLine"), !item?.en);
   
-  const showEn = (item?.type === "typed" || wantsTypedUI(item)) && !!item?.en;
-  setText($("enLine"), showEn ? item.en : "");
-  setHidden($("enLine"), !showEn);
+  // Show English line for anything that has it (especially mix_adj)
+  const showEn = !!item?.en;
+  let enText = showEn ? item.en : "";
+
+  // For mix_adj, ALSO show the adjective hint (so you can pick ser vs estar)
+  if (item?.type === "mix_adj" && item?.enHint){
+    enText += `  (target word: ${item.enHint})`;
+  }
+  setText($("enLine"), enText);
+  setHidden($("enLine"), !enText);
+
+  lastOutcome = null;
+  updateNextButtonColor();
 
   setTypedHintVisible(false, item);
 
@@ -1836,8 +1874,7 @@ function check(pick){
     if (stage === "verb"){
       pickedVerb = pick;
 
-      if (pick !== item.aVerb){
-        locked = true;
+      if (pick !== item.aVerb){        
         showFeedbackBad(`You chose <b>${pick}</b>. Correct: <b>${item.aVerb}</b>. ${item.why || ""}`);
         scheduleAfter(false);
         return;
@@ -1845,6 +1882,7 @@ function check(pick){
 
       // correct verb → step 2
       stage = "adj";
+	  locked = true;
       showFeedbackOk(`<b>${pick}</b> is right. Now choose the adjective form.`);
 
       const opts = $("options");
@@ -1860,12 +1898,13 @@ function check(pick){
 
     // step 2: adjective
     if (stage === "adj"){
-      locked = true;
+      // locked = true;
       if (pick === item.aAdj){
+		locked = true;
         showFeedbackOk(`Correct: <b>${item.aVerb} ${item.aAdj}</b>. ${item.why || ""}`);
         scheduleAfter(true);
       } else {
-        showFeedbackBad(`You chose <b>${pick}</b>. Correct: <b>${item.aAdj}</b>. ${item.why || ""}`);
+        showFeedbackBad(`Not quite. Try again.`);
         scheduleAfter(false);
       }
       return;
@@ -1873,13 +1912,17 @@ function check(pick){
   }
 
   // everything else: single-step
-  locked = true;
+  //locked = true;
+  // everything else: single-step (UNLIMITED RETRIES)
   if (pick === item.a){
+    locked = true; // lock only when correct
     showFeedbackOk(`Correct: <b>${pick}</b>. ${item.why || ""}`);
     scheduleAfter(true);
   } else {
-    showFeedbackBad(`You chose <b>${pick}</b>. Correct: <b>${item.a}</b>. ${item.why || ""}`);
-    scheduleAfter(false);
+    // keep unlocked so you can try again
+    showFeedbackBad(`Not quite. You chose <b>${pick}</b>. Try again. ${item.why || ""}`);
+    // optional: count wrong attempts without scheduling SR yet
+    if (stats[currentIndex]) stats[currentIndex].wrong++;
   }
 }
 
@@ -1887,17 +1930,18 @@ function checkTyped(typed){
   if (locked) return;
   const item = items[currentIndex];
 
-  locked = true;
+  
 
   const expected =
     item.type === "mix_adj" ? (item.aVerb + " " + item.aAdj) :
     (item.aAdj ?? item.aVerb ?? item.a);
 
   if (norm(typed) === norm(expected)){
+	locked = true;
     showFeedbackOk(`Correct: <b>${expected}</b>. ${item.why || ""}`);
     scheduleAfter(true);
   } else {
-    showFeedbackBad(`You typed <b>${typed || "(blank)"}</b>. Correct: <b>${expected}</b>. ${item.why || ""}`);
+    showFeedbackBad(`Not quite. Try again using <b>${expected}</b>.`);
     scheduleAfter(false);
   }
 }
@@ -1999,6 +2043,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
 
 
 
