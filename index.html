@@ -1781,11 +1781,7 @@ function render(){
 
   // 3) SER/ESTAR drill (allow per-item verbOpts too, if you ever want it)
   } else if (item.type === "serestar") {
-    optionList = shuffle(
-      Array.isArray(item.verbOpts) && item.verbOpts.length
-        ? item.verbOpts
-        : SER_ESTAR_TEN
-    );
+    optionList = shuffle(SER_ESTAR_CHOICES);
 
   // 4) Typed-only
   } else if (item.type === "typed" || item.type === "typein") {
@@ -1990,3 +1986,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
