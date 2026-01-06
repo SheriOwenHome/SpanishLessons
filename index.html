@@ -1913,7 +1913,7 @@ function check(pick){
   // everything else: single-step
   //locked = true;
   // everything else: single-step (UNLIMITED RETRIES)
-  if (pick === item.aVerb || pick === item.aAdj){
+  if (pick === item.aVerb || pick === item.aAdj || pick === item.a){
     locked = true; // lock only when correct
     showFeedbackOk(`Correct: <b>${pick}</b>. ${item.why || ""}`);
     scheduleAfter(true);
@@ -2042,6 +2042,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
 
 
 
