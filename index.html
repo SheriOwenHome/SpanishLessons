@@ -1502,7 +1502,7 @@ const SER_ESTAR_CHOICES = ["soy","eres","es","somos","sois","son","estoy","está
 const SER_ESTAR_TEN = ["soy","eres","es","somos","son","estoy","estás","está","estamos","están"]; // compact set
 
 // For mix_adj verb step (3rd person singular/plural is usually what you want in adjective sentences)
-const MIX_VERB_CHOICES = ["es","son","está","están"];
+const MIX_VERB_CHOICES = SER_ESTAR_CHOICES;
 
 /* ============================================================================
    State
@@ -1521,7 +1521,7 @@ let hintAutoOnWrong = true; // optional: auto-show hint after wrong typed attemp
 
 
 // mix_adj two-step state
-let stage = "one";         // "verb" or "adj"
+let stage = "verb";         // "verb" or "adj"
 let pickedVerb = null;
 
 // SR state
@@ -1623,6 +1623,22 @@ function escapeHtml(s){
   }[ch]));
 }
 
+function buildVerbOptionsForMix(item, count = 8){
+  // If caller provided verbOpts, trust them (but still guarantee correct answer is included)
+  let pool = Array.isArray(item.verbOpts) && item.verbOpts.length ? item.verbOpts.slice()
+           : SER_ESTAR_CHOICES.slice();
+
+  // Always include the correct verb
+  const correct = item.aVerb;
+  pool = pool.filter(v => v !== correct);
+
+  // Pick random distractors
+  pool = shuffle(pool).slice(0, Math.max(0, count - 1));
+
+  // Add correct and shuffle
+  return shuffle([correct, ...pool]);
+}
+	
 // Gets an English hint for type-ins (supports multiple item shapes)
 function getEnglishHint(item){
   // Prefer explicit enHint
@@ -1769,11 +1785,8 @@ function render(){
 
   // 1) MIX_ADJ step 1 = verb choices (allow per-item verbOpts)
   if (item.type === "mix_adj") {
-    optionList = shuffle(
-      Array.isArray(item.verbOpts) && item.verbOpts.length
-        ? item.verbOpts
-        : MIX_VERB_CHOICES
-    );
+    optionList = buildVerbOptionsForMix(item, 12);
+  }
 
   // 2) Anything with explicit opts (mc, mc, etc.)
   } else if (Array.isArray(item.opts) && item.opts.length) {
@@ -1986,4 +1999,5 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+
 
