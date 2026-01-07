@@ -1867,23 +1867,6 @@ function renderForms(item){
 
   wrap.classList.remove("hidden");
   btn.classList.remove("hidden");
-  function renderForms(item){
-  const wrap = $("formsWrap");
-  const btn  = $("formsBtn");
-  const panel= $("formsPanel");
-  if (!wrap || !btn || !panel) return;
-
-  const forms = getForms(item);
-  if (!forms){
-    wrap.classList.add("hidden");
-    btn.classList.add("hidden");
-    panel.classList.add("hidden");
-    panel.innerHTML = "";
-    return;
-  }
-
-  wrap.classList.remove("hidden");
-  btn.classList.remove("hidden");
   panel.classList.add("hidden");
 
   btn.textContent = "Show forms";
@@ -2521,6 +2504,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
