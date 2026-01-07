@@ -1886,17 +1886,6 @@ function renderForms(item){
   setFormsModalHtml(item, html);
 }
 
-  // Pretty table: supports adjective four-forms OR verb persons
-  const keys = Object.keys(forms);
-  let html = `<table><thead><tr><th>Form</th><th>Value</th></tr></thead><tbody>`;
-  for (const k of keys){
-    html += `<tr><td><b>${escapeHtml(k)}</b></td><td>${escapeHtml(forms[k])}</td></tr>`;
-  }
-  html += `</tbody></table>`;
-
-  panel.innerHTML = html;
-}
-
 function populateTagDropdown(){
   const sel = $("tagSel");
   if (!sel) return;
@@ -2504,6 +2493,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
