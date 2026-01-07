@@ -1555,9 +1555,9 @@ const SER_ESTAR_TEN = ["soy","eres","es","somos","son","estoy","estás","está",
 const MIX_VERB_CHOICES = SER_ESTAR_CHOICES;
 
 const CONJ_PRES = {
-  ser:   { yo:"soy",   tu:"eres",  el/ella:"es",    nos:"somos",  vos:"sois",  ellos/ellas:"son" },
-  estar: { yo:"estoy", tu:"estás", el/ella:"está",  nos:"estamos",vos:"estáis",ellos/ellas:"están" },
-  venir: { yo:"vengo", tu:"vienes",el/ella:"viene", nos:"venimos",vos:"venís", ellos/ellas:"vienen" }, // matches your existing rows
+  ser:   { yo:"soy",   tu:"eres",  el:"es",    nos:"somos",  vos:"sois",  ellos:"son" },
+  estar: { yo:"estoy", tu:"estás", el:"está",  nos:"estamos",vos:"estáis",ellos:"están" },
+  venir: { yo:"vengo", tu:"vienes",el:"viene", nos:"venimos",vos:"venís", ellos:"vienen" }, // matches your existing rows
   // ...drop in more verbs here over time
 };
 
@@ -2521,6 +2521,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
