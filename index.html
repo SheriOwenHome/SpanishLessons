@@ -2334,8 +2334,8 @@ function checkTyped(typed){
   if (locked) return;
   const item = items[currentIndex];
 
-  const expected = item.a ? item.a : item.aVerb;
-  expected = expected ? expected : item.aAdj;
+  const preExp = item.a ? item.a : item.aVerb;
+  const expected = preExp ? preExp : item.aAdj;
 	
   if (norm(typed) === norm(expected)){
 	locked = true;
@@ -2485,6 +2485,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
