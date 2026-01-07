@@ -1947,7 +1947,7 @@ function enrichItemsPresent(items){
       const estarSet = new Set(Object.values(CONJ_PRES.estar));
       const verb = isSer ? "ser" : isEstar ? "estar" : (serSet.has(answer) ? "ser" : "estar");
 
-      it.aVerb = it.a;                        // unify with verb checking
+      it.aVerb = it.a ? it.a : it.aVerb;                        // unify with verb checking
       it.verbOpts = Object.values(CONJ_PRES[verb]);
       it.teach = it.teach || {};
       it.teach.forms = CONJ_PRES[verb];
@@ -2484,6 +2484,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
