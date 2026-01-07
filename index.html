@@ -43,11 +43,39 @@
       .grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
       .teachGrid { grid-template-columns: 1fr; }
       .sentence { font-size: 1.18rem; }
+	  #formsWrap { display:none !important; }
     }
     table { width:100%; border-collapse: collapse; }
     th, td { border-bottom: 1px solid #eee; padding: 10px; text-align:left; vertical-align: top; }
     th { background:#fafafa; }
     .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.95em; padding:2px 6px; border:1px solid #ddd; border-bottom-width:2px; border-radius:6px; background:#fff; }
+  	.modal.hidden { display:none; }
+	.modal { position:fixed; inset:0; z-index:9999; }
+	.modalBackdrop { position:absolute; inset:0; background:rgba(0,0,0,.45); }
+	.modalCard {
+	  position:relative;
+	  width:min(860px, calc(100vw - 32px));
+	  max-height:calc(100vh - 32px);
+	  overflow:auto;
+	  margin:16px auto;
+	  background:#fff;
+	  border-radius:14px;
+	  box-shadow:0 12px 40px rgba(0,0,0,.25);
+	  padding:14px;
+	}
+	.modalHeader { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+	.modalTitle { font-weight:700; font-size:1.05rem; }
+	.modalSub { opacity:.75; font-size:.9rem; margin-top:2px; }
+	.modalBody { margin-top:12px; }
+	
+	.helperGrid { display:grid; gap:12px; }
+	.helperBlock { border:1px solid rgba(0,0,0,.12); border-radius:12px; padding:12px; }
+	.helperBlock h4 { margin:0 0 8px 0; font-size:1rem; }
+	.formsTable { width:100%; border-collapse:collapse; }
+	.formsTable th, .formsTable td { border-bottom:1px solid rgba(0,0,0,.10); padding:6px 8px; text-align:left; }
+	.formsTable th { font-weight:700; background:rgba(0,0,0,.03); }
+	.kv { display:grid; grid-template-columns: 150px 1fr; gap:6px 12px; }
+	.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }  
   </style>
 </head>
 
@@ -69,6 +97,11 @@
         <select id="setSel"></select>
       </label>
 
+	  <label class="pill">
+	    Tag
+		<select id="tagSel"></select>
+	  </label>
+		
       <label class="pill">
         SR
         <select id="srSel">
@@ -124,6 +157,11 @@
         <button id="revealBtn" class="hidden">Reveal</button>
         <button id="nextBtn" class="btnNextNeutral">Next</button>
         <div id="feedback"></div>
+		<div id="formsWrap" class="hidden" style="margin-top:10px;">
+		  <button id="formsBtn" class="hidden">Show forms</button>
+  		  <div id="formsPanel" class="hidden" style="margin-top:10px; overflow:auto;"></div>
+	    </div>
+
       </div>
 
       <div class="meta" id="meta"></div>
@@ -1516,6 +1554,39 @@ const SER_ESTAR_TEN = ["soy","eres","es","somos","son","estoy","estás","está",
 // For mix_adj verb step (3rd person singular/plural is usually what you want in adjective sentences)
 const MIX_VERB_CHOICES = SER_ESTAR_CHOICES;
 
+const CONJ_PRES = {
+  ser:   { yo:"soy",   tu:"eres",  el/ella:"es",    nos:"somos",  vos:"sois",  ellos/ellas:"son" },
+  estar: { yo:"estoy", tu:"estás", el/ella:"está",  nos:"estamos",vos:"estáis",ellos/ellas:"están" },
+  venir: { yo:"vengo", tu:"vienes",el/ella:"viene", nos:"venimos",vos:"venís", ellos/ellas:"vienen" }, // matches your existing rows
+  // ...drop in more verbs here over time
+};
+
+const PERSONS = [
+  { key:"yo", label:"yo" },
+  { key:"tu", label:"tú" },
+  { key:"el", label:"él/ella/usted" },
+  { key:"nos", label:"nosotros/as" },
+  { key:"vos", label:"vosotros/as" },
+  { key:"ellos", label:"ellos/ellas/ustedes" },
+];
+
+const IRREG_PRESENT = {
+  ser:   ["soy","eres","es","somos","sois","son"],
+  estar: ["estoy","estás","está","estamos","estáis","están"],
+  ir:    ["voy","vas","va","vamos","vais","van"],
+  ver:   ["veo","ves","ve","vemos","veis","ven"],
+  tener: ["tengo","tienes","tiene","tenemos","tenéis","tienen"],
+  venir: ["vengo","vienes","viene","venimos","venís","vienen"],
+  decir: ["digo","dices","dice","decimos","decís","dicen"],
+  hacer: ["hago","haces","hace","hacemos","hacéis","hacen"],
+  poner: ["pongo","pones","pone","ponemos","ponéis","ponen"],
+  salir: ["salgo","sales","sale","salimos","salís","salen"],
+  saber: ["sé","sabes","sabe","sabemos","sabéis","saben"],
+  conocer:["conozco","conoces","conoce","conocemos","conocéis","conocen"],
+  poder: ["puedo","puedes","puede","podemos","podéis","pueden"],
+  querer:["quiero","quieres","quiere","queremos","queréis","quieren"],
+};
+	
 /* ============================================================================
    State
    ========================================================================== */
@@ -1527,10 +1598,18 @@ let setId = EXERCISE_SETS[0]?.id || "all_demo";
 let items = [];            // active items for chosen set
 let currentIndex = 0;
 let locked = false;
+let activeTag = "ALL";
+
 // Hint / reveal state for typed items
 let hintShown = false;     // show the English hint line?
 let hintAutoOnWrong = true; // optional: auto-show hint after wrong typed attempt
 
+// Round-based mode (no SR): see everything once, repeat only wrong
+let roundMode = "round";  // "round" | "sr"
+let round = 1;            // 1 = full pass, 2+ = review
+let remaining = [];       // indices left in the current round
+let wrongPool = new Set();// indices missed at least once
+let lastWasCorrect = null;
 
 // mix_adj two-step state
 let stage = "verb";         // "verb" or "adj"
@@ -1641,6 +1720,22 @@ function showFeedbackBad(html){
   updateNextButtonColor();
 }
 
+function showBads(item, currentIndex, roundMode) {
+  //setTypedHintVisible(true, item);
+  scheduleAfter(false);
+  if (stats[currentIndex]) stats[currentIndex].wrong++;	
+  if (roundMode === "round") wrongPool.add(currentIndex);
+  lastWasCorrect = false;
+  renderForms(item);
+}
+	
+function showOks() {
+  scheduleAfter(true);
+  lastWasCorrect = true;
+  focusNextBtn();
+  renderForms(null);
+}
+	
 function escapeHtml(s){
   return (s ?? "").toString().replace(/[&<>"']/g, ch => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
@@ -1712,6 +1807,337 @@ function setTypedHintVisible(show, item){
   row.classList.remove("hidden");
   txt.innerHTML = `EN hint: <b>${escapeHtml(hint)}</b>`;
 }
+
+function initRounds(){
+  round = 1;
+  wrongPool = new Set();
+  lastWasCorrect = null;
+  remaining = shuffle([...Array(items.length).keys()]);
+}
+
+function pickNextIndexRound(){
+  if (items.length === 0) return 0;
+
+  // If current round still has items, keep going
+  if (remaining.length > 0){
+    return remaining.shift();
+  }
+
+  // Round finished:
+  if (wrongPool.size === 0){
+    // Done! Start over (or you can freeze here if you want)
+    round = 1;
+    remaining = shuffle([...Array(items.length).keys()]);
+    return remaining.shift();
+  }
+
+  // Start a review round with only wrong ones
+  round++;
+  remaining = shuffle(Array.from(wrongPool));
+  wrongPool = new Set(); // clear; items missed in this review will re-add
+  return remaining.shift();
+}
+
+function progressText(){
+  const total = items.length;
+  const rem = remaining.length + 1; // include current item
+  const label = (round === 1) ? "Round 1" : `Review ${round-1}`;
+  return `${label} • Remaining: ${rem}/${(round===1)?total: (rem)} • Set: ${setId}`;
+}
+
+function getForms(item){
+  // Priority: explicit forms, then teach.forms
+  return item?.forms || item?.teach?.forms || null;
+}
+
+function renderForms(item){
+  const wrap = $("formsWrap");
+  const btn  = $("formsBtn");
+  const panel= $("formsPanel");
+  if (!wrap || !btn || !panel) return;
+
+  const forms = getForms(item);
+  if (!forms){
+    wrap.classList.add("hidden");
+    btn.classList.add("hidden");
+    panel.classList.add("hidden");
+    panel.innerHTML = "";
+    return;
+  }
+
+  wrap.classList.remove("hidden");
+  btn.classList.remove("hidden");
+  function renderForms(item){
+  const wrap = $("formsWrap");
+  const btn  = $("formsBtn");
+  const panel= $("formsPanel");
+  if (!wrap || !btn || !panel) return;
+
+  const forms = getForms(item);
+  if (!forms){
+    wrap.classList.add("hidden");
+    btn.classList.add("hidden");
+    panel.classList.add("hidden");
+    panel.innerHTML = "";
+    return;
+  }
+
+  wrap.classList.remove("hidden");
+  btn.classList.remove("hidden");
+  panel.classList.add("hidden");
+
+  btn.textContent = "Show forms";
+  btn.onclick = () => {
+    const isHidden = panel.classList.toggle("hidden");
+    btn.textContent = isHidden ? "Show forms" : "Hide forms";
+  };
+
+  // Pretty table: supports adjective four-forms OR verb persons
+  const keys = Object.keys(forms);
+  let html = `<table><thead><tr><th>Form</th><th>Value</th></tr></thead><tbody>`;
+  for (const k of keys){
+    html += `<tr><td><b>${escapeHtml(k)}</b></td><td>${escapeHtml(forms[k])}</td></tr>`;
+  }
+  html += `</tbody></table>`;
+
+  setFormsModalHtml(item, html);
+}
+
+  // Pretty table: supports adjective four-forms OR verb persons
+  const keys = Object.keys(forms);
+  let html = `<table><thead><tr><th>Form</th><th>Value</th></tr></thead><tbody>`;
+  for (const k of keys){
+    html += `<tr><td><b>${escapeHtml(k)}</b></td><td>${escapeHtml(forms[k])}</td></tr>`;
+  }
+  html += `</tbody></table>`;
+
+  panel.innerHTML = html;
+}
+
+function populateTagDropdown(){
+  const sel = $("tagSel");
+  if (!sel) return;
+
+  const tags = new Set();
+  for (const it of (EXERCISE_SETS.find(s=>s.id===setId)?.items || [])){
+    (it.tags || []).forEach(t => tags.add(t));
+  }
+
+  const all = ["ALL", ...Array.from(tags).sort()];
+  sel.innerHTML = "";
+  all.forEach(t => {
+    const o = document.createElement("option");
+    o.value = t;
+    o.textContent = (t === "ALL") ? "All tags" : t;
+    sel.appendChild(o);
+  });
+
+  sel.value = activeTag;
+}
+
+function detectPersonFromQ(q){
+  const s = (q || "").trim().toLowerCase();
+  if (s.startsWith("yo ")) return "yo";
+  if (s.startsWith("tú ") || s.startsWith("tu ")) return "tu";
+  if (s.startsWith("él ") || s.startsWith("el ") || s.startsWith("ella ") || s.startsWith("usted ")) return "el";
+  if (s.startsWith("nosotros ") || s.startsWith("nosotras ")) return "nos";
+  if (s.startsWith("vosotros ") || s.startsWith("vosotras ")) return "vos";
+  if (s.startsWith("ellos ") || s.startsWith("ellas ") || s.startsWith("ustedes ")) return "ellos";
+  return null;
+}
+
+function inferInfinitiveFromTags(tags){
+  // example: ["VERB","PRES","VENIR"] -> "venir"
+  // you can expand this mapping rule later if needed
+  const t = (tags || []).find(x => x && x === x.toUpperCase() && !["VERB","PRES"].includes(x));
+  return t ? t.toLowerCase() : null;
+}
+
+function enrichItemsPresent(items){
+  for (const it of items){
+    const tags = it.tags || [];
+
+    // ---- ser/estar blocks (present) ----
+    if (it.type === "serestar"){
+      const why = (it.why || "").toLowerCase();
+      const isSer = why.includes("(ser)");
+      const isEstar = why.includes("(estar)");
+
+      // fallback if "why" isn't explicit:
+      const answer = (it.a || "").toLowerCase();
+      const serSet = new Set(Object.values(CONJ_PRES.ser));
+      const estarSet = new Set(Object.values(CONJ_PRES.estar));
+      const verb = isSer ? "ser" : isEstar ? "estar" : (serSet.has(answer) ? "ser" : "estar");
+
+      it.aVerb = it.a;                        // unify with verb checking
+      it.verbOpts = Object.values(CONJ_PRES[verb]);
+      it.teach = it.teach || {};
+      it.teach.forms = CONJ_PRES[verb];
+      it.teach.infinitive = verb;
+    }
+
+    // ---- regular VERB present drills ----
+    if (tags.includes("VERB") && tags.includes("PRES")){
+      const infinitive = (it.teach && it.teach.infinitive) || inferInfinitiveFromTags(tags);
+      const forms = CONJ_PRES[infinitive];
+      if (!forms) continue;
+
+      const person = detectPersonFromQ(it.q) || "yo"; // safe default; better than leaving blank
+      it.aVerb = forms[person];
+      it.verbOpts = Object.values(forms);
+
+      it.teach = it.teach || {};
+      it.teach.infinitive = infinitive;
+      it.teach.forms = forms;
+    }
+  }
+  return items;
+}
+
+function normalizeLemma(s) {
+  return (s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .trim();
+}
+
+function buildRegularPresent(lemma) {
+  // very lightweight regular present generator (good enough as fallback)
+  const l = normalizeLemma(lemma);
+  if (!(l.endsWith("ar") || l.endsWith("er") || l.endsWith("ir"))) return null;
+  const stem = l.slice(0, -2);
+  if (l.endsWith("ar")) return [stem+"o", stem+"as", stem+"a", stem+"amos", stem+"áis", stem+"an"];
+  if (l.endsWith("er")) return [stem+"o", stem+"es", stem+"e", stem+"emos", stem+"éis", stem+"en"];
+  return [stem+"o", stem+"es", stem+"e", stem+"imos", stem+"ís", stem+"en"]; // -ir
+}
+
+function formsTableHtml(title, formsArr) {
+  const rows = PERSONS.map((p, i) =>
+    `<tr><td>${p.label}</td><td class="mono">${formsArr[i] || ""}</td></tr>`
+  ).join("");
+  return `
+    <div class="helperBlock">
+      <h4>${escapeHtml(title)}</h4>
+      <table class="formsTable">
+        <thead><tr><th>Persona</th><th>Presente</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function adjectiveBlockHtml(adjObj) {
+  // Supports:
+  //  - explicit m/f forms: "tímido/tímida"
+  //  - invariant: "leal"
+  //  - notes like plural
+  const es = (adjObj?.es || "").trim();
+  const note = (adjObj?.note || "").trim();
+  let m = "", f = "";
+
+  if (es.includes("/")) {
+    const [a,b] = es.split("/").map(x => x.trim());
+    m = a; f = b;
+  } else {
+    m = es; f = es;
+  }
+
+  // naive pluralization fallback (you can keep relying on note where present)
+  const pluralize = (w) => {
+    if (!w) return "";
+    if (/[aeiouáéíóú]$/i.test(w)) return w + "s";
+    return w + "es";
+  };
+
+  const ms = m;
+  const fs = f;
+  const mp = pluralize(m);
+  const fp = pluralize(f);
+
+  return `
+    <div class="helperBlock">
+      <h4>Adjetivo: ${escapeHtml(es || "(sin dato)")}</h4>
+      <div class="kv">
+        <div>Singular (m)</div><div class="mono">${escapeHtml(ms)}</div>
+        <div>Singular (f)</div><div class="mono">${escapeHtml(fs)}</div>
+        <div>Plural (m)</div><div class="mono">${escapeHtml(mp)}</div>
+        <div>Plural (f)</div><div class="mono">${escapeHtml(fp)}</div>
+      </div>
+      ${note ? `<div style="margin-top:8px; opacity:.8;">Nota: ${escapeHtml(note)}</div>` : ""}
+    </div>
+  `;
+}
+
+function openFormsModal(item, forms){
+  const modal = $("formsModal");
+  if (!modal) return;
+  modal.classList.remove("hidden");
+  modal.setAttribute("aria-hidden", "false");
+}
+
+function setFormsModalHtml(item, html){
+  const title = $("formsModalTitle");
+  const body  = $("formsModalBody");
+  if (title) title.textContent = "Forms helper";
+  if (body)  body.innerHTML = html;
+}
+
+	
+function buildHelperHtmlForItem(item) {
+  const tags = item?.tags || [];
+  const type = item?.type || "";
+  const blocks = [];
+
+  // 1) SER / ESTAR (present) — always show both so you get the “map”
+  if (type === "serestar" || tags.includes("SER_ESTAR")) {
+    blocks.push(formsTableHtml("SER (presente)", IRREG_PRESENT.ser));
+    blocks.push(formsTableHtml("ESTAR (presente)", IRREG_PRESENT.estar));
+  }
+
+  // 2) Verb present (generic)
+  // Try to infer lemma from:
+  // - item.teach?.es (often the infinitive)
+  // - tags (often contains "VER", "TENER", etc in your file)
+  const mightBeVerb = tags.includes("VERB") || tags.includes("PRES") || type === "typein";
+  if (mightBeVerb) {
+    const tagLemma = tags.find(t => /^[A-ZÁÉÍÓÚÑ]{2,}$/.test(t) && !t.includes("_"));
+    const lemmaRaw = item?.teach?.es || (tagLemma ? tagLemma : "");
+    const lemma = normalizeLemma(lemmaRaw);
+
+    let forms = null;
+
+    if (IRREG_PRESENT[lemma]) forms = IRREG_PRESENT[lemma];
+    else forms = buildRegularPresent(lemma);
+
+    // Only show if we have something real (avoid blank cards)
+    if (forms) {
+      blocks.push(formsTableHtml(`${lemmaRaw || "Verbo"} (presente)`, forms));
+    }
+  }
+
+  // 3) Adjective agreement helper
+  if (tags.includes("ADJ") && item?.teach) {
+    // Your data uses teach:{es:"...", en:"...", note:"..."} for adjectives
+    blocks.push(adjectiveBlockHtml(item.teach));
+  }
+
+  if (blocks.length === 0) {
+    blocks.push(`<div class="helperBlock"><h4>Helper</h4><div>No helper available for this exercise yet.</div></div>`);
+  }
+
+  return `<div class="helperGrid">${blocks.join("")}</div>`;
+}
+
+function escapeHtml(s) {
+  return String(s || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
 
 
 /* ============================================================================
@@ -1807,11 +2233,14 @@ function render(){
   setTypedHintVisible(false, item);
 
   // meta
-  if (srMode === "on"){
-    setText($("meta"), `SR mode • Due now: ${dueCountNow()} • Step: ${steps} • Set: ${setId}`);
-  } else {
-    setText($("meta"), `Random mode • Set: ${setId}`);
-  }
+  if (roundMode === "round"){
+	  setText($("meta"), progressText());
+	} else if (srMode === "on"){
+	  setText($("meta"), `SR mode • Due now: ${dueCountNow()} • Step: ${steps} • Set: ${setId}`);
+	} else {
+	  setText($("meta"), `Random mode • Set: ${setId}`);
+	}
+
 
   // typed UI visibility
   setHidden($("typedRow"), !wantsTypedUI(item));
@@ -1883,13 +2312,15 @@ function check(pick){
 
       if (pick !== item.aVerb){        
         showFeedbackBad(`You chose <b>${pick}</b>. Correct: <b>${item.aVerb}</b>. ${item.why || ""}`);
-        scheduleAfter(false);
+        showBads(item, currentIndex, roundMode);
         return;
       }
 
       // correct verb → step 2
       stage = "adj";	  
       showFeedbackOk(`<b>${pick}</b> is right. Now choose the adjective form.`);
+	  lastWasCorrect = true;
+
 
       const opts = $("options");
       opts.innerHTML = "";
@@ -1908,11 +2339,10 @@ function check(pick){
       if (pick === item.aAdj){
 		locked = true;
         showFeedbackOk(`Correct: <b>${item.aVerb} ${item.aAdj}</b>. ${item.why || ""}`);
-        scheduleAfter(true);
-		focusNextBtn(); 
+        showOks();			
       } else {
         showFeedbackBad(`Not quite. Try again.`);
-        scheduleAfter(false);
+        showBads(item, currentIndex, roundMode);
       }
       return;
     }
@@ -1924,13 +2354,12 @@ function check(pick){
   if (pick === item.aVerb || pick === item.aAdj || pick === item.a){
     locked = true; // lock only when correct
     showFeedbackOk(`Correct: <b>${pick}</b>. ${item.why || ""}`);
-    scheduleAfter(true);
-	focusNextBtn(); 
+    showOks(); 
   } else {
     // keep unlocked so you can try again
     showFeedbackBad(`Not quite. You chose <b>${pick}</b>. Try again. ${item.why || ""}`);
     // optional: count wrong attempts without scheduling SR yet
-    if (stats[currentIndex]) stats[currentIndex].wrong++;
+    showBads(item, currentIndex, roundMode);
   }
 }
 
@@ -1947,11 +2376,10 @@ function checkTyped(typed){
   if (norm(typed) === norm(expected)){
 	locked = true;
     showFeedbackOk(`Correct: <b>${expected}</b>. ${item.why || ""}`);
-    scheduleAfter(true);
-	focusNextBtn(); 
+    showOks(); 
   } else {
     showFeedbackBad(`Not quite. Try again using <b>${expected}</b>.`);
-    scheduleAfter(false);
+    showBads(item, currentIndex, roundMode);
   }
 }
 
@@ -1963,13 +2391,18 @@ function revealAnswer(){
 
   showFeedbackBad(`Revealed: <b>${item.type === "mix_adj" ? (item.aVerb + " " + item.aAdj) : item.a}</b>. ${item.why || ""}`);
   setTypedHintVisible(true, item);
-  scheduleAfter(false);
+  showBads(item, currentIndex, roundMode);
 }
 
 function nextQuestion(){
-  currentIndex = pickNextIndex();
+  if (roundMode === "round"){
+    currentIndex = pickNextIndexRound();
+  } else {
+    currentIndex = pickNextIndex(); // your existing SR picker
+  }
   render();
 }
+
 
 /* ============================================================================
    Wiring
@@ -1988,8 +2421,15 @@ function populateSetDropdown(){
 
 function applyActiveSet(){
   const set = EXERCISE_SETS.find(s => s.id === setId) || EXERCISE_SETS[0];
-  setId = set.id;
-  items = set.items || [];
+  const base = set.items || [];  
+	
+  setId = set.id;  
+  items = (activeTag === "ALL")
+  ? base
+  : base.filter(it => (it.tags || []).includes(activeTag));
+
+  populateTagDropdown();
+  enrichItemsPresent(base);
 
   // reset SR
   initSR();
@@ -2037,7 +2477,9 @@ document.addEventListener("DOMContentLoaded", () => {
   $("modeSel").onchange = (e) => { mode = e.target.value; updateModeUI(); };
   $("srSel").onchange = (e) => { srMode = e.target.value; applyActiveSet(); };
   $("typedSel").onchange = (e) => { typedMode = e.target.value; render(); };
-  $("setSel").onchange = (e) => { setId = e.target.value; applyActiveSet(); };
+  $("setSel").onchange = (e) => { setId = e.target.value; activeTag = "ALL"; applyActiveSet(); };
+  $("tagSel").onchange = (e) => { activeTag = e.target.value; applyActiveSet(); };
+
 
   $("teachSearch").addEventListener("input", renderTeachTable);
 
@@ -2048,10 +2490,38 @@ document.addEventListener("DOMContentLoaded", () => {
   wireTypedUI();
   applyActiveSet();
   updateModeUI();
+
+  $("formsModalClose")?.addEventListener("click", () => {
+	  $("formsModal")?.classList.add("hidden");
+	  $("formsModal")?.setAttribute("aria-hidden","true");
+  });
+	
+  $("formsModalBackdrop")?.addEventListener("click", () => {
+	  $("formsModal")?.classList.add("hidden");
+	  $("formsModal")?.setAttribute("aria-hidden","true");
+  });
+
 });
 </script>
+
+<!-- Forms / Helper Modal -->
+<div id="formsModal" class="modal hidden" aria-hidden="true">
+  <div class="modalBackdrop" id="formsModalBackdrop"></div>
+  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="formsModalTitle">
+    <div class="modalHeader">
+      <div>
+        <div id="formsModalTitle" class="modalTitle">Helper</div>
+        <div id="formsModalSub" class="modalSub"></div>
+      </div>
+      <button id="formsModalClose" class="btn small">✕</button>
+    </div>
+    <div id="formsModalBody" class="modalBody"></div>
+  </div>
+</div>
+
 </body>
 </html>
+
 
 
 
