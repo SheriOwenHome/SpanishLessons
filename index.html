@@ -2333,14 +2333,8 @@ function check(pick){
 function checkTyped(typed){
   if (locked) return;
   const item = items[currentIndex];
-
-  
-
-  const expected =
-    item.type === "mix_adj" ? (item.aVerb + " " + item.aAdj) :
-    (item.aAdj ?? item.aVerb ?? item.a);
-
-  if (norm(typed) === norm(expected)){
+ 
+  if (norm(typed) === norm(item.aVerb) || norm(typed) === norm(item.aAdj)){
 	locked = true;
     showFeedbackOk(`Correct: <b>${expected}</b>. ${item.why || ""}`);
     showOks(); 
@@ -2488,6 +2482,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
