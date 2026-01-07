@@ -2333,8 +2333,10 @@ function check(pick){
 function checkTyped(typed){
   if (locked) return;
   const item = items[currentIndex];
- 
-  if (norm(typed) === norm(item.aVerb) || norm(typed) === norm(item.aAdj) || norm(typed) === norm(item.a)){
+
+  const expected = item.a;
+	
+  if (norm(typed) === norm(expected)){
 	locked = true;
     showFeedbackOk(`Correct: <b>${expected}</b>. ${item.why || ""}`);
     showOks(); 
@@ -2482,6 +2484,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
