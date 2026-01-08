@@ -2078,8 +2078,20 @@ function buildHelperHtmlForItem(item) {
   // - tags (often contains "VER", "TENER", etc in your file)
   const mightBeVerb = tags.includes("VERB") || tags.includes("PRES") || type === "typein";
   if (mightBeVerb) {
-    const tagLemma = tags.find(t => /^[A-ZÁÉÍÓÚÑ]{2,}$/.test(t) && !t.includes("_"));
-    const lemmaRaw = item?.teach?.es || (tagLemma ? tagLemma : "");
+    const META_TAGS = new Set(["VERB","PRES","SER_ESTAR","ADJ","MC","TYPED","TYPEIN"]);
+
+	const tagLemma = tags.find(t =>
+	  /^[A-ZÁÉÍÓÚÑ]{2,}$/.test(t) &&
+	  !t.includes("_") &&
+	  !META_TAGS.has(t)
+	);
+
+	// Prefer explicit infinitive if present
+	const lemmaRaw =
+	  item?.teach?.infinitive ||
+	  item?.teach?.es ||
+	  (tagLemma ? tagLemma : "");
+
     const lemma = normalizeLemma(lemmaRaw);
 
     let forms = null;
@@ -2485,6 +2497,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
