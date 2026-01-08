@@ -1846,7 +1846,7 @@ function progressText(){
   const total = items.length;
   const rem = remaining.length + 1; // include current item
   const label = (round === 1) ? "Round 1" : `Review ${round-1}`;
-  return `${label} • Remaining: ${rem}/${(round===1)?total: (rem)} • Set: ${setId}`;
+  return `${label} • Activity: ${rem}/${(round===1)?total: (rem)} • Set: ${setId}`;
 }
 
 function renderForms(item){
@@ -2516,6 +2516,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
