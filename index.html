@@ -1652,8 +1652,6 @@ function pickNextIndex(){
 }
 
 function scheduleAfter(wasCorrect){
-  if (srMode === "off") return;
-
   const s = stats[currentIndex] || { correct:0, wrong:0, streak:0 };
 
   if (wasCorrect){
@@ -1664,6 +1662,8 @@ function scheduleAfter(wasCorrect){
     s.streak = 0;
   }
   stats[currentIndex] = s;
+
+  if (srMode === "off") return;
 
   // remove existing entries for this idx
   due = due.filter(x => x.idx !== currentIndex);
@@ -1723,7 +1723,7 @@ function showFeedbackBad(html){
 function showBads(item, currentIndex, roundMode) {
   //setTypedHintVisible(true, item);
   scheduleAfter(false);
-  if (stats[currentIndex]) stats[currentIndex].wrong++;	
+  	
   if (roundMode === "round") wrongPool.add(currentIndex);
   lastWasCorrect = false;
   renderForms(item);
@@ -2212,14 +2212,32 @@ function render(){
   setTypedHintVisible(false, item);
 
   // meta
+  let totalCorrect = 0, totalWrong = 0;
+  for (const s of Object.values(stats || {})){
+	totalCorrect += (s.correct || 0);
+	totalWrong   += (s.wrong || 0);
+  }
+  const cur = stats[currentIndex] || { correct:0, wrong:0, streak:0 };
+	
+  let metaText = "";
   if (roundMode === "round"){
-	  setText($("meta"), progressText());
-	} else if (srMode === "on"){
-	  setText($("meta"), `SR mode • Due now: ${dueCountNow()} • Step: ${steps} • Set: ${setId}`);
-	} else {
-	  setText($("meta"), `Random mode • Set: ${setId}`);
-	}
+	metaText = progressText();
+  } else if (srMode === "on"){
+	metaText = `SR mode • Due now: ${dueCountNow()} • Step: ${steps} • Set: ${setId}`;
+  } else {
+	metaText = `Random mode • Set: ${setId}`;
+  }
+	
+  const totalAttempts = totalCorrect + totalWrong;
+  const totalAcc = totalAttempts ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
 
+  const curAttempts = (cur.correct || 0) + (cur.wrong || 0);
+  const curAcc = curAttempts ? Math.round(((cur.correct || 0) / curAttempts) * 100) : 0;
+
+  metaText += ` • Total: ✅ ${totalCorrect} / ❌ ${totalWrong} (${totalAcc}%)`;
+  metaText += ` • This: ✅ ${cur.correct} / ❌ ${cur.wrong} (${curAcc}%) • Streak: ${cur.streak}`;
+	
+  setText($("meta"), metaText);
 
   // typed UI visibility
   setHidden($("typedRow"), !wantsTypedUI(item));
@@ -2497,6 +2515,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
