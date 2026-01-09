@@ -338,23 +338,23 @@ const EXERCISE_SETS = [
 
 
 		// ===== Professions =====
-		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: teacher (m.)", a:"el maestro", why:"Profession vocab.", teach:{es:"el maestro / la maestra", en:"teacher", note:"gendered forms"}},
-		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: student", a:"el/la estudiante", why:"Same word; article changes.", teach:{es:"el/la estudiante", en:"student", note:"same word"}},
-		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: police officer", a:"el/la policía", why:"Same word; article changes.", teach:{es:"el/la policía", en:"police officer", note:"same word"}},
-		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: dentist", a:"el/la dentista", why:"Same word; article changes.", teach:{es:"el/la dentista", en:"dentist", note:"same word"}},
-		{ type:"typein", tags:["VOCAB","PRO"], prompt:"Type the Spanish: engineer (f.)", a:"la ingeniera", why:"Profession vocab.", teach:{es:"el ingeniero / la ingeniera", en:"engineer", note:"gendered forms"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: teacher (m.)", a:"el maestro", why:"Profession vocab.", teach:{es:"el maestro / la maestra", en:"teacher", note:"gendered forms"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: student", a:"el/la estudiante", why:"Same word; article changes.", teach:{es:"el/la estudiante", en:"student", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: police officer", a:"el/la policía", why:"Same word; article changes.", teach:{es:"el/la policía", en:"police officer", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: dentist", a:"el/la dentista", why:"Same word; article changes.", teach:{es:"el/la dentista", en:"dentist", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: engineer (f.)", a:"la ingeniera", why:"Profession vocab.", teach:{es:"el ingeniero / la ingeniera", en:"engineer", note:"gendered forms"}},
 
 
 		// ===== Verbs: infinitive =====
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to see", a:"ver", why:"Infinitive.", teach:{es:"ver", en:"to see", note:"yo veo"}},
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to say", a:"decir", why:"Infinitive.", teach:{es:"decir", en:"to say/tell", note:"yo digo"}},
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to go", a:"ir", why:"Infinitive.", teach:{es:"ir", en:"to go", note:"yo voy"}},
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to have", a:"tener", why:"Infinitive.", teach:{es:"tener", en:"to have", note:"yo tengo"}},
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to come", a:"venir", why:"Infinitive.", teach:{es:"venir", en:"to come", note:"yo vengo"}},
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to eat", a:"comer", why:"Infinitive.", teach:{es:"comer", en:"to eat", note:"yo como"}},
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to drink", a:"beber", why:"Infinitive.", teach:{es:"beber", en:"to drink", note:"yo bebo (also: tomar)"}},
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to learn", a:"aprender", why:"Infinitive.", teach:{es:"aprender", en:"to learn", note:"yo aprendo"}},
-		{ type:"typein", tags:["VOCAB","VERBS"], prompt:"Type the Spanish infinitive: to study", a:"estudiar", why:"Infinitive.", teach:{es:"estudiar", en:"to study", note:"yo estudio"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to see", a:"ver", why:"Infinitive.", teach:{es:"ver", en:"to see", note:"yo veo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to say", a:"decir", why:"Infinitive.", teach:{es:"decir", en:"to say/tell", note:"yo digo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to go", a:"ir", why:"Infinitive.", teach:{es:"ir", en:"to go", note:"yo voy"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to have", a:"tener", why:"Infinitive.", teach:{es:"tener", en:"to have", note:"yo tengo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to come", a:"venir", why:"Infinitive.", teach:{es:"venir", en:"to come", note:"yo vengo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to eat", a:"comer", why:"Infinitive.", teach:{es:"comer", en:"to eat", note:"yo como"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to drink", a:"beber", why:"Infinitive.", teach:{es:"beber", en:"to drink", note:"yo bebo (also: tomar)"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to learn", a:"aprender", why:"Infinitive.", teach:{es:"aprender", en:"to learn", note:"yo aprendo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to study", a:"estudiar", why:"Infinitive.", teach:{es:"estudiar", en:"to study", note:"yo estudio"}},
 
 
 		// ===== ADJECTIVE FORM DRILL (gender + plural) =====
@@ -498,69 +498,69 @@ const EXERCISE_SETS = [
 	// ===== MIXED SER/ESTAR — FULL PERSON SET (Spain) =====
 
 		// --- YO ---
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","YO"], q:"Yo ____ ____.", en:"I am shy. ", aVerb:"soy", aAdj:"tímido/a", adjOpts:["tímido","tímida","tímidos","tímidas"],
+		{ type:"mix_adj", tags:["SER_ESTAR","YO"], q:"Yo ____ ____.", en:"I am shy. ", aVerb:"soy", aAdj:"tímido/a", adjOpts:["tímido","tímida","tímidos","tímidas"],
 		  why:"Rasgo → SER. Yo takes gender agreement.", teach:{ es:"tímido/tímida", en:"shy", note:"Choose masculine or feminine form." }
 		},
 
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","YO","SER_ESTAR"], q:"Yo ____ ____.", en:"I am tired. ", aVerb:"estoy", aAdj:"cansado/a", adjOpts:["cansado","cansada","cansados","cansadas"],
+		{ type:"mix_adj", tags:["SER_ESTAR","YO","SER_ESTAR"], q:"Yo ____ ____.", en:"I am tired. ", aVerb:"estoy", aAdj:"cansado/a", adjOpts:["cansado","cansada","cansados","cansadas"],
 		  why:"Estado → ESTAR.", teach:{ es:"cansado/cansada", en:"tired", note:"Temporary state → estar." }
 		},
 
 		// --- TÚ ---
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","TU"], q:"Tú ____ ____.", en:"You are outgoing. ", aVerb:"eres", aAdj:"extrovertido/a", adjOpts:["extrovertido","extrovertida","extrovertidos","extrovertidas"],
+		{ type:"mix_adj", tags:["SER_ESTAR","TU"], q:"Tú ____ ____.", en:"You are outgoing. ", aVerb:"eres", aAdj:"extrovertido/a", adjOpts:["extrovertido","extrovertida","extrovertidos","extrovertidas"],
 		  why:"Rasgo → SER.", teach:{ es:"extrovertido/extrovertida", en:"outgoing", note:"Agreement follows gender." }
 		},
 
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","TU","SER_ESTAR"], q:"Tú ____ ____.", en:"You are worried. ", aVerb:"estás", aAdj:"preocupado/a", adjOpts:["preocupado","preocupada","preocupados","preocupadas"],
+		{ type:"mix_adj", tags:["SER_ESTAR","TU","SER_ESTAR"], q:"Tú ____ ____.", en:"You are worried. ", aVerb:"estás", aAdj:"preocupado/a", adjOpts:["preocupado","preocupada","preocupados","preocupadas"],
 		  why:"Estado emocional → ESTAR.", teach:{ es:"preocupado/preocupada", en:"worried", note:"Temporary feeling → estar." }
 		},
 
 		// --- ÉL / ELLA ---
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","EL"], q:"Él ____ ____.", en:"He is ambitious. ", aVerb:"es", aAdj:"ambicioso", adjOpts:["ambicioso","ambiciosa","ambiciosos","ambiciosas"],
+		{ type:"mix_adj", tags:["SER_ESTAR","EL"], q:"Él ____ ____.", en:"He is ambitious. ", aVerb:"es", aAdj:"ambicioso", adjOpts:["ambicioso","ambiciosa","ambiciosos","ambiciosas"],
 		  why:"Rasgo → SER.", teach:{ es:"ambicioso/ambiciosa", en:"ambitious", note:"Él → masculine singular." }
 		},
 
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","ELLA"], q:"Ella ____ ____.", en:"She is relaxed. ", aVerb:"está", aAdj:"relajada", adjOpts:["relajado","relajada","relajados","relajadas"],
+		{ type:"mix_adj", tags:["SER_ESTAR","ELLA"], q:"Ella ____ ____.", en:"She is relaxed. ", aVerb:"está", aAdj:"relajada", adjOpts:["relajado","relajada","relajados","relajadas"],
 		  why:"Estado → ESTAR.", teach:{ es:"relajado/relajada", en:"relaxed", note:"Temporary condition." }
 		},
 
 		// --- NOSOTROS / NOSOTRAS ---
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOSOTROS"], q:"Nosotros ____ ____.", en:"We are honest. ", aVerb:"somos", aAdj:"honestos", adjOpts:["honestos","honestas","honesto","honesta"],
+		{ type:"mix_adj", tags:["SER_ESTAR","NOSOTROS"], q:"Nosotros ____ ____.", en:"We are honest. ", aVerb:"somos", aAdj:"honestos", adjOpts:["honestos","honestas","honesto","honesta"],
 		  why:"Rasgo → SER.", teach:{ es:"honesto/honesta", en:"honest", note:"Nosotros → plural masculine/mixed." }
 		},
 
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOSOTRAS"], q:"Nosotras ____ ____.", en:"We are bored. ", aVerb:"estamos", aAdj:"aburridas", adjOpts:["aburridos","aburridas","aburrido","aburrida"],
+		{ type:"mix_adj", tags:["SER_ESTAR","NOSOTRAS"], q:"Nosotras ____ ____.", en:"We are bored. ", aVerb:"estamos", aAdj:"aburridas", adjOpts:["aburridos","aburridas","aburrido","aburrida"],
 		  why:"Estado → ESTAR.", teach:{ es:"aburrido/aburrida", en:"bored", note:"Nosotras → plural feminine." }
 		},
 
 		// --- VOSOTROS / VOSOTRAS (Spain-specific) ---
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","VOSOTROS"], q:"Vosotros ____ ____.", en:"You all (m) are friendly. ", aVerb:"sois", aAdj:"amistosos", adjOpts:["amistosos","amistosas","amistoso","amistosa"],
+		{ type:"mix_adj", tags:["SER_ESTAR","VOSOTROS"], q:"Vosotros ____ ____.", en:"You all (m) are friendly. ", aVerb:"sois", aAdj:"amistosos", adjOpts:["amistosos","amistosas","amistoso","amistosa"],
 		  why:"Rasgo → SER.", teach:{ es:"amistoso/amistosa", en:"friendly", note:"Vosotros → plural masculine." }
 		},
 
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","VOSOTRAS"], q:"Vosotras ____ ____.", en:"You all (f) are tired. ", aVerb:"estáis", aAdj:"cansadas", adjOpts:["cansados","cansadas","cansado","cansada"],
+		{ type:"mix_adj", tags:["SER_ESTAR","VOSOTRAS"], q:"Vosotras ____ ____.", en:"You all (f) are tired. ", aVerb:"estáis", aAdj:"cansadas", adjOpts:["cansados","cansadas","cansado","cansada"],
 		  why:"Estado → ESTAR.", teach:{ es:"cansado/cansada", en:"tired", note:"Vosotras → plural feminine." }
 		},
 
 		// --- ELLOS / ELLAS ---
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","ELLOS"], q:"Ellos ____ ____.", en:"They are charming. ", aVerb:"son", aAdj:"encantadores", adjOpts:["encantadores","encantadoras","encantador","encantadora"],
+		{ type:"mix_adj", tags:["SER_ESTAR","ELLOS"], q:"Ellos ____ ____.", en:"They are charming. ", aVerb:"son", aAdj:"encantadores", adjOpts:["encantadores","encantadoras","encantador","encantadora"],
 		  why:"Rasgo → SER.", teach:{ es:"encantador/encantadora", en:"charming", note:"Ellos → plural masculine." }
 		},
 
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","ELLAS"], q:"Ellas ____ ____.", en:"They are excited. ", aVerb:"están", aAdj:"emocionadas", adjOpts:["emocionados","emocionadas","emocionado","emocionada"],
+		{ type:"mix_adj", tags:["SER_ESTAR","ELLAS"], q:"Ellas ____ ____.", en:"They are excited. ", aVerb:"están", aAdj:"emocionadas", adjOpts:["emocionados","emocionadas","emocionado","emocionada"],
 		  why:"Estado → ESTAR.", teach:{ es:"emocionado/emocionada", en:"excited", note:"Ellas → plural feminine." }
 		},
 
 		// --- NOUN SUBJECTS (teacher / boys / girls) ---
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOUN"], q:"El profesor ____ ____.", en:"The teacher is serious. ", aVerb:"es", aAdj:"serio", adjOpts:["serio","seria","serios","serias"],
+		{ type:"mix_adj", tags:["SER_ESTAR","NOUN"], q:"El profesor ____ ____.", en:"The teacher is serious. ", aVerb:"es", aAdj:"serio", adjOpts:["serio","seria","serios","serias"],
 		  why:"Rasgo → SER.", teach:{ es:"serio/seria", en:"serious", note:"El profesor → masculine singular." }
 		},
 
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOUN"], q:"Los chicos ____ ____.", en:"The boys are nervous. ", aVerb:"están", aAdj:"nerviosos", adjOpts:["nerviosos","nerviosas","nervioso","nerviosa"],
+		{ type:"mix_adj", tags:["SER_ESTAR","NOUN"], q:"Los chicos ____ ____.", en:"The boys are nervous. ", aVerb:"están", aAdj:"nerviosos", adjOpts:["nerviosos","nerviosas","nervioso","nerviosa"],
 		  why:"Estado → ESTAR.", teach:{ es:"nervioso/nerviosa", en:"nervous", note:"Temporary emotion." }
 		},
 
-		{ type:"mix_adj", tags:["MIX_SER_ESTAR","NOUN"], q:"Las chicas ____ ____.", en:"The girls are confident. ", aVerb:"son", aAdj:"seguras", adjOpts:["seguros","seguras","seguro","segura"],
+		{ type:"mix_adj", tags:["SER_ESTAR","NOUN"], q:"Las chicas ____ ____.", en:"The girls are confident. ", aVerb:"son", aAdj:"seguras", adjOpts:["seguros","seguras","seguro","segura"],
 		  why:"Rasgo → SER.", teach:{ es:"seguro/segura", en:"confident", note:"Las chicas → plural feminine." }
 		},
 		// ===== PROFESSIONS — SINGULAR (SER) =====
@@ -1005,9 +1005,9 @@ const EXERCISE_SETS = [
 	// SER = traits; ESTAR = states/conditions/feelings.
 
 		/* 1–10: tímido/a/os/as (SER) */
-		{ type:"typein", tags:["ADJ","SER_ESTAR","PLUR","TÍMIDO"], q:"Las chicas son ____.", en:"The girls are ____.", enHint:"shy", aAdj:"tímidas",
+		{ type:"typein", tags:["ADJ","SER_ESTAR","PLURAL","TÍMIDO"], q:"Las chicas son ____.", en:"The girls are ____.", enHint:"shy", aAdj:"tímidas",
 		  why:"SER + rasgo. Femenino plural: tímidas.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
-		{ type:"typein", tags:["ADJ","SER_ESTAR","PLUR","TÍMIDO"], q:"Los chicos son ____.", en:"The boys are ____.", enHint:"shy", aAdj:"tímidos",
+		{ type:"typein", tags:["ADJ","SER_ESTAR","PLURAL","TÍMIDO"], q:"Los chicos son ____.", en:"The boys are ____.", enHint:"shy", aAdj:"tímidos",
 		  why:"Masculino plural: tímidos.", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"" }},
 		{ type:"typein", tags:["ADJ","SER_ESTAR","TÍMIDO"], q:"Yo soy ____.", en:"I am ____.", enHint:"shy", aAdj:"tímido",
 		  why:"Yo (masc) → tímido (change as needed).", teach:{es:"tímido/tímida", en:"shy", forms:{m_s:"tímido", f_s:"tímida", m_p:"tímidos", f_p:"tímidas"}, note:"If you want gender-flexible answers, allow tímido/tímida." }},
@@ -1260,17 +1260,17 @@ const EXERCISE_SETS = [
 		{type:"mc",tags:["VOCAB","NOUN"],q:"Pick the Spanish: the movie",a:"la película",opts:["la película","el menú","la tele","las fotos"]},
 		{type:"mc",tags:["VOCAB","NOUN"],q:"Pick the Spanish: the park",a:"el parque",opts:["el parque","el restaurante","la fiesta","la ciudad"]},
 
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: teacher (m.)",a:"el profesor"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: teacher (f.)",a:"la profesora"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: student (m.)",a:"el alumno"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: student (f.)",a:"la alumna"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: doctor (m.)",a:"el médico"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: doctor (f.)",a:"la médica"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: police officer",a:"el/la policía"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: engineer (m.)",a:"el ingeniero"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: engineer (f.)",a:"la ingeniera"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: waiter",a:"el camarero"},
-		{type:"typein",tags:["VOCAB","PRO"],prompt:"Type the Spanish: waitress",a:"la camarera"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: teacher (m.)",a:"el profesor"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: teacher (f.)",a:"la profesora"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: student (m.)",a:"el alumno"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: student (f.)",a:"la alumna"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: doctor (m.)",a:"el médico"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: doctor (f.)",a:"la médica"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: police officer",a:"el/la policía"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: engineer (m.)",a:"el ingeniero"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: engineer (f.)",a:"la ingeniera"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: waiter",a:"el camarero"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: waitress",a:"la camarera"},
 
 		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: the truth",a:"la verdad",teach:{es:"la verdad",en:"the truth"}},
 		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: the answer",a:"la respuesta",teach:{es:"la respuesta",en:"the answer"}},
@@ -1285,93 +1285,588 @@ const EXERCISE_SETS = [
 		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: luck",a:"suerte",teach:{es:"suerte",en:"luck (to be lucky: tener suerte)"}},
 		{type:"typein",tags:["VOCAB","PHRASE"],prompt:"Type the Spanish: feel like (doing)",a:"tener ganas de",teach:{es:"tener ganas de",en:"to feel like (doing)"}},
 
+		/* =========================
+   			VOCAB — ANIMALS (MC)
+		========================= */
+
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: dog", a:"el perro",  opts:["el perro","el gato","el caballo","el conejo"],  teach:{ es:"el perro", en:"dog" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: cat", a:"el gato",  opts:["el gato","el perro","el pájaro","el ratón"],  teach:{ es:"el gato", en:"cat" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: horse", a:"el caballo",  opts:["el caballo","la vaca","el cerdo","la oveja"],  teach:{ es:"el caballo", en:"horse" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: cow", a:"la vaca",  opts:["la vaca","la cabra","la gallina","la oveja"],  teach:{ es:"la vaca", en:"cow" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: pig", a:"el cerdo",  opts:["el cerdo","el conejo","el pez","el ciervo"],  teach:{ es:"el cerdo", en:"pig" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: chicken", a:"la gallina",  opts:["la gallina","la cabra","la vaca","la oveja"],  teach:{ es:"la gallina", en:"chicken" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: eagle", a:"el águila",  opts:["el águila","el pájaro","el cuervo","el pez"],  teach:{ es:"el águila", en:"eagle", note:"Feminine noun, masculine article." } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: goat", a:"la cabra",  opts:["la cabra","la oveja","la vaca","la gallina"],  teach:{ es:"la cabra", en:"goat" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: sheep", a:"la oveja",  opts:["la oveja","la cabra","la vaca","la gallina"],  teach:{ es:"la oveja", en:"sheep" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: rabbit", a:"el conejo",  opts:["el conejo","el cerdo","el perro","el pez"],  teach:{ es:"el conejo", en:"rabbit" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: deer", a:"el ciervo",  opts:["el ciervo","el caballo","el cerdo","el perro"],  teach:{ es:"el ciervo", en:"deer" } },
+		{ type:"mc", tags:["VOCAB","ANIMALS"], q:"Pick the Spanish for: raccoon", a:"el mapache",  opts:["el mapache","el zorro","el gato","el ratón"],  teach:{ es:"el mapache", en:"raccoon" } },
+		
+		/* =========================
+		   VOCAB — COLORS (ES → EN)
+		========================= */
+		
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: blanco", a:"white",  teach:{ es:"blanco", en:"white" } },
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: negro", a:"black",  teach:{ es:"negro", en:"black" } },
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: marrón", a:"brown",  teach:{ es:"marrón", en:"brown" } },
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: rojo", a:"red",  teach:{ es:"rojo", en:"red" } },
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: azul", a:"blue",  teach:{ es:"azul", en:"blue" } },
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: verde", a:"green",  teach:{ es:"verde", en:"green" } },
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: amarillo", a:"yellow",  teach:{ es:"amarillo", en:"yellow" } },
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: gris", a:"gray",  teach:{ es:"gris", en:"gray" } },
+		{ type:"typein", tags:["VOCAB","COLORS"], q:"Traduce al inglés: rosa", a:"pink",  teach:{ es:"rosa", en:"pink" } },
+		
+		/* =========================
+		   VOCAB — FAMILY (MC)
+		========================= */
+		
+		{ type:"mc", tags:["VOCAB","FAMILY"], q:"Pick the Spanish for: mother", a:"la madre",  opts:["la madre","la abuela","la hermana","la hija"],  teach:{ es:"la madre", en:"mother" } },
+		{ type:"mc", tags:["VOCAB","FAMILY"], q:"Pick the Spanish for: father", a:"el padre",  opts:["el padre","el abuelo","el hermano","el hijo"],  teach:{ es:"el padre", en:"father" } },
+		{ type:"mc", tags:["VOCAB","FAMILY"], q:"Pick the Spanish for: parents", a:"los padres",  opts:["los padres","los abuelos","los hijos","los hermanos"],  teach:{ es:"los padres", en:"parents" } },
+		{ type:"mc", tags:["VOCAB","FAMILY"], q:"Pick the Spanish for: sister", a:"la hermana",  opts:["la hermana","la prima","la madre","la hija"],  teach:{ es:"la hermana", en:"sister" } },
+		{ type:"mc", tags:["VOCAB","FAMILY"], q:"Pick the Spanish for: brother", a:"el hermano",  opts:["el hermano","el primo","el padre","el hijo"],  teach:{ es:"el hermano", en:"brother" } },
+		{ type:"mc", tags:["VOCAB","FAMILY"], q:"Pick the Spanish for: family", a:"la familia",  opts:["la familia","los padres","los hijos","los abuelos"],  teach:{ es:"la familia", en:"family" } },
+		{ type:"mc", tags:["VOCAB","FAMILY"], q:"Pick the Spanish for: children", a:"los hijos",  opts:["los hijos","los padres","los hermanos","los primos"],  teach:{ es:"los hijos", en:"children" } },
 				
-		{type:"typein",tags:["VERB","PRES","PONER"],q:"Yo ____ la mesa.",aVerb:"pongo",teach:{infinitive:"poner",en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"}},
-		{type:"typein",tags:["VERB","PRES","PONER"],q:"Tú ____ el libro.",aVerb:"pones",teach:{infinitive:"poner",en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"}},
-		{type:"typein",tags:["VERB","PRES","PONER"],q:"Él ____ música.",aVerb:"pone",teach:{infinitive:"poner",en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"}},
-		{type:"typein",tags:["VERB","PRES","PONER"],q:"Nosotros ____ la ropa.",aVerb:"ponemos",teach:{infinitive:"poner",en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"}},
-		{type:"typein",tags:["VERB","PRES","PONER"],q:"Vosotros ____ atención.",aVerb:"ponéis",teach:{infinitive:"poner",en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"}},
-		{type:"typein",tags:["VERB","PRES","PONER"],q:"Ellos ____ la mesa.",aVerb:"ponen",	teach:{infinitive:"poner",en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"}},	
-		{type:"mc",tags:["VOCAB","VERB"],q:"poner",a:"to put", opts:["to put","to take","to give","to make"],teach:{infinitive:"poner",en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"}},
+		/* =========================
+		   VOCAB — TIME
+		========================= */
 		
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Yo ____ estudiando.",aVerb:"sigo",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Tú ____ aquí.",aVerb:"sigues",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Ella ____ trabajando.",aVerb:"sigue",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Nosotros ____ adelante.",aVerb:"seguimos",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Vosotros ____ el plan.",aVerb:"seguís",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Ellos ____ juntos.",aVerb:"siguen",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},		
-		{type:"mc",tags:["VOCAB","VERB"],q:"seguir",a:"to continue", opts:["to continue","to stop","to walk","to start"]},teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
+		{ type:"typein", tags:["VOCAB","TIME"], q:"Traduce al inglés: Es la una.", a:"It is one o'clock",  teach:{ es:"Es la una", en:"It is one o'clock" } },
+		{ type:"typein", tags:["VOCAB","TIME"], q:"Traduce al inglés: Son las tres.", a:"It is three o'clock",  teach:{ es:"Son las tres", en:"It is three o'clock" } },
+		{ type:"typein", tags:["VOCAB","TIME"], q:"Traduce al inglés: y media", a:"thirty / half past",  teach:{ es:"y media", en:"half past" } },
+		{ type:"typein", tags:["VOCAB","TIME"], q:"Traduce al inglés: menos cuarto", a:"quarter to",  teach:{ es:"menos cuarto", en:"quarter to" } },
+		{ type:"typein", tags:["VOCAB","TIME"], q:"Traduce al inglés: de la mañana", a:"in the morning",  teach:{ es:"de la mañana", en:"in the morning" } },
+		{ type:"typein", tags:["VOCAB","TIME"], q:"Traduce al inglés: de la noche", a:"at night",  teach:{ es:"de la noche", en:"at night" } },
 		
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Yo ____ estudiando.",aVerb:"sigo",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Tú ____ aquí.",aVerb:"sigues",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Ella ____ trabajando.",aVerb:"sigue",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Nosotros ____ adelante.",aVerb:"seguimos",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Vosotros ____ el plan.",aVerb:"seguís",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
-		{type:"typein",tags:["VERB","PRES","SEGUIR"],q:"Ellos ____ juntos.",aVerb:"siguen",teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},		
-		{type:"mc",tags:["VOCAB","VERB"],q:"seguir",a:"to continue", opts:["to continue","to stop","to walk","to start"]},teach:{infinitive:"seguir",en:"to continue",stem:{from:"e",to:"i"}},
+		/* =========================
+		   VERBS — MIRAR (to look)
+		========================= */
 		
-
-{type:"typein",tags:["VERB","PRES","QUERER"],q:"Yo ____ comer.",aVerb:"quiero",teach:{infinitive:"querer",en:"to want",stem:{from:"e",to:"ie"}},
-{type:"typein",tags:["VERB","PRES","QUERER"],q:"Tú ____ salir.",aVerb:"quieres",teach:{infinitive:"querer",en:"to want",stem:{from:"e",to:"ie"}},
-{type:"typein",tags:["VERB","PRES","QUERER"],q:"Él ____ aprender.",aVerb:"quiere",teach:{infinitive:"querer",en:"to want",stem:{from:"e",to:"ie"}},
-{type:"typein",tags:["VERB","PRES","QUERER"],q:"Nosotros ____ viajar.",aVerb:"queremos",teach:{infinitive:"querer",en:"to want",stem:{from:"e",to:"ie"}},
-{type:"typein",tags:["VERB","PRES","QUERER"],q:"Vosotros ____ venir.",aVerb:"queréis",teach:{infinitive:"querer",en:"to want",stem:{from:"e",to:"ie"}},
-{type:"typein",tags:["VERB","PRES","QUERER"],q:"Ellas ____ dormir.",aVerb:"quieren",teach:{infinitive:"querer",en:"to want",stem:{from:"e",to:"ie"}},
-{type:"mc",tags:["VOCAB","VERB"],q:"querer",a:"to want", opts:["to want","to be able","to have","to like"]},teach:{infinitive:"querer",en:"to want",stem:{from:"e",to:"ie"}},
-
-{type:"typein",tags:["VERB","PRES","PODER"],q:"Yo ____ hacerlo.",aVerb:"puedo",teach:{infinitive:"poder",en:"to be able",stem:{from:"o",to:"ue"}},
-{type:"typein",tags:["VERB","PRES","PODER"],q:"Tú ____ venir.",aVerb:"puedes",teach:{infinitive:"poder",en:"to be able",stem:{from:"o",to:"ue"}},
-{type:"typein",tags:["VERB","PRES","PODER"],q:"Ella ____ ayudar.",aVerb:"puede",teach:{infinitive:"poder",en:"to be able",stem:{from:"o",to:"ue"}},
-{type:"typein",tags:["VERB","PRES","PODER"],q:"Nosotros ____ estudiar.",aVerb:"podemos",teach:{infinitive:"poder",en:"to be able",stem:{from:"o",to:"ue"}},
-{type:"typein",tags:["VERB","PRES","PODER"],q:"Vosotros ____ salir.",aVerb:"podéis",teach:{infinitive:"poder",en:"to be able",stem:{from:"o",to:"ue"}},
-{type:"typein",tags:["VERB","PRES","PODER"],q:"Ellos ____ trabajar.",aVerb:"pueden",teach:{infinitive:"poder",en:"to be able",stem:{from:"o",to:"ue"}},
-{type:"mc",tags:["VOCAB","VERB"],q:"poder",a:"to be able", opts:["to be able","to want","to go","to give"]},teach:{infinitive:"poder",en:"to be able",stem:{from:"o",to:"ue"}},
+		{ type:"typein", tags:["VERB","PRES","MIRAR"], q:"Yo ____ la tele.", en:"I watch TV.", aVerb:"miro", verbOpts:["miro","miras","mira","miramos","miráis","miran"], why:"Yo → miro.", teach:{ infinitive:"mirar", en:"to look / to watch", forms:{yo:"miro",tu:"miras",el:"mira",nos:"miramos",vos:"miráis",ellos:"miran"} } },
+		{ type:"typein", tags:["VERB","PRES","MIRAR"], q:"Tú ____ al perro.", en:"You look at the dog.", aVerb:"miras", verbOpts:["miro","miras","mira","miramos","miráis","miran"], why:"Tú → miras.", teach:{ infinitive:"mirar", en:"to look / to watch", forms:{yo:"miro",tu:"miras",el:"mira",nos:"miramos",vos:"miráis",ellos:"miran"} } },
+		{ type:"typein", tags:["VERB","PRES","MIRAR"], q:"Él ____ la calle.", en:"He looks at the street.", aVerb:"mira", verbOpts:["miro","miras","mira","miramos","miráis","miran"], why:"Él → mira.", teach:{ infinitive:"mirar", en:"to look / to watch", forms:{yo:"miro",tu:"miras",el:"mira",nos:"miramos",vos:"miráis",ellos:"miran"} } },
+		{ type:"typein", tags:["VERB","PRES","MIRAR"], q:"Nosotros ____ el mapa.", en:"We look at the map.", aVerb:"miramos", verbOpts:["miro","miras","mira","miramos","miráis","miran"], why:"Nosotros → miramos.", teach:{ infinitive:"mirar", en:"to look / to watch", forms:{yo:"miro",tu:"miras",el:"mira",nos:"miramos",vos:"miráis",ellos:"miran"} } },
+		{ type:"typein", tags:["VERB","PRES","MIRAR","VOS"], q:"Vosotros ____ la pantalla.", en:"You all look at the screen.", aVerb:"miráis", verbOpts:["miro","miras","mira","miramos","miráis","miran"], why:"Vosotros → miráis.", teach:{ infinitive:"mirar", en:"to look / to watch", forms:{yo:"miro",tu:"miras",el:"mira",nos:"miramos",vos:"miráis",ellos:"miran"} } },
+		{ type:"typein", tags:["VERB","PRES","MIRAR"], q:"Ellos ____ el reloj.", en:"They look at the clock.", aVerb:"miran", verbOpts:["miro","miras","mira","miramos","miráis","miran"], why:"Ellos → miran.", teach:{ infinitive:"mirar", en:"to look / to watch", forms:{yo:"miro",tu:"miras",el:"mira",nos:"miramos",vos:"miráis",ellos:"miran"} } },
+		/* =========================
+		   VERBS — BEBER (to drink)
+		========================= */
 		
-{type:"typein",tags:["VERB","PRES","HABER"],q:"Yo ____ comido.",aVerb:"he",teach:{infinitive:"haber",en:"to have (aux)", forms:{yo:"he",tu:"has",el:"ha",nos:"hemos",vos:"habéis",ellos:"han"}},
-{type:"typein",tags:["VERB","PRES","HABER"],q:"Tú ____ visto.",aVerb:"has",teach:{infinitive:"haber",en:"to have (aux)", forms:{yo:"he",tu:"has",el:"ha",nos:"hemos",vos:"habéis",ellos:"han"}},
-{type:"typein",tags:["VERB","PRES","HABER"],q:"Él ____ llegado.",aVerb:"ha",teach:{infinitive:"haber",en:"to have (aux)", forms:{yo:"he",tu:"has",el:"ha",nos:"hemos",vos:"habéis",ellos:"han"}},
-{type:"typein",tags:["VERB","PRES","HABER"],q:"Nosotros ____ hablado.",aVerb:"hemos",teach:{infinitive:"haber",en:"to have (aux)", forms:{yo:"he",tu:"has",el:"ha",nos:"hemos",vos:"habéis",ellos:"han"}},
-{type:"typein",tags:["VERB","PRES","HABER"],q:"Vosotros ____ salido.",aVerb:"habéis",teach:{infinitive:"haber",en:"to have (aux)", forms:{yo:"he",tu:"has",el:"ha",nos:"hemos",vos:"habéis",ellos:"han"}},
-{type:"typein",tags:["VERB","PRES","HABER"],q:"Ellos ____ comido.",aVerb:"han",teach:{infinitive:"haber",en:"to have (aux)", forms:{yo:"he",tu:"has",el:"ha",nos:"hemos",vos:"habéis",ellos:"han"}},
-{type:"mc",tags:["VOCAB","VERB"],q:"haber",a:"to have (auxiliary)", opts:["to have","to go","to do","to give"]},teach:{infinitive:"haber",en:"to have (aux)", forms:{yo:"he",tu:"has",el:"ha",nos:"hemos",vos:"habéis",ellos:"han"}},
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Yo ____ agua.", en:"I drink water.", aVerb:"bebo", verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"], why:"Yo → bebo.", teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"} } },
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Tú ____ café.", en:"You drink coffee.", aVerb:"bebes", verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"], why:"Tú → bebes.", teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"} } },
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Él ____ té.", en:"He drinks tea.", aVerb:"bebe", verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"], why:"Él → bebe.", teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"} } },
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Nosotros ____ vino.", en:"We drink wine.", aVerb:"bebemos", verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"], why:"Nosotros → bebemos.", teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"} } },
+		{ type:"typein", tags:["VERB","PRES","BEBER","VOS"], q:"Vosotros ____ cerveza.", en:"You all drink beer.", aVerb:"bebéis", verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"], why:"Vosotros → bebéis.", teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"} } },
+		{ type:"typein", tags:["VERB","PRES","BEBER"], q:"Ellos ____ agua.", en:"They drink water.", aVerb:"beben", verbOpts:["bebo","bebes","bebe","bebemos","bebéis","beben"], why:"Ellos → beben.", teach:{ infinitive:"beber", en:"to drink", forms:{yo:"bebo",tu:"bebes",el:"bebe",nos:"bebemos",vos:"bebéis",ellos:"beben"} } },
+		/* =========================
+		   VERBS — QUERER (to want)
+		========================= */
 		
-{type:"typein",tags:["VERB","PRES","PEDIR"],q:"Yo ____ ayuda.",aVerb:"pido",teach:{infinitive:"pedir",en:"to ask for",stem:{from:"e",to:"i"}},
-{type:"typein",tags:["VERB","PRES","PEDIR"],q:"Tú ____ comida.",aVerb:"pides",teach:{infinitive:"pedir",en:"to ask for",stem:{from:"e",to:"i"}},
-{type:"typein",tags:["VERB","PRES","PEDIR"],q:"Ella ____ permiso.",aVerb:"pide",teach:{infinitive:"pedir",en:"to ask for",stem:{from:"e",to:"i"}},
-{type:"typein",tags:["VERB","PRES","PEDIR"],q:"Nosotros ____ consejos.",aVerb:"pedimos",teach:{infinitive:"pedir",en:"to ask for",stem:{from:"e",to:"i"}},
-{type:"typein",tags:["VERB","PRES","PEDIR"],q:"Vosotros ____ agua.",aVerb:"pedís",teach:{infinitive:"pedir",en:"to ask for",stem:{from:"e",to:"i"}},
-{type:"typein",tags:["VERB","PRES","PEDIR"],q:"Ellos ____ ayuda.",aVerb:"piden",teach:{infinitive:"pedir",en:"to ask for",stem:{from:"e",to:"i"}},
-{type:"mc",tags:["VOCAB","VERB"],q:"pedir",a:"to ask for", opts:["to ask for","to give","to bring","to take"]},teach:{infinitive:"pedir",en:"to ask for",stem:{from:"e",to:"i"}},
+		{ type:"typein", tags:["VERB","PRES","QUERER"], q:"Yo ____ aprender.", en:"I want to learn.", aVerb:"quiero", verbOpts:["quiero","quieres","quiere","queremos","queréis","quieren"], why:"e→ie stem change.", teach:{ infinitive:"querer", en:"to want", stem:"e→ie", forms:{yo:"quiero",tu:"quieres",el:"quiere",nos:"queremos",vos:"queréis",ellos:"quieren"} } },
+		{ type:"typein", tags:["VERB","PRES","QUERER"], q:"Tú ____ comer.", en:"You want to eat.", aVerb:"quieres", verbOpts:["quiero","quieres","quiere","queremos","queréis","quieren"], why:"Tú → quieres.", teach:{ infinitive:"querer", en:"to want", stem:"e→ie", forms:{yo:"quiero",tu:"quieres",el:"quiere",nos:"queremos",vos:"queréis",ellos:"quieren"} } },
+		{ type:"typein", tags:["VERB","PRES","QUERER"], q:"Él ____ dormir.", en:"He wants to sleep.", aVerb:"quiere", verbOpts:["quiero","quieres","quiere","queremos","queréis","quieren"], why:"Él → quiere.", teach:{ infinitive:"querer", en:"to want", stem:"e→ie", forms:{yo:"quiero",tu:"quieres",el:"quiere",nos:"queremos",vos:"queréis",ellos:"quieren"} } },
+		{ type:"typein", tags:["VERB","PRES","QUERER"], q:"Nosotros ____ viajar.", en:"We want to travel.", aVerb:"queremos", verbOpts:["quiero","quieres","quiere","queremos","queréis","quieren"], why:"Nosotros no stem change.", teach:{ infinitive:"querer", en:"to want", stem:"e→ie", forms:{yo:"quiero",tu:"quieres",el:"quiere",nos:"queremos",vos:"queréis",ellos:"quieren"} } },
+		{ type:"typein", tags:["VERB","PRES","QUERER","VOS"], q:"Vosotros ____ beber.", en:"You all want to drink.", aVerb:"queréis", verbOpts:["quiero","quieres","quiere","queremos","queréis","quieren"], why:"Vosotros → queréis.", teach:{ infinitive:"querer", en:"to want", stem:"e→ie", forms:{yo:"quiero",tu:"quieres",el:"quiere",nos:"queremos",vos:"queréis",ellos:"quieren"} } },
+		{ type:"typein", tags:["VERB","PRES","QUERER"], q:"Ellos ____ salir.", en:"They want to go out.", aVerb:"quieren", verbOpts:["quiero","quieres","quiere","queremos","queréis","quieren"], why:"Ellos → quieren.", teach:{ infinitive:"querer", en:"to want", stem:"e→ie", forms:{yo:"quiero",tu:"quieres",el:"quiere",nos:"queremos",vos:"queréis",ellos:"quieren"} } },
+		/* =========================
+		   VERBS — PODER (can / to be able) — FULL SWEEP
+		========================= */
 		
-
-{type:"typein",tags:["VERB","PRES","DAR"],q:"Yo ____ regalos.",aVerb:"doy",teach:{infinitive:"dar",en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"}},
-{type:"typein",tags:["VERB","PRES","DAR"],q:"Tú ____ clases.",aVerb:"das",teach:{infinitive:"dar",en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"}},
-{type:"typein",tags:["VERB","PRES","DAR"],q:"Él ____ dinero.",aVerb:"da",teach:{infinitive:"dar",en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"}},
-{type:"typein",tags:["VERB","PRES","DAR"],q:"Nosotros ____ apoyo.",aVerb:"damos",teach:{infinitive:"dar",en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"}},
-{type:"typein",tags:["VERB","PRES","DAR"],q:"Vosotros ____ consejos.",aVerb:"dais",teach:{infinitive:"dar",en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"}},
-{type:"typein",tags:["VERB","PRES","DAR"],q:"Ellos ____ tiempo.",aVerb:"dan",teach:{infinitive:"dar",en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"}},
-
-{type:"mc",tags:["VOCAB","VERB"],q:"dar",a:"to give", opts:["to give","to take","to put","to make"]},teach:{infinitive:"dar",en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"}},
+		{ type:"typein", tags:["VERB","PRES","PODER"], q:"Yo ____ correr.", en:"I can run.", aVerb:"puedo", verbOpts:["puedo","puedes","puede","podemos","podéis","pueden"], why:"Poder: o→ue (except nosotros/vosotros).", teach:{ infinitive:"poder", en:"can / to be able", stem:"o→ue", forms:{yo:"puedo",tu:"puedes",el:"puede",nos:"podemos",vos:"podéis",ellos:"pueden"} } },
+		{ type:"typein", tags:["VERB","PRES","PODER"], q:"Tú ____ venir.", en:"You can come.", aVerb:"puedes", verbOpts:["puedo","puedes","puede","podemos","podéis","pueden"], why:"Tú → puedes.", teach:{ infinitive:"poder", en:"can / to be able", stem:"o→ue", forms:{yo:"puedo",tu:"puedes",el:"puede",nos:"podemos",vos:"podéis",ellos:"pueden"} } },
+		{ type:"typein", tags:["VERB","PRES","PODER"], q:"Él ____ ayudar.", en:"He can help.", aVerb:"puede", verbOpts:["puedo","puedes","puede","podemos","podéis","pueden"], why:"Él/Ella/Usted → puede.", teach:{ infinitive:"poder", en:"can / to be able", stem:"o→ue", forms:{yo:"puedo",tu:"puedes",el:"puede",nos:"podemos",vos:"podéis",ellos:"pueden"} } },
+		{ type:"typein", tags:["VERB","PRES","PODER"], q:"Nosotros ____ comprender.", en:"We can understand.", aVerb:"podemos", verbOpts:["puedo","puedes","puede","podemos","podéis","pueden"], why:"Nosotros no stem change: podemos.", teach:{ infinitive:"poder", en:"can / to be able", stem:"o→ue", forms:{yo:"puedo",tu:"puedes",el:"puede",nos:"podemos",vos:"podéis",ellos:"pueden"} } },
+		{ type:"typein", tags:["VERB","PRES","PODER","VOS"], q:"Vosotros ____ escuchar.", en:"You all can listen.", aVerb:"podéis", verbOpts:["puedo","puedes","puede","podemos","podéis","pueden"], why:"Vosotros no stem change: podéis.", teach:{ infinitive:"poder", en:"can / to be able", stem:"o→ue", forms:{yo:"puedo",tu:"puedes",el:"puede",nos:"podemos",vos:"podéis",ellos:"pueden"} } },
+		{ type:"typein", tags:["VERB","PRES","PODER"], q:"Ellos ____ viajar.", en:"They can travel.", aVerb:"pueden", verbOpts:["puedo","puedes","puede","podemos","podéis","pueden"], why:"Ellos/Ellas/Ustedes → pueden.", teach:{ infinitive:"poder", en:"can / to be able", stem:"o→ue", forms:{yo:"puedo",tu:"puedes",el:"puede",nos:"podemos",vos:"podéis",ellos:"pueden"} } },
+		/* =========================
+		   VERBS — DORMIR (to sleep) — FULL SWEEP
+		========================= */
 		
-
-{type:"typein",tags:["VERB","PRES","OIR"],q:"Yo ____ música.",aVerb:"oigo",teach:{infinitive:"oír",en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"}},
-{type:"typein",tags:["VERB","PRES","OIR"],q:"Tú ____ ruido.",aVerb:"oyes",teach:{infinitive:"oír",en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"}},
-{type:"typein",tags:["VERB","PRES","OIR"],q:"Ella ____ voces.",aVerb:"oye",teach:{infinitive:"oír",en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"}},
-{type:"typein",tags:["VERB","PRES","OIR"],q:"Nosotros ____ bien.",aVerb:"oímos",teach:{infinitive:"oír",en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"}},
-{type:"typein",tags:["VERB","PRES","OIR"],q:"Vosotros ____ mal.",aVerb:"oís",teach:{infinitive:"oír",en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"}},
-{type:"typein",tags:["VERB","PRES","OIR"],q:"Ellos ____ todo.",aVerb:"oyen",teach:{infinitive:"oír",en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"}},
-
-{type:"mc",tags:["VOCAB","VERB"],q:"oír",a:"to hear", opts:["to hear","to see","to speak","to listen"]}, teach:{infinitive:"oír",en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"}}
-
-
-
-
-
+		{ type:"typein", tags:["VERB","PRES","DORMIR"], q:"Yo ____ bien.", en:"I sleep well.", aVerb:"duermo", verbOpts:["duermo","duermes","duerme","dormimos","dormís","duermen"], why:"Dormir: o→ue (except nosotros/vosotros).", teach:{ infinitive:"dormir", en:"to sleep", stem:"o→ue", forms:{yo:"duermo",tu:"duermes",el:"duerme",nos:"dormimos",vos:"dormís",ellos:"duermen"} } },
+		{ type:"typein", tags:["VERB","PRES","DORMIR"], q:"Tú ____ mucho.", en:"You sleep a lot.", aVerb:"duermes", verbOpts:["duermo","duermes","duerme","dormimos","dormís","duermen"], why:"Tú → duermes.", teach:{ infinitive:"dormir", en:"to sleep", stem:"o→ue", forms:{yo:"duermo",tu:"duermes",el:"duerme",nos:"dormimos",vos:"dormís",ellos:"duermen"} } },
+		{ type:"typein", tags:["VERB","PRES","DORMIR"], q:"Ella ____ temprano.", en:"She sleeps early.", aVerb:"duerme", verbOpts:["duermo","duermes","duerme","dormimos","dormís","duermen"], why:"Él/Ella/Usted → duerme.", teach:{ infinitive:"dormir", en:"to sleep", stem:"o→ue", forms:{yo:"duermo",tu:"duermes",el:"duerme",nos:"dormimos",vos:"dormís",ellos:"duermen"} } },
+		{ type:"typein", tags:["VERB","PRES","DORMIR"], q:"Nosotros ____ en casa.", en:"We sleep at home.", aVerb:"dormimos", verbOpts:["duermo","duermes","duerme","dormimos","dormís","duermen"], why:"Nosotros no stem change: dormimos.", teach:{ infinitive:"dormir", en:"to sleep", stem:"o→ue", forms:{yo:"duermo",tu:"duermes",el:"duerme",nos:"dormimos",vos:"dormís",ellos:"duermen"} } },
+		{ type:"typein", tags:["VERB","PRES","DORMIR","VOS"], q:"Vosotros ____ poco.", en:"You all sleep little.", aVerb:"dormís", verbOpts:["duermo","duermes","duerme","dormimos","dormís","duermen"], why:"Vosotros no stem change: dormís.", teach:{ infinitive:"dormir", en:"to sleep", stem:"o→ue", forms:{yo:"duermo",tu:"duermes",el:"duerme",nos:"dormimos",vos:"dormís",ellos:"duermen"} } },
+		{ type:"typein", tags:["VERB","PRES","DORMIR"], q:"Ellos ____ tarde.", en:"They sleep late.", aVerb:"duermen", verbOpts:["duermo","duermes","duerme","dormimos","dormís","duermen"], why:"Ellos/Ellas/Ustedes → duermen.", teach:{ infinitive:"dormir", en:"to sleep", stem:"o→ue", forms:{yo:"duermo",tu:"duermes",el:"duerme",nos:"dormimos",vos:"dormís",ellos:"duermen"} } },
+		/* =========================
+		   REFLEXIVE — LEVANTARSE (to get up) — FULL SWEEP
+		========================= */
 		
-
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","LEVANTARSE"], q:"Yo ____ temprano.", en:"I get up early.", aVerb:"me levanto", verbOpts:["me levanto","te levantas","se levanta","nos levantamos","os levantáis","se levantan"], why:"Reflexive: pronoun + verb.", teach:{ infinitive:"levantar", reflexive:"levantarse", en:"to get up", forms:{yo:"me levanto",tu:"te levantas",el:"se levanta",nos:"nos levantamos",vos:"os levantáis",ellos:"se levantan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","LEVANTARSE"], q:"Tú ____ tarde.", en:"You get up late.", aVerb:"te levantas", verbOpts:["me levanto","te levantas","se levanta","nos levantamos","os levantáis","se levantan"], why:"Tú → te levantas.", teach:{ infinitive:"levantar", reflexive:"levantarse", en:"to get up", forms:{yo:"me levanto",tu:"te levantas",el:"se levanta",nos:"nos levantamos",vos:"os levantáis",ellos:"se levantan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","LEVANTARSE"], q:"Él ____ a las siete.", en:"He gets up at seven.", aVerb:"se levanta", verbOpts:["me levanto","te levantas","se levanta","nos levantamos","os levantáis","se levantan"], why:"Él/Ella/Usted → se levanta.", teach:{ infinitive:"levantar", reflexive:"levantarse", en:"to get up", forms:{yo:"me levanto",tu:"te levantas",el:"se levanta",nos:"nos levantamos",vos:"os levantáis",ellos:"se levantan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","LEVANTARSE"], q:"Nosotros ____ temprano.", en:"We get up early.", aVerb:"nos levantamos", verbOpts:["me levanto","te levantas","se levanta","nos levantamos","os levantáis","se levantan"], why:"Nosotros → nos levantamos.", teach:{ infinitive:"levantar", reflexive:"levantarse", en:"to get up", forms:{yo:"me levanto",tu:"te levantas",el:"se levanta",nos:"nos levantamos",vos:"os levantáis",ellos:"se levantan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","LEVANTARSE","VOS"], q:"Vosotros ____ temprano.", en:"You all get up early.", aVerb:"os levantáis", verbOpts:["me levanto","te levantas","se levanta","nos levantamos","os levantáis","se levantan"], why:"Vosotros → os levantáis.", teach:{ infinitive:"levantar", reflexive:"levantarse", en:"to get up", forms:{yo:"me levanto",tu:"te levantas",el:"se levanta",nos:"nos levantamos",vos:"os levantáis",ellos:"se levantan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","LEVANTARSE"], q:"Ellas ____ tarde.", en:"They get up late.", aVerb:"se levantan", verbOpts:["me levanto","te levantas","se levanta","nos levantamos","os levantáis","se levantan"], why:"Ellos/Ellas/Ustedes → se levantan.", teach:{ infinitive:"levantar", reflexive:"levantarse", en:"to get up", forms:{yo:"me levanto",tu:"te levantas",el:"se levanta",nos:"nos levantamos",vos:"os levantáis",ellos:"se levantan"} } },
+		/* =========================
+		   REFLEXIVE — DUCHARSE (to shower) — FULL SWEEP
+		========================= */
 		
-
-
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DUCHARSE"], q:"Yo ____ por la mañana.", en:"I shower in the morning.", aVerb:"me ducho", verbOpts:["me ducho","te duchas","se ducha","nos duchamos","os ducháis","se duchan"], why:"Reflexive routine.", teach:{ infinitive:"duchar", reflexive:"ducharse", en:"to shower", forms:{yo:"me ducho",tu:"te duchas",el:"se ducha",nos:"nos duchamos",vos:"os ducháis",ellos:"se duchan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DUCHARSE"], q:"Tú ____ después de correr.", en:"You shower after running.", aVerb:"te duchas", verbOpts:["me ducho","te duchas","se ducha","nos duchamos","os ducháis","se duchan"], why:"Tú → te duchas.", teach:{ infinitive:"duchar", reflexive:"ducharse", en:"to shower", forms:{yo:"me ducho",tu:"te duchas",el:"se ducha",nos:"nos duchamos",vos:"os ducháis",ellos:"se duchan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DUCHARSE"], q:"Ella ____ por la noche.", en:"She showers at night.", aVerb:"se ducha", verbOpts:["me ducho","te duchas","se ducha","nos duchamos","os ducháis","se duchan"], why:"Él/Ella/Usted → se ducha.", teach:{ infinitive:"duchar", reflexive:"ducharse", en:"to shower", forms:{yo:"me ducho",tu:"te duchas",el:"se ducha",nos:"nos duchamos",vos:"os ducháis",ellos:"se duchan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DUCHARSE"], q:"Nosotros ____ en casa.", en:"We shower at home.", aVerb:"nos duchamos", verbOpts:["me ducho","te duchas","se ducha","nos duchamos","os ducháis","se duchan"], why:"Nosotros → nos duchamos.", teach:{ infinitive:"duchar", reflexive:"ducharse", en:"to shower", forms:{yo:"me ducho",tu:"te duchas",el:"se ducha",nos:"nos duchamos",vos:"os ducháis",ellos:"se duchan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DUCHARSE","VOS"], q:"Vosotros ____ rápido.", en:"You all shower quickly.", aVerb:"os ducháis", verbOpts:["me ducho","te duchas","se ducha","nos duchamos","os ducháis","se duchan"], why:"Vosotros → os ducháis.", teach:{ infinitive:"duchar", reflexive:"ducharse", en:"to shower", forms:{yo:"me ducho",tu:"te duchas",el:"se ducha",nos:"nos duchamos",vos:"os ducháis",ellos:"se duchan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DUCHARSE"], q:"Ellos ____ por la mañana.", en:"They shower in the morning.", aVerb:"se duchan", verbOpts:["me ducho","te duchas","se ducha","nos duchamos","os ducháis","se duchan"], why:"Ellos/Ellas/Ustedes → se duchan.", teach:{ infinitive:"duchar", reflexive:"ducharse", en:"to shower", forms:{yo:"me ducho",tu:"te duchas",el:"se ducha",nos:"nos duchamos",vos:"os ducháis",ellos:"se duchan"} } },
+		
+		/* =========================
+		   REFLEXIVE — VESTIRSE (to get dressed) — FULL SWEEP
+		========================= */
+		
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","VESTIRSE"], q:"Yo ____ rápido.", en:"I get dressed quickly.", aVerb:"me visto", verbOpts:["me visto","te vistes","se viste","nos vestimos","os vestís","se visten"], why:"Vestirse: e→i (except nosotros/vosotros).", teach:{ infinitive:"vestir", reflexive:"vestirse", en:"to get dressed", stem:"e→i", forms:{yo:"me visto",tu:"te vistes",el:"se viste",nos:"nos vestimos",vos:"os vestís",ellos:"se visten"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","VESTIRSE"], q:"Tú ____ en casa.", en:"You get dressed at home.", aVerb:"te vistes", verbOpts:["me visto","te vistes","se viste","nos vestimos","os vestís","se visten"], why:"Tú → te vistes.", teach:{ infinitive:"vestir", reflexive:"vestirse", en:"to get dressed", stem:"e→i", forms:{yo:"me visto",tu:"te vistes",el:"se viste",nos:"nos vestimos",vos:"os vestís",ellos:"se visten"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","VESTIRSE"], q:"Él ____ temprano.", en:"He gets dressed early.", aVerb:"se viste", verbOpts:["me visto","te vistes","se viste","nos vestimos","os vestís","se visten"], why:"Él/Ella/Usted → se viste.", teach:{ infinitive:"vestir", reflexive:"vestirse", en:"to get dressed", stem:"e→i", forms:{yo:"me visto",tu:"te vistes",el:"se viste",nos:"nos vestimos",vos:"os vestís",ellos:"se visten"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","VESTIRSE"], q:"Nosotros ____ para salir.", en:"We get dressed to go out.", aVerb:"nos vestimos", verbOpts:["me visto","te vistes","se viste","nos vestimos","os vestís","se visten"], why:"Nosotros no stem change: nos vestimos.", teach:{ infinitive:"vestir", reflexive:"vestirse", en:"to get dressed", stem:"e→i", forms:{yo:"me visto",tu:"te vistes",el:"se viste",nos:"nos vestimos",vos:"os vestís",ellos:"se visten"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","VESTIRSE","VOS"], q:"Vosotros ____ rápido.", en:"You all get dressed quickly.", aVerb:"os vestís", verbOpts:["me visto","te vistes","se viste","nos vestimos","os vestís","se visten"], why:"Vosotros no stem change: os vestís.", teach:{ infinitive:"vestir", reflexive:"vestirse", en:"to get dressed", stem:"e→i", forms:{yo:"me visto",tu:"te vistes",el:"se viste",nos:"nos vestimos",vos:"os vestís",ellos:"se visten"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","VESTIRSE"], q:"Ellas ____ para la fiesta.", en:"They get dressed for the party.", aVerb:"se visten", verbOpts:["me visto","te vistes","se viste","nos vestimos","os vestís","se visten"], why:"Ellos/Ellas/Ustedes → se visten.", teach:{ infinitive:"vestir", reflexive:"vestirse", en:"to get dressed", stem:"e→i", forms:{yo:"me visto",tu:"te vistes",el:"se viste",nos:"nos vestimos",vos:"os vestís",ellos:"se visten"} } },
+		/* =========================
+		   NEAR FUTURE — IR A + INFINITIVE — FULL SWEEP
+		========================= */
+		
+		{ type:"typein", tags:["VERB","PRES","IR_A","FUTURE"], q:"Yo ____ comer.", en:"I am going to eat.", aVerb:"voy a", why:"Near future: ir a + infinitive.", teach:{ structure:"ir a + infinitive", en:"near future", forms:{yo:"voy a",tu:"vas a",el:"va a",nos:"vamos a",vos:"vais a",ellos:"van a"} } },
+		{ type:"typein", tags:["VERB","PRES","IR_A","FUTURE"], q:"Tú ____ estudiar.", en:"You are going to study.", aVerb:"vas a", why:"Tú → vas a.", teach:{ structure:"ir a + infinitive", en:"near future", forms:{yo:"voy a",tu:"vas a",el:"va a",nos:"vamos a",vos:"vais a",ellos:"van a"} } },
+		{ type:"typein", tags:["VERB","PRES","IR_A","FUTURE"], q:"Ella ____ viajar.", en:"She is going to travel.", aVerb:"va a", why:"Él/Ella/Usted → va a.", teach:{ structure:"ir a + infinitive", en:"near future", forms:{yo:"voy a",tu:"vas a",el:"va a",nos:"vamos a",vos:"vais a",ellos:"van a"} } },
+		{ type:"typein", tags:["VERB","PRES","IR_A","FUTURE"], q:"Nosotros ____ aprender.", en:"We are going to learn.", aVerb:"vamos a", why:"Nosotros → vamos a.", teach:{ structure:"ir a + infinitive", en:"near future", forms:{yo:"voy a",tu:"vas a",el:"va a",nos:"vamos a",vos:"vais a",ellos:"van a"} } },
+		{ type:"typein", tags:["VERB","PRES","IR_A","FUTURE","VOS"], q:"Vosotros ____ beber.", en:"You all are going to drink.", aVerb:"vais a", why:"Vosotros → vais a.", teach:{ structure:"ir a + infinitive", en:"near future", forms:{yo:"voy a",tu:"vas a",el:"va a",nos:"vamos a",vos:"vais a",ellos:"van a"} } },
+		{ type:"typein", tags:["VERB","PRES","IR_A","FUTURE"], q:"Ellos ____ dormir.", en:"They are going to sleep.", aVerb:"van a", why:"Ellos/Ellas/Ustedes → van a.", teach:{ structure:"ir a + infinitive", en:"near future", forms:{yo:"voy a",tu:"vas a",el:"va a",nos:"vamos a",vos:"vais a",ellos:"van a"} } },
+		/* ======================================================================
+		   BIG CODE BANK — VERB PACKS (PRESENT, FULL PRONOUN SWEEP) + REFLEXIVES
+		   Spain focus: vosotros/as included
+		   One-row-per-exercise objects
+		   Paste into your items: [ ...HERE... ]
+		====================================================================== */
+		
+		/* =========================
+		   IRREGULARS / STRONG STEMS
+		========================= */
+		
+		/* PONER (to put) — yo: pongo */
+		{ type:"typein", tags:["VERB","PRES","PONER"], q:"Yo ____ la mesa.", en:"I set the table.", aVerb:"pongo", verbOpts:["pongo","pones","pone","ponemos","ponéis","ponen"], why:"Yo irregular: pongo.", teach:{ infinitive:"poner", en:"to put / to set", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"} } },
+		{ type:"typein", tags:["VERB","PRES","PONER"], q:"Tú ____ el libro aquí.", en:"You put the book here.", aVerb:"pones", verbOpts:["pongo","pones","pone","ponemos","ponéis","ponen"], why:"Tú → pones.", teach:{ infinitive:"poner", en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"} } },
+		{ type:"typein", tags:["VERB","PRES","PONER"], q:"Él ____ la música.", en:"He puts on the music.", aVerb:"pone", verbOpts:["pongo","pones","pone","ponemos","ponéis","ponen"], why:"Él/Ella/Usted → pone.", teach:{ infinitive:"poner", en:"to put / to turn on", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"} } },
+		{ type:"typein", tags:["VERB","PRES","PONER"], q:"Nosotros ____ la televisión.", en:"We turn on the TV.", aVerb:"ponemos", verbOpts:["pongo","pones","pone","ponemos","ponéis","ponen"], why:"Nosotros → ponemos.", teach:{ infinitive:"poner", en:"to put / to turn on", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"} } },
+		{ type:"typein", tags:["VERB","PRES","PONER","VOS"], q:"Vosotros ____ la comida en la mesa.", en:"You all put the food on the table.", aVerb:"ponéis", verbOpts:["pongo","pones","pone","ponemos","ponéis","ponen"], why:"Vosotros → ponéis.", teach:{ infinitive:"poner", en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"} } },
+		{ type:"typein", tags:["VERB","PRES","PONER"], q:"Ellas ____ las llaves aquí.", en:"They put the keys here.", aVerb:"ponen", verbOpts:["pongo","pones","pone","ponemos","ponéis","ponen"], why:"Ellos/Ellas/Ustedes → ponen.", teach:{ infinitive:"poner", en:"to put", forms:{yo:"pongo",tu:"pones",el:"pone",nos:"ponemos",vos:"ponéis",ellos:"ponen"} } },
+		
+		/* HACER (to do/make) — yo: hago */
+		{ type:"typein", tags:["VERB","PRES","HACER"], q:"Yo ____ ejercicio.", en:"I exercise (I do exercise).", aVerb:"hago", verbOpts:["hago","haces","hace","hacemos","hacéis","hacen"], why:"Yo irregular: hago.", teach:{ infinitive:"hacer", en:"to do / to make", forms:{yo:"hago",tu:"haces",el:"hace",nos:"hacemos",vos:"hacéis",ellos:"hacen"} } },
+		{ type:"typein", tags:["VERB","PRES","HACER"], q:"Tú ____ la cena.", en:"You make dinner.", aVerb:"haces", verbOpts:["hago","haces","hace","hacemos","hacéis","hacen"], why:"Tú → haces.", teach:{ infinitive:"hacer", en:"to do / to make", forms:{yo:"hago",tu:"haces",el:"hace",nos:"hacemos",vos:"hacéis",ellos:"hacen"} } },
+		{ type:"typein", tags:["VERB","PRES","HACER"], q:"Ella ____ un dibujo.", en:"She makes a drawing.", aVerb:"hace", verbOpts:["hago","haces","hace","hacemos","hacéis","hacen"], why:"Él/Ella/Usted → hace.", teach:{ infinitive:"hacer", en:"to do / to make", forms:{yo:"hago",tu:"haces",el:"hace",nos:"hacemos",vos:"hacéis",ellos:"hacen"} } },
+		{ type:"typein", tags:["VERB","PRES","HACER"], q:"Nosotros ____ la compra.", en:"We do the shopping.", aVerb:"hacemos", verbOpts:["hago","haces","hace","hacemos","hacéis","hacen"], why:"Nosotros → hacemos.", teach:{ infinitive:"hacer", en:"to do / to make", forms:{yo:"hago",tu:"haces",el:"hace",nos:"hacemos",vos:"hacéis",ellos:"hacen"} } },
+		{ type:"typein", tags:["VERB","PRES","HACER","VOS"], q:"Vosotros ____ la tarea.", en:"You all do the homework.", aVerb:"hacéis", verbOpts:["hago","haces","hace","hacemos","hacéis","hacen"], why:"Vosotros → hacéis.", teach:{ infinitive:"hacer", en:"to do / to make", forms:{yo:"hago",tu:"haces",el:"hace",nos:"hacemos",vos:"hacéis",ellos:"hacen"} } },
+		{ type:"typein", tags:["VERB","PRES","HACER"], q:"Ellos ____ trabajo.", en:"They do work.", aVerb:"hacen", verbOpts:["hago","haces","hace","hacemos","hacéis","hacen"], why:"Ellos/Ellas/Ustedes → hacen.", teach:{ infinitive:"hacer", en:"to do / to make", forms:{yo:"hago",tu:"haces",el:"hace",nos:"hacemos",vos:"hacéis",ellos:"hacen"} } },
+		
+		/* DAR (to give) — yo: doy */
+		{ type:"typein", tags:["VERB","PRES","DAR"], q:"Yo ____ un abrazo.", en:"I give a hug.", aVerb:"doy", verbOpts:["doy","das","da","damos","dais","dan"], why:"Irregular present.", teach:{ infinitive:"dar", en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"} } },
+		{ type:"typein", tags:["VERB","PRES","DAR"], q:"Tú ____ un beso.", en:"You give a kiss.", aVerb:"das", verbOpts:["doy","das","da","damos","dais","dan"], why:"Tú → das.", teach:{ infinitive:"dar", en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"} } },
+		{ type:"typein", tags:["VERB","PRES","DAR"], q:"Él ____ la respuesta.", en:"He gives the answer.", aVerb:"da", verbOpts:["doy","das","da","damos","dais","dan"], why:"Él/Ella/Usted → da.", teach:{ infinitive:"dar", en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"} } },
+		{ type:"typein", tags:["VERB","PRES","DAR"], q:"Nosotros ____ un regalo.", en:"We give a gift.", aVerb:"damos", verbOpts:["doy","das","da","damos","dais","dan"], why:"Nosotros → damos.", teach:{ infinitive:"dar", en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"} } },
+		{ type:"typein", tags:["VERB","PRES","DAR","VOS"], q:"Vosotros ____ un consejo.", en:"You all give advice.", aVerb:"dais", verbOpts:["doy","das","da","damos","dais","dan"], why:"Vosotros (Spain) → dais.", teach:{ infinitive:"dar", en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"} } },
+		{ type:"typein", tags:["VERB","PRES","DAR"], q:"Ellas ____ la información.", en:"They give the information.", aVerb:"dan", verbOpts:["doy","das","da","damos","dais","dan"], why:"Ellos/Ellas/Ustedes → dan.", teach:{ infinitive:"dar", en:"to give", forms:{yo:"doy",tu:"das",el:"da",nos:"damos",vos:"dais",ellos:"dan"} } },
+		
+		/* SEGUIR (to follow/continue) — e→i, yo: sigo */
+		{ type:"typein", tags:["VERB","PRES","SEGUIR"], q:"Yo ____ la receta.", en:"I follow the recipe.", aVerb:"sigo", verbOpts:["sigo","sigues","sigue","seguimos","seguís","siguen"], why:"e→i + yo irregular: sigo.", teach:{ infinitive:"seguir", en:"to follow / to continue", stem:"e→i", forms:{yo:"sigo",tu:"sigues",el:"sigue",nos:"seguimos",vos:"seguís",ellos:"siguen"} } },
+		{ type:"typein", tags:["VERB","PRES","SEGUIR"], q:"Tú ____ con el trabajo.", en:"You continue with the work.", aVerb:"sigues", verbOpts:["sigo","sigues","sigue","seguimos","seguís","siguen"], why:"Tú → sigues.", teach:{ infinitive:"seguir", en:"to follow / to continue", stem:"e→i", forms:{yo:"sigo",tu:"sigues",el:"sigue",nos:"seguimos",vos:"seguís",ellos:"siguen"} } },
+		{ type:"typein", tags:["VERB","PRES","SEGUIR"], q:"Ella ____ el plan.", en:"She follows the plan.", aVerb:"sigue", verbOpts:["sigo","sigues","sigue","seguimos","seguís","siguen"], why:"Él/Ella/Usted → sigue.", teach:{ infinitive:"seguir", en:"to follow / to continue", stem:"e→i", forms:{yo:"sigo",tu:"sigues",el:"sigue",nos:"seguimos",vos:"seguís",ellos:"siguen"} } },
+		{ type:"typein", tags:["VERB","PRES","SEGUIR"], q:"Nosotros ____ adelante.", en:"We keep going.", aVerb:"seguimos", verbOpts:["sigo","sigues","sigue","seguimos","seguís","siguen"], why:"Nosotros no stem change: seguimos.", teach:{ infinitive:"seguir", en:"to follow / to continue", stem:"e→i", forms:{yo:"sigo",tu:"sigues",el:"sigue",nos:"seguimos",vos:"seguís",ellos:"siguen"} } },
+		{ type:"typein", tags:["VERB","PRES","SEGUIR","VOS"], q:"Vosotros ____ la ruta.", en:"You all follow the route.", aVerb:"seguís", verbOpts:["sigo","sigues","sigue","seguimos","seguís","siguen"], why:"Vosotros no stem change: seguís.", teach:{ infinitive:"seguir", en:"to follow / to continue", stem:"e→i", forms:{yo:"sigo",tu:"sigues",el:"sigue",nos:"seguimos",vos:"seguís",ellos:"siguen"} } },
+		{ type:"typein", tags:["VERB","PRES","SEGUIR"], q:"Ellos ____ las instrucciones.", en:"They follow the instructions.", aVerb:"siguen", verbOpts:["sigo","sigues","sigue","seguimos","seguís","siguen"], why:"Ellos/Ellas/Ustedes → siguen.", teach:{ infinitive:"seguir", en:"to follow / to continue", stem:"e→i", forms:{yo:"sigo",tu:"sigues",el:"sigue",nos:"seguimos",vos:"seguís",ellos:"siguen"} } },
+		
+		/* PEDIR (to ask for) — e→i */
+		{ type:"typein", tags:["VERB","PRES","PEDIR"], q:"Yo ____ ayuda.", en:"I ask for help.", aVerb:"pido", verbOpts:["pido","pides","pide","pedimos","pedís","piden"], why:"e→i (except nosotros/vosotros).", teach:{ infinitive:"pedir", en:"to ask for / to request", stem:"e→i", forms:{yo:"pido",tu:"pides",el:"pide",nos:"pedimos",vos:"pedís",ellos:"piden"} } },
+		{ type:"typein", tags:["VERB","PRES","PEDIR"], q:"Tú ____ un café.", en:"You ask for a coffee.", aVerb:"pides", verbOpts:["pido","pides","pide","pedimos","pedís","piden"], why:"Tú → pides.", teach:{ infinitive:"pedir", en:"to ask for / to request", stem:"e→i", forms:{yo:"pido",tu:"pides",el:"pide",nos:"pedimos",vos:"pedís",ellos:"piden"} } },
+		{ type:"typein", tags:["VERB","PRES","PEDIR"], q:"Él ____ la cuenta.", en:"He asks for the bill.", aVerb:"pide", verbOpts:["pido","pides","pide","pedimos","pedís","piden"], why:"Él/Ella/Usted → pide.", teach:{ infinitive:"pedir", en:"to ask for / to request", stem:"e→i", forms:{yo:"pido",tu:"pides",el:"pide",nos:"pedimos",vos:"pedís",ellos:"piden"} } },
+		{ type:"typein", tags:["VERB","PRES","PEDIR"], q:"Nosotros ____ permiso.", en:"We ask for permission.", aVerb:"pedimos", verbOpts:["pido","pides","pide","pedimos","pedís","piden"], why:"Nosotros no stem change: pedimos.", teach:{ infinitive:"pedir", en:"to ask for / to request", stem:"e→i", forms:{yo:"pido",tu:"pides",el:"pide",nos:"pedimos",vos:"pedís",ellos:"piden"} } },
+		{ type:"typein", tags:["VERB","PRES","PEDIR","VOS"], q:"Vosotros ____ una mesa.", en:"You all ask for a table.", aVerb:"pedís", verbOpts:["pido","pides","pide","pedimos","pedís","piden"], why:"Vosotros no stem change: pedís.", teach:{ infinitive:"pedir", en:"to ask for / to request", stem:"e→i", forms:{yo:"pido",tu:"pides",el:"pide",nos:"pedimos",vos:"pedís",ellos:"piden"} } },
+		{ type:"typein", tags:["VERB","PRES","PEDIR"], q:"Ellas ____ información.", en:"They request information.", aVerb:"piden", verbOpts:["pido","pides","pide","pedimos","pedís","piden"], why:"Ellos/Ellas/Ustedes → piden.", teach:{ infinitive:"pedir", en:"to ask for / to request", stem:"e→i", forms:{yo:"pido",tu:"pides",el:"pide",nos:"pedimos",vos:"pedís",ellos:"piden"} } },
+		
+		/* OÍR (to hear) — irregular accents */
+		{ type:"typein", tags:["VERB","PRES","OIR"], q:"Yo ____ música.", en:"I hear music.", aVerb:"oigo", verbOpts:["oigo","oyes","oye","oímos","oís","oyen"], why:"Irregular present + accents.", teach:{ infinitive:"oír", en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"} } },
+		{ type:"typein", tags:["VERB","PRES","OIR"], q:"Tú ____ el teléfono.", en:"You hear the phone.", aVerb:"oyes", verbOpts:["oigo","oyes","oye","oímos","oís","oyen"], why:"Tú → oyes.", teach:{ infinitive:"oír", en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"} } },
+		{ type:"typein", tags:["VERB","PRES","OIR"], q:"Ella ____ un pájaro.", en:"She hears a bird.", aVerb:"oye", verbOpts:["oigo","oyes","oye","oímos","oís","oyen"], why:"Él/Ella/Usted → oye.", teach:{ infinitive:"oír", en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"} } },
+		{ type:"typein", tags:["VERB","PRES","OIR"], q:"Nosotros ____ la radio.", en:"We hear the radio.", aVerb:"oímos", verbOpts:["oigo","oyes","oye","oímos","oís","oyen"], why:"Nosotros → oímos.", teach:{ infinitive:"oír", en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"} } },
+		{ type:"typein", tags:["VERB","PRES","OIR","VOS"], q:"Vosotros ____ el ruido.", en:"You all hear the noise.", aVerb:"oís", verbOpts:["oigo","oyes","oye","oímos","oís","oyen"], why:"Vosotros → oís.", teach:{ infinitive:"oír", en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"} } },
+		{ type:"typein", tags:["VERB","PRES","OIR"], q:"Ellos ____ la verdad.", en:"They hear the truth.", aVerb:"oyen", verbOpts:["oigo","oyes","oye","oímos","oís","oyen"], why:"Ellos/Ellas/Ustedes → oyen.", teach:{ infinitive:"oír", en:"to hear", forms:{yo:"oigo",tu:"oyes",el:"oye",nos:"oímos",vos:"oís",ellos:"oyen"} } },
+		
+		/* DECIDIR (to decide) — e→i like pedir */
+		{ type:"typein", tags:["VERB","PRES","DECIDIR"], q:"Yo ____ ahora.", en:"I decide now.", aVerb:"decido", verbOpts:["decido","decides","decide","decidimos","decidís","deciden"], why:"Regular spelling pattern; common like pedir (no change in nosotros/vosotros).", teach:{ infinitive:"decidir", en:"to decide", forms:{yo:"decido",tu:"decides",el:"decide",nos:"decidimos",vos:"decidís",ellos:"deciden"} } },
+		{ type:"typein", tags:["VERB","PRES","DECIDIR"], q:"Tú ____ rápido.", en:"You decide quickly.", aVerb:"decides", verbOpts:["decido","decides","decide","decidimos","decidís","deciden"], why:"Tú → decides.", teach:{ infinitive:"decidir", en:"to decide", forms:{yo:"decido",tu:"decides",el:"decide",nos:"decidimos",vos:"decidís",ellos:"deciden"} } },
+		{ type:"typein", tags:["VERB","PRES","DECIDIR"], q:"Ella ____ la fecha.", en:"She decides the date.", aVerb:"decide", verbOpts:["decido","decides","decide","decidimos","decidís","deciden"], why:"Él/Ella/Usted → decide.", teach:{ infinitive:"decidir", en:"to decide", forms:{yo:"decido",tu:"decides",el:"decide",nos:"decidimos",vos:"decidís",ellos:"deciden"} } },
+		{ type:"typein", tags:["VERB","PRES","DECIDIR"], q:"Nosotros ____ mañana.", en:"We decide tomorrow.", aVerb:"decidimos", verbOpts:["decido","decides","decide","decidimos","decidís","deciden"], why:"Nosotros → decidimos.", teach:{ infinitive:"decidir", en:"to decide", forms:{yo:"decido",tu:"decides",el:"decide",nos:"decidimos",vos:"decidís",ellos:"deciden"} } },
+		{ type:"typein", tags:["VERB","PRES","DECIDIR","VOS"], q:"Vosotros ____ hoy.", en:"You all decide today.", aVerb:"decidís", verbOpts:["decido","decides","decide","decidimos","decidís","deciden"], why:"Vosotros → decidís.", teach:{ infinitive:"decidir", en:"to decide", forms:{yo:"decido",tu:"decides",el:"decide",nos:"decidimos",vos:"decidís",ellos:"deciden"} } },
+		{ type:"typein", tags:["VERB","PRES","DECIDIR"], q:"Ellos ____ juntos.", en:"They decide together.", aVerb:"deciden", verbOpts:["decido","decides","decide","decidimos","decidís","deciden"], why:"Ellos/Ellas/Ustedes → deciden.", teach:{ infinitive:"decidir", en:"to decide", forms:{yo:"decido",tu:"decides",el:"decide",nos:"decidimos",vos:"decidís",ellos:"deciden"} } },
+		
+		/* DESCUBRIR (to discover) — regular -ir */
+		{ type:"typein", tags:["VERB","PRES","DESCUBRIR"], q:"Yo ____ algo nuevo.", en:"I discover something new.", aVerb:"descubro", verbOpts:["descubro","descubres","descubre","descubrimos","descubrís","descubren"], why:"Regular -ir.", teach:{ infinitive:"descubrir", en:"to discover", forms:{yo:"descubro",tu:"descubres",el:"descubre",nos:"descubrimos",vos:"descubrís",ellos:"descubren"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCUBRIR"], q:"Tú ____ una canción.", en:"You discover a song.", aVerb:"descubres", verbOpts:["descubro","descubres","descubre","descubrimos","descubrís","descubren"], why:"Tú → descubres.", teach:{ infinitive:"descubrir", en:"to discover", forms:{yo:"descubro",tu:"descubres",el:"descubre",nos:"descubrimos",vos:"descubrís",ellos:"descubren"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCUBRIR"], q:"Ella ____ la verdad.", en:"She discovers the truth.", aVerb:"descubre", verbOpts:["descubro","descubres","descubre","descubrimos","descubrís","descubren"], why:"Él/Ella/Usted → descubre.", teach:{ infinitive:"descubrir", en:"to discover", forms:{yo:"descubro",tu:"descubres",el:"descubre",nos:"descubrimos",vos:"descubrís",ellos:"descubren"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCUBRIR"], q:"Nosotros ____ un lugar.", en:"We discover a place.", aVerb:"descubrimos", verbOpts:["descubro","descubres","descubre","descubrimos","descubrís","descubren"], why:"Nosotros → descubrimos.", teach:{ infinitive:"descubrir", en:"to discover", forms:{yo:"descubro",tu:"descubres",el:"descubre",nos:"descubrimos",vos:"descubrís",ellos:"descubren"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCUBRIR","VOS"], q:"Vosotros ____ un camino.", en:"You all discover a path.", aVerb:"descubrís", verbOpts:["descubro","descubres","descubre","descubrimos","descubrís","descubren"], why:"Vosotros → descubrís.", teach:{ infinitive:"descubrir", en:"to discover", forms:{yo:"descubro",tu:"descubres",el:"descubre",nos:"descubrimos",vos:"descubrís",ellos:"descubren"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCUBRIR"], q:"Ellos ____ cosas.", en:"They discover things.", aVerb:"descubren", verbOpts:["descubro","descubres","descubre","descubrimos","descubrís","descubren"], why:"Ellos/Ellas/Ustedes → descubren.", teach:{ infinitive:"descubrir", en:"to discover", forms:{yo:"descubro",tu:"descubres",el:"descubre",nos:"descubrimos",vos:"descubrís",ellos:"descubren"} } },
+		
+		/* ESCRIBIR (to write) — regular -ir */
+		{ type:"typein", tags:["VERB","PRES","ESCRIBIR"], q:"Yo ____ una carta.", en:"I write a letter.", aVerb:"escribo", verbOpts:["escribo","escribes","escribe","escribimos","escribís","escriben"], why:"Regular -ir.", teach:{ infinitive:"escribir", en:"to write", forms:{yo:"escribo",tu:"escribes",el:"escribe",nos:"escribimos",vos:"escribís",ellos:"escriben"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCRIBIR"], q:"Tú ____ un mensaje.", en:"You write a message.", aVerb:"escribes", verbOpts:["escribo","escribes","escribe","escribimos","escribís","escriben"], why:"Tú → escribes.", teach:{ infinitive:"escribir", en:"to write", forms:{yo:"escribo",tu:"escribes",el:"escribe",nos:"escribimos",vos:"escribís",ellos:"escriben"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCRIBIR"], q:"Ella ____ en español.", en:"She writes in Spanish.", aVerb:"escribe", verbOpts:["escribo","escribes","escribe","escribimos","escribís","escriben"], why:"Él/Ella/Usted → escribe.", teach:{ infinitive:"escribir", en:"to write", forms:{yo:"escribo",tu:"escribes",el:"escribe",nos:"escribimos",vos:"escribís",ellos:"escriben"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCRIBIR"], q:"Nosotros ____ juntos.", en:"We write together.", aVerb:"escribimos", verbOpts:["escribo","escribes","escribe","escribimos","escribís","escriben"], why:"Nosotros → escribimos.", teach:{ infinitive:"escribir", en:"to write", forms:{yo:"escribo",tu:"escribes",el:"escribe",nos:"escribimos",vos:"escribís",ellos:"escriben"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCRIBIR","VOS"], q:"Vosotros ____ una nota.", en:"You all write a note.", aVerb:"escribís", verbOpts:["escribo","escribes","escribe","escribimos","escribís","escriben"], why:"Vosotros → escribís.", teach:{ infinitive:"escribir", en:"to write", forms:{yo:"escribo",tu:"escribes",el:"escribe",nos:"escribimos",vos:"escribís",ellos:"escriben"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCRIBIR"], q:"Ellos ____ correos.", en:"They write emails.", aVerb:"escriben", verbOpts:["escribo","escribes","escribe","escribimos","escribís","escriben"], why:"Ellos/Ellas/Ustedes → escriben.", teach:{ infinitive:"escribir", en:"to write", forms:{yo:"escribo",tu:"escribes",el:"escribe",nos:"escribimos",vos:"escribís",ellos:"escriben"} } },
+		
+		/* RECIBIR (to receive) — regular -ir */
+		{ type:"typein", tags:["VERB","PRES","RECIBIR"], q:"Yo ____ un paquete.", en:"I receive a package.", aVerb:"recibo", verbOpts:["recibo","recibes","recibe","recibimos","recibís","reciben"], why:"Regular -ir.", teach:{ infinitive:"recibir", en:"to receive", forms:{yo:"recibo",tu:"recibes",el:"recibe",nos:"recibimos",vos:"recibís",ellos:"reciben"} } },
+		{ type:"typein", tags:["VERB","PRES","RECIBIR"], q:"Tú ____ una carta.", en:"You receive a letter.", aVerb:"recibes", verbOpts:["recibo","recibes","recibe","recibimos","recibís","reciben"], why:"Tú → recibes.", teach:{ infinitive:"recibir", en:"to receive", forms:{yo:"recibo",tu:"recibes",el:"recibe",nos:"recibimos",vos:"recibís",ellos:"reciben"} } },
+		{ type:"typein", tags:["VERB","PRES","RECIBIR"], q:"Él ____ noticias.", en:"He receives news.", aVerb:"recibe", verbOpts:["recibo","recibes","recibe","recibimos","recibís","reciben"], why:"Él/Ella/Usted → recibe.", teach:{ infinitive:"recibir", en:"to receive", forms:{yo:"recibo",tu:"recibes",el:"recibe",nos:"recibimos",vos:"recibís",ellos:"reciben"} } },
+		{ type:"typein", tags:["VERB","PRES","RECIBIR"], q:"Nosotros ____ visitas.", en:"We receive visitors.", aVerb:"recibimos", verbOpts:["recibo","recibes","recibe","recibimos","recibís","reciben"], why:"Nosotros → recibimos.", teach:{ infinitive:"recibir", en:"to receive", forms:{yo:"recibo",tu:"recibes",el:"recibe",nos:"recibimos",vos:"recibís",ellos:"reciben"} } },
+		{ type:"typein", tags:["VERB","PRES","RECIBIR","VOS"], q:"Vosotros ____ un mensaje.", en:"You all receive a message.", aVerb:"recibís", verbOpts:["recibo","recibes","recibe","recibimos","recibís","reciben"], why:"Vosotros → recibís.", teach:{ infinitive:"recibir", en:"to receive", forms:{yo:"recibo",tu:"recibes",el:"recibe",nos:"recibimos",vos:"recibís",ellos:"reciben"} } },
+		{ type:"typein", tags:["VERB","PRES","RECIBIR"], q:"Ellas ____ regalos.", en:"They receive gifts.", aVerb:"reciben", verbOpts:["recibo","recibes","recibe","recibimos","recibís","reciben"], why:"Ellos/Ellas/Ustedes → reciben.", teach:{ infinitive:"recibir", en:"to receive", forms:{yo:"recibo",tu:"recibes",el:"recibe",nos:"recibimos",vos:"recibís",ellos:"reciben"} } },
+		
+		/* ABRIR (to open) — regular -ir */
+		{ type:"typein", tags:["VERB","PRES","ABRIR"], q:"Yo ____ la puerta.", en:"I open the door.", aVerb:"abro", verbOpts:["abro","abres","abre","abrimos","abrís","abren"], why:"Regular -ir.", teach:{ infinitive:"abrir", en:"to open", forms:{yo:"abro",tu:"abres",el:"abre",nos:"abrimos",vos:"abrís",ellos:"abren"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRIR"], q:"Tú ____ la ventana.", en:"You open the window.", aVerb:"abres", verbOpts:["abro","abres","abre","abrimos","abrís","abren"], why:"Tú → abres.", teach:{ infinitive:"abrir", en:"to open", forms:{yo:"abro",tu:"abres",el:"abre",nos:"abrimos",vos:"abrís",ellos:"abren"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRIR"], q:"Ella ____ el correo.", en:"She opens the mail.", aVerb:"abre", verbOpts:["abro","abres","abre","abrimos","abrís","abren"], why:"Él/Ella/Usted → abre.", teach:{ infinitive:"abrir", en:"to open", forms:{yo:"abro",tu:"abres",el:"abre",nos:"abrimos",vos:"abrís",ellos:"abren"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRIR"], q:"Nosotros ____ la caja.", en:"We open the box.", aVerb:"abrimos", verbOpts:["abro","abres","abre","abrimos","abrís","abren"], why:"Nosotros → abrimos.", teach:{ infinitive:"abrir", en:"to open", forms:{yo:"abro",tu:"abres",el:"abre",nos:"abrimos",vos:"abrís",ellos:"abren"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRIR","VOS"], q:"Vosotros ____ el libro.", en:"You all open the book.", aVerb:"abrís", verbOpts:["abro","abres","abre","abrimos","abrís","abren"], why:"Vosotros → abrís.", teach:{ infinitive:"abrir", en:"to open", forms:{yo:"abro",tu:"abres",el:"abre",nos:"abrimos",vos:"abrís",ellos:"abren"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRIR"], q:"Ellos ____ la tienda.", en:"They open the shop.", aVerb:"abren", verbOpts:["abro","abres","abre","abrimos","abrís","abren"], why:"Ellos/Ellas/Ustedes → abren.", teach:{ infinitive:"abrir", en:"to open", forms:{yo:"abro",tu:"abres",el:"abre",nos:"abrimos",vos:"abrís",ellos:"abren"} } },
+		
+		/* SUBIR (to go up / to upload) — regular */
+		{ type:"typein", tags:["VERB","PRES","SUBIR"], q:"Yo ____ la foto.", en:"I upload the photo.", aVerb:"subo", verbOpts:["subo","subes","sube","subimos","subís","suben"], why:"Regular -ir.", teach:{ infinitive:"subir", en:"to go up / to upload", forms:{yo:"subo",tu:"subes",el:"sube",nos:"subimos",vos:"subís",ellos:"suben"} } },
+		{ type:"typein", tags:["VERB","PRES","SUBIR"], q:"Tú ____ las escaleras.", en:"You go up the stairs.", aVerb:"subes", verbOpts:["subo","subes","sube","subimos","subís","suben"], why:"Tú → subes.", teach:{ infinitive:"subir", en:"to go up / to upload", forms:{yo:"subo",tu:"subes",el:"sube",nos:"subimos",vos:"subís",ellos:"suben"} } },
+		{ type:"typein", tags:["VERB","PRES","SUBIR"], q:"Él ____ al tren.", en:"He gets on the train (goes up).", aVerb:"sube", verbOpts:["subo","subes","sube","subimos","subís","suben"], why:"Él/Ella/Usted → sube.", teach:{ infinitive:"subir", en:"to go up / to upload", forms:{yo:"subo",tu:"subes",el:"sube",nos:"subimos",vos:"subís",ellos:"suben"} } },
+		{ type:"typein", tags:["VERB","PRES","SUBIR"], q:"Nosotros ____ el archivo.", en:"We upload the file.", aVerb:"subimos", verbOpts:["subo","subes","sube","subimos","subís","suben"], why:"Nosotros → subimos.", teach:{ infinitive:"subir", en:"to go up / to upload", forms:{yo:"subo",tu:"subes",el:"sube",nos:"subimos",vos:"subís",ellos:"suben"} } },
+		{ type:"typein", tags:["VERB","PRES","SUBIR","VOS"], q:"Vosotros ____ al tejado.", en:"You all go up to the roof.", aVerb:"subís", verbOpts:["subo","subes","sube","subimos","subís","suben"], why:"Vosotros → subís.", teach:{ infinitive:"subir", en:"to go up / to upload", forms:{yo:"subo",tu:"subes",el:"sube",nos:"subimos",vos:"subís",ellos:"suben"} } },
+		{ type:"typein", tags:["VERB","PRES","SUBIR"], q:"Ellas ____ el vídeo.", en:"They upload the video.", aVerb:"suben", verbOpts:["subo","subes","sube","subimos","subís","suben"], why:"Ellos/Ellas/Ustedes → suben.", teach:{ infinitive:"subir", en:"to go up / to upload", forms:{yo:"subo",tu:"subes",el:"sube",nos:"subimos",vos:"subís",ellos:"suben"} } },
+		
+		/* EXISTIR (to exist) — regular */
+		{ type:"typein", tags:["VERB","PRES","EXISTIR"], q:"Yo ____ aquí.", en:"I exist here.", aVerb:"existo", verbOpts:["existo","existes","existe","existimos","existís","existen"], why:"Regular -ir.", teach:{ infinitive:"existir", en:"to exist", forms:{yo:"existo",tu:"existes",el:"existe",nos:"existimos",vos:"existís",ellos:"existen"} } },
+		{ type:"typein", tags:["VERB","PRES","EXISTIR"], q:"Tú ____.", en:"You exist.", aVerb:"existes", verbOpts:["existo","existes","existe","existimos","existís","existen"], why:"Tú → existes.", teach:{ infinitive:"existir", en:"to exist", forms:{yo:"existo",tu:"existes",el:"existe",nos:"existimos",vos:"existís",ellos:"existen"} } },
+		{ type:"typein", tags:["VERB","PRES","EXISTIR"], q:"Él ____.", en:"He exists.", aVerb:"existe", verbOpts:["existo","existes","existe","existimos","existís","existen"], why:"Él/Ella/Usted → existe.", teach:{ infinitive:"existir", en:"to exist", forms:{yo:"existo",tu:"existes",el:"existe",nos:"existimos",vos:"existís",ellos:"existen"} } },
+		{ type:"typein", tags:["VERB","PRES","EXISTIR"], q:"Nosotros ____.", en:"We exist.", aVerb:"existimos", verbOpts:["existo","existes","existe","existimos","existís","existen"], why:"Nosotros → existimos.", teach:{ infinitive:"existir", en:"to exist", forms:{yo:"existo",tu:"existes",el:"existe",nos:"existimos",vos:"existís",ellos:"existen"} } },
+		{ type:"typein", tags:["VERB","PRES","EXISTIR","VOS"], q:"Vosotros ____.", en:"You all exist.", aVerb:"existís", verbOpts:["existo","existes","existe","existimos","existís","existen"], why:"Vosotros → existís.", teach:{ infinitive:"existir", en:"to exist", forms:{yo:"existo",tu:"existes",el:"existe",nos:"existimos",vos:"existís",ellos:"existen"} } },
+		{ type:"typein", tags:["VERB","PRES","EXISTIR"], q:"Ellas ____.", en:"They exist.", aVerb:"existen", verbOpts:["existo","existes","existe","existimos","existís","existen"], why:"Ellos/Ellas/Ustedes → existen.", teach:{ infinitive:"existir", en:"to exist", forms:{yo:"existo",tu:"existes",el:"existe",nos:"existimos",vos:"existís",ellos:"existen"} } },
+		
+		/* HABER — HAY (there is/are) best as vocab phrase */
+		{ type:"typein", tags:["VERB","PRES","HABER","HAY"], prompt:"Type the Spanish: there is / there are", a:"hay", why:"Most common present form of haber (impersonal).", teach:{ infinitive:"haber", es:"hay", en:"there is / there are", note:"Impersonal: no *yo hay*." } },
+		{ type:"typein", tags:["VOCAB","HAY"], q:"Traduce al inglés: Hay un perro.", a:"There is a dog", teach:{ es:"Hay un perro", en:"There is a dog" } },
+		{ type:"typein", tags:["VOCAB","HAY"], q:"Traduce al inglés: Hay dos gatos.", a:"There are two cats", teach:{ es:"Hay dos gatos", en:"There are two cats" } },
+		
+		/* =========================
+		   REFLEXIVE DAILY ROUTINES — FULL SWEEPS
+		========================= */
+		
+		/* ACOSTARSE (to go to bed) — o→ue */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ACOSTARSE"], q:"Yo ____ tarde.", en:"I go to bed late.", aVerb:"me acuesto", verbOpts:["me acuesto","te acuestas","se acuesta","nos acostamos","os acostáis","se acuestan"], why:"Reflexive + o→ue (except nosotros/vosotros).", teach:{ infinitive:"acostar", reflexive:"acostarse", en:"to go to bed", stem:"o→ue", forms:{yo:"me acuesto",tu:"te acuestas",el:"se acuesta",nos:"nos acostamos",vos:"os acostáis",ellos:"se acuestan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ACOSTARSE"], q:"Tú ____ temprano.", en:"You go to bed early.", aVerb:"te acuestas", verbOpts:["me acuesto","te acuestas","se acuesta","nos acostamos","os acostáis","se acuestan"], why:"Tú → te acuestas.", teach:{ infinitive:"acostar", reflexive:"acostarse", en:"to go to bed", stem:"o→ue", forms:{yo:"me acuesto",tu:"te acuestas",el:"se acuesta",nos:"nos acostamos",vos:"os acostáis",ellos:"se acuestan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ACOSTARSE"], q:"Él ____ a las once.", en:"He goes to bed at eleven.", aVerb:"se acuesta", verbOpts:["me acuesto","te acuestas","se acuesta","nos acostamos","os acostáis","se acuestan"], why:"Él/Ella/Usted → se acuesta.", teach:{ infinitive:"acostar", reflexive:"acostarse", en:"to go to bed", stem:"o→ue", forms:{yo:"me acuesto",tu:"te acuestas",el:"se acuesta",nos:"nos acostamos",vos:"os acostáis",ellos:"se acuestan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ACOSTARSE"], q:"Nosotros ____ tarde.", en:"We go to bed late.", aVerb:"nos acostamos", verbOpts:["me acuesto","te acuestas","se acuesta","nos acostamos","os acostáis","se acuestan"], why:"Nosotros no stem change: nos acostamos.", teach:{ infinitive:"acostar", reflexive:"acostarse", en:"to go to bed", stem:"o→ue", forms:{yo:"me acuesto",tu:"te acuestas",el:"se acuesta",nos:"nos acostamos",vos:"os acostáis",ellos:"se acuestan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ACOSTARSE","VOS"], q:"Vosotros ____ pronto.", en:"You all go to bed early.", aVerb:"os acostáis", verbOpts:["me acuesto","te acuestas","se acuesta","nos acostamos","os acostáis","se acuestan"], why:"Vosotros no stem change: os acostáis.", teach:{ infinitive:"acostar", reflexive:"acostarse", en:"to go to bed", stem:"o→ue", forms:{yo:"me acuesto",tu:"te acuestas",el:"se acuesta",nos:"nos acostamos",vos:"os acostáis",ellos:"se acuestan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ACOSTARSE"], q:"Ellas ____ temprano.", en:"They go to bed early.", aVerb:"se acuestan", verbOpts:["me acuesto","te acuestas","se acuesta","nos acostamos","os acostáis","se acuestan"], why:"Ellos/Ellas/Ustedes → se acuestan.", teach:{ infinitive:"acostar", reflexive:"acostarse", en:"to go to bed", stem:"o→ue", forms:{yo:"me acuesto",tu:"te acuestas",el:"se acuesta",nos:"nos acostamos",vos:"os acostáis",ellos:"se acuestan"} } },
+		
+		/* DESPERTARSE (to wake up) — e→ie */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DESPERTARSE"], q:"Yo ____ temprano.", en:"I wake up early.", aVerb:"me despierto", verbOpts:["me despierto","te despiertas","se despierta","nos despertamos","os despertáis","se despiertan"], why:"Reflexive + e→ie (except nosotros/vosotros).", teach:{ infinitive:"despertar", reflexive:"despertarse", en:"to wake up", stem:"e→ie", forms:{yo:"me despierto",tu:"te despiertas",el:"se despierta",nos:"nos despertamos",vos:"os despertáis",ellos:"se despiertan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DESPERTARSE"], q:"Tú ____ a las seis.", en:"You wake up at six.", aVerb:"te despiertas", verbOpts:["me despierto","te despiertas","se despierta","nos despertamos","os despertáis","se despiertan"], why:"Tú → te despiertas.", teach:{ infinitive:"despertar", reflexive:"despertarse", en:"to wake up", stem:"e→ie", forms:{yo:"me despierto",tu:"te despiertas",el:"se despierta",nos:"nos despertamos",vos:"os despertáis",ellos:"se despiertan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DESPERTARSE"], q:"Ella ____ tarde.", en:"She wakes up late.", aVerb:"se despierta", verbOpts:["me despierto","te despiertas","se despierta","nos despertamos","os despertáis","se despiertan"], why:"Él/Ella/Usted → se despierta.", teach:{ infinitive:"despertar", reflexive:"despertarse", en:"to wake up", stem:"e→ie", forms:{yo:"me despierto",tu:"te despiertas",el:"se despierta",nos:"nos despertamos",vos:"os despertáis",ellos:"se despiertan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DESPERTARSE"], q:"Nosotros ____ a las siete.", en:"We wake up at seven.", aVerb:"nos despertamos", verbOpts:["me despierto","te despiertas","se despierta","nos despertamos","os despertáis","se despiertan"], why:"Nosotros no stem change: nos despertamos.", teach:{ infinitive:"despertar", reflexive:"despertarse", en:"to wake up", stem:"e→ie", forms:{yo:"me despierto",tu:"te despiertas",el:"se despierta",nos:"nos despertamos",vos:"os despertáis",ellos:"se despiertan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DESPERTARSE","VOS"], q:"Vosotros ____ temprano.", en:"You all wake up early.", aVerb:"os despertáis", verbOpts:["me despierto","te despiertas","se despierta","nos despertamos","os despertáis","se despiertan"], why:"Vosotros no stem change: os despertáis.", teach:{ infinitive:"despertar", reflexive:"despertarse", en:"to wake up", stem:"e→ie", forms:{yo:"me despierto",tu:"te despiertas",el:"se despierta",nos:"nos despertamos",vos:"os despertáis",ellos:"se despiertan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","DESPERTARSE"], q:"Ellos ____ tarde.", en:"They wake up late.", aVerb:"se despiertan", verbOpts:["me despierto","te despiertas","se despierta","nos despertamos","os despertáis","se despiertan"], why:"Ellos/Ellas/Ustedes → se despiertan.", teach:{ infinitive:"despertar", reflexive:"despertarse", en:"to wake up", stem:"e→ie", forms:{yo:"me despierto",tu:"te despiertas",el:"se despierta",nos:"nos despertamos",vos:"os despertáis",ellos:"se despiertan"} } },
+		
+		/* BAÑARSE (to bathe) */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","BANARSE"], q:"Yo ____ en casa.", en:"I bathe at home.", aVerb:"me baño", verbOpts:["me baño","te bañas","se baña","nos bañamos","os bañáis","se bañan"], why:"Reflexive routine.", teach:{ infinitive:"bañar", reflexive:"bañarse", en:"to bathe", forms:{yo:"me baño",tu:"te bañas",el:"se baña",nos:"nos bañamos",vos:"os bañáis",ellos:"se bañan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","BANARSE"], q:"Tú ____ por la mañana.", en:"You bathe in the morning.", aVerb:"te bañas", verbOpts:["me baño","te bañas","se baña","nos bañamos","os bañáis","se bañan"], why:"Tú → te bañas.", teach:{ infinitive:"bañar", reflexive:"bañarse", en:"to bathe", forms:{yo:"me baño",tu:"te bañas",el:"se baña",nos:"nos bañamos",vos:"os bañáis",ellos:"se bañan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","BANARSE"], q:"Él ____ por la noche.", en:"He bathes at night.", aVerb:"se baña", verbOpts:["me baño","te bañas","se baña","nos bañamos","os bañáis","se bañan"], why:"Él/Ella/Usted → se baña.", teach:{ infinitive:"bañar", reflexive:"bañarse", en:"to bathe", forms:{yo:"me baño",tu:"te bañas",el:"se baña",nos:"nos bañamos",vos:"os bañáis",ellos:"se bañan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","BANARSE"], q:"Nosotros ____ rápido.", en:"We bathe quickly.", aVerb:"nos bañamos", verbOpts:["me baño","te bañas","se baña","nos bañamos","os bañáis","se bañan"], why:"Nosotros → nos bañamos.", teach:{ infinitive:"bañar", reflexive:"bañarse", en:"to bathe", forms:{yo:"me baño",tu:"te bañas",el:"se baña",nos:"nos bañamos",vos:"os bañáis",ellos:"se bañan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","BANARSE","VOS"], q:"Vosotros ____ en la ducha.", en:"You all bathe in the shower.", aVerb:"os bañáis", verbOpts:["me baño","te bañas","se baña","nos bañamos","os bañáis","se bañan"], why:"Vosotros → os bañáis.", teach:{ infinitive:"bañar", reflexive:"bañarse", en:"to bathe", forms:{yo:"me baño",tu:"te bañas",el:"se baña",nos:"nos bañamos",vos:"os bañáis",ellos:"se bañan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","BANARSE"], q:"Ellas ____ por la tarde.", en:"They bathe in the afternoon.", aVerb:"se bañan", verbOpts:["me baño","te bañas","se baña","nos bañamos","os bañáis","se bañan"], why:"Ellos/Ellas/Ustedes → se bañan.", teach:{ infinitive:"bañar", reflexive:"bañarse", en:"to bathe", forms:{yo:"me baño",tu:"te bañas",el:"se baña",nos:"nos bañamos",vos:"os bañáis",ellos:"se bañan"} } },
+		
+		/* CEPILLARSE (to brush oneself) */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","CEPILLARSE"], q:"Yo ____ los dientes.", en:"I brush my teeth.", aVerb:"me cepillo", verbOpts:["me cepillo","te cepillas","se cepilla","nos cepillamos","os cepilláis","se cepillan"], why:"Reflexive + object.", teach:{ infinitive:"cepillar", reflexive:"cepillarse", en:"to brush (oneself)", forms:{yo:"me cepillo",tu:"te cepillas",el:"se cepilla",nos:"nos cepillamos",vos:"os cepilláis",ellos:"se cepillan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","CEPILLARSE"], q:"Tú ____ el pelo.", en:"You brush your hair.", aVerb:"te cepillas", verbOpts:["me cepillo","te cepillas","se cepilla","nos cepillamos","os cepilláis","se cepillan"], why:"Tú → te cepillas.", teach:{ infinitive:"cepillar", reflexive:"cepillarse", en:"to brush (oneself)", forms:{yo:"me cepillo",tu:"te cepillas",el:"se cepilla",nos:"nos cepillamos",vos:"os cepilláis",ellos:"se cepillan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","CEPILLARSE"], q:"Ella ____ los dientes.", en:"She brushes her teeth.", aVerb:"se cepilla", verbOpts:["me cepillo","te cepillas","se cepilla","nos cepillamos","os cepilláis","se cepillan"], why:"Él/Ella/Usted → se cepilla.", teach:{ infinitive:"cepillar", reflexive:"cepillarse", en:"to brush (oneself)", forms:{yo:"me cepillo",tu:"te cepillas",el:"se cepilla",nos:"nos cepillamos",vos:"os cepilláis",ellos:"se cepillan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","CEPILLARSE"], q:"Nosotros ____ por la mañana.", en:"We brush in the morning.", aVerb:"nos cepillamos", verbOpts:["me cepillo","te cepillas","se cepilla","nos cepillamos","os cepilláis","se cepillan"], why:"Nosotros → nos cepillamos.", teach:{ infinitive:"cepillar", reflexive:"cepillarse", en:"to brush (oneself)", forms:{yo:"me cepillo",tu:"te cepillas",el:"se cepilla",nos:"nos cepillamos",vos:"os cepilláis",ellos:"se cepillan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","CEPILLARSE","VOS"], q:"Vosotros ____ por la noche.", en:"You all brush at night.", aVerb:"os cepilláis", verbOpts:["me cepillo","te cepillas","se cepilla","nos cepillamos","os cepilláis","se cepillan"], why:"Vosotros → os cepilláis.", teach:{ infinitive:"cepillar", reflexive:"cepillarse", en:"to brush (oneself)", forms:{yo:"me cepillo",tu:"te cepillas",el:"se cepilla",nos:"nos cepillamos",vos:"os cepilláis",ellos:"se cepillan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","CEPILLARSE"], q:"Ellos ____ los dientes.", en:"They brush their teeth.", aVerb:"se cepillan", verbOpts:["me cepillo","te cepillas","se cepilla","nos cepillamos","os cepilláis","se cepillan"], why:"Ellos/Ellas/Ustedes → se cepillan.", teach:{ infinitive:"cepillar", reflexive:"cepillarse", en:"to brush (oneself)", forms:{yo:"me cepillo",tu:"te cepillas",el:"se cepilla",nos:"nos cepillamos",vos:"os cepilláis",ellos:"se cepillan"} } },
+		
+		/* AFEITARSE (to shave) */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","AFEITARSE"], q:"Yo ____ por la mañana.", en:"I shave in the morning.", aVerb:"me afeito", verbOpts:["me afeito","te afeitas","se afeita","nos afeitamos","os afeitáis","se afeitan"], why:"Reflexive routine.", teach:{ infinitive:"afeitar", reflexive:"afeitarse", en:"to shave", forms:{yo:"me afeito",tu:"te afeitas",el:"se afeita",nos:"nos afeitamos",vos:"os afeitáis",ellos:"se afeitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","AFEITARSE"], q:"Tú ____ rápido.", en:"You shave quickly.", aVerb:"te afeitas", verbOpts:["me afeito","te afeitas","se afeita","nos afeitamos","os afeitáis","se afeitan"], why:"Tú → te afeitas.", teach:{ infinitive:"afeitar", reflexive:"afeitarse", en:"to shave", forms:{yo:"me afeito",tu:"te afeitas",el:"se afeita",nos:"nos afeitamos",vos:"os afeitáis",ellos:"se afeitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","AFEITARSE"], q:"Él ____ cada día.", en:"He shaves every day.", aVerb:"se afeita", verbOpts:["me afeito","te afeitas","se afeita","nos afeitamos","os afeitáis","se afeitan"], why:"Él/Ella/Usted → se afeita.", teach:{ infinitive:"afeitar", reflexive:"afeitarse", en:"to shave", forms:{yo:"me afeito",tu:"te afeitas",el:"se afeita",nos:"nos afeitamos",vos:"os afeitáis",ellos:"se afeitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","AFEITARSE"], q:"Nosotros ____ antes de salir.", en:"We shave before going out.", aVerb:"nos afeitamos", verbOpts:["me afeito","te afeitas","se afeita","nos afeitamos","os afeitáis","se afeitan"], why:"Nosotros → nos afeitamos.", teach:{ infinitive:"afeitar", reflexive:"afeitarse", en:"to shave", forms:{yo:"me afeito",tu:"te afeitas",el:"se afeita",nos:"nos afeitamos",vos:"os afeitáis",ellos:"se afeitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","AFEITARSE","VOS"], q:"Vosotros ____ por la mañana.", en:"You all shave in the morning.", aVerb:"os afeitáis", verbOpts:["me afeito","te afeitas","se afeita","nos afeitamos","os afeitáis","se afeitan"], why:"Vosotros → os afeitáis.", teach:{ infinitive:"afeitar", reflexive:"afeitarse", en:"to shave", forms:{yo:"me afeito",tu:"te afeitas",el:"se afeita",nos:"nos afeitamos",vos:"os afeitáis",ellos:"se afeitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","AFEITARSE"], q:"Ellos ____ cada día.", en:"They shave every day.", aVerb:"se afeitan", verbOpts:["me afeito","te afeitas","se afeita","nos afeitamos","os afeitáis","se afeitan"], why:"Ellos/Ellas/Ustedes → se afeitan.", teach:{ infinitive:"afeitar", reflexive:"afeitarse", en:"to shave", forms:{yo:"me afeito",tu:"te afeitas",el:"se afeita",nos:"nos afeitamos",vos:"os afeitáis",ellos:"se afeitan"} } },
+		
+		/* ARREGLARSE (to get ready / fix oneself) */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ARREGLARSE"], q:"Yo ____ para salir.", en:"I get ready to go out.", aVerb:"me arreglo", verbOpts:["me arreglo","te arreglas","se arregla","nos arreglamos","os arregláis","se arreglan"], why:"Reflexive meaning: get ready.", teach:{ infinitive:"arreglar", reflexive:"arreglarse", en:"to get ready", forms:{yo:"me arreglo",tu:"te arreglas",el:"se arregla",nos:"nos arreglamos",vos:"os arregláis",ellos:"se arreglan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ARREGLARSE"], q:"Tú ____ rápido.", en:"You get ready quickly.", aVerb:"te arreglas", verbOpts:["me arreglo","te arreglas","se arregla","nos arreglamos","os arregláis","se arreglan"], why:"Tú → te arreglas.", teach:{ infinitive:"arreglar", reflexive:"arreglarse", en:"to get ready", forms:{yo:"me arreglo",tu:"te arreglas",el:"se arregla",nos:"nos arreglamos",vos:"os arregláis",ellos:"se arreglan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ARREGLARSE"], q:"Ella ____ para la fiesta.", en:"She gets ready for the party.", aVerb:"se arregla", verbOpts:["me arreglo","te arreglas","se arregla","nos arreglamos","os arregláis","se arreglan"], why:"Él/Ella/Usted → se arregla.", teach:{ infinitive:"arreglar", reflexive:"arreglarse", en:"to get ready", forms:{yo:"me arreglo",tu:"te arreglas",el:"se arregla",nos:"nos arreglamos",vos:"os arregláis",ellos:"se arreglan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ARREGLARSE"], q:"Nosotros ____ antes de salir.", en:"We get ready before going out.", aVerb:"nos arreglamos", verbOpts:["me arreglo","te arreglas","se arregla","nos arreglamos","os arregláis","se arreglan"], why:"Nosotros → nos arreglamos.", teach:{ infinitive:"arreglar", reflexive:"arreglarse", en:"to get ready", forms:{yo:"me arreglo",tu:"te arreglas",el:"se arregla",nos:"nos arreglamos",vos:"os arregláis",ellos:"se arreglan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ARREGLARSE","VOS"], q:"Vosotros ____ para salir.", en:"You all get ready to go out.", aVerb:"os arregláis", verbOpts:["me arreglo","te arreglas","se arregla","nos arreglamos","os arregláis","se arreglan"], why:"Vosotros → os arregláis.", teach:{ infinitive:"arreglar", reflexive:"arreglarse", en:"to get ready", forms:{yo:"me arreglo",tu:"te arreglas",el:"se arregla",nos:"nos arreglamos",vos:"os arregláis",ellos:"se arreglan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","ARREGLARSE"], q:"Ellas ____ antes de la cena.", en:"They get ready before dinner.", aVerb:"se arreglan", verbOpts:["me arreglo","te arreglas","se arregla","nos arreglamos","os arregláis","se arreglan"], why:"Ellos/Ellas/Ustedes → se arreglan.", teach:{ infinitive:"arreglar", reflexive:"arreglarse", en:"to get ready", forms:{yo:"me arreglo",tu:"te arreglas",el:"se arregla",nos:"nos arreglamos",vos:"os arregláis",ellos:"se arreglan"} } },
+		
+		/* QUITARSE (to take off) */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","QUITARSE"], q:"Yo ____ el abrigo.", en:"I take off my coat.", aVerb:"me quito", verbOpts:["me quito","te quitas","se quita","nos quitamos","os quitáis","se quitan"], why:"Reflexive + clothing.", teach:{ infinitive:"quitar", reflexive:"quitarse", en:"to take off", forms:{yo:"me quito",tu:"te quitas",el:"se quita",nos:"nos quitamos",vos:"os quitáis",ellos:"se quitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","QUITARSE"], q:"Tú ____ los zapatos.", en:"You take off your shoes.", aVerb:"te quitas", verbOpts:["me quito","te quitas","se quita","nos quitamos","os quitáis","se quitan"], why:"Tú → te quitas.", teach:{ infinitive:"quitar", reflexive:"quitarse", en:"to take off", forms:{yo:"me quito",tu:"te quitas",el:"se quita",nos:"nos quitamos",vos:"os quitáis",ellos:"se quitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","QUITARSE"], q:"Él ____ la chaqueta.", en:"He takes off his jacket.", aVerb:"se quita", verbOpts:["me quito","te quitas","se quita","nos quitamos","os quitáis","se quitan"], why:"Él/Ella/Usted → se quita.", teach:{ infinitive:"quitar", reflexive:"quitarse", en:"to take off", forms:{yo:"me quito",tu:"te quitas",el:"se quita",nos:"nos quitamos",vos:"os quitáis",ellos:"se quitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","QUITARSE"], q:"Nosotros ____ el abrigo.", en:"We take off our coats.", aVerb:"nos quitamos", verbOpts:["me quito","te quitas","se quita","nos quitamos","os quitáis","se quitan"], why:"Nosotros → nos quitamos.", teach:{ infinitive:"quitar", reflexive:"quitarse", en:"to take off", forms:{yo:"me quito",tu:"te quitas",el:"se quita",nos:"nos quitamos",vos:"os quitáis",ellos:"se quitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","QUITARSE","VOS"], q:"Vosotros ____ la chaqueta.", en:"You all take off your jackets.", aVerb:"os quitáis", verbOpts:["me quito","te quitas","se quita","nos quitamos","os quitáis","se quitan"], why:"Vosotros → os quitáis.", teach:{ infinitive:"quitar", reflexive:"quitarse", en:"to take off", forms:{yo:"me quito",tu:"te quitas",el:"se quita",nos:"nos quitamos",vos:"os quitáis",ellos:"se quitan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","QUITARSE"], q:"Ellas ____ los zapatos.", en:"They take off their shoes.", aVerb:"se quitan", verbOpts:["me quito","te quitas","se quita","nos quitamos","os quitáis","se quitan"], why:"Ellos/Ellas/Ustedes → se quitan.", teach:{ infinitive:"quitar", reflexive:"quitarse", en:"to take off", forms:{yo:"me quito",tu:"te quitas",el:"se quita",nos:"nos quitamos",vos:"os quitáis",ellos:"se quitan"} } },
+		
+		/* SECARSE (to dry oneself) */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SECARSE"], q:"Yo ____ con la toalla.", en:"I dry myself with the towel.", aVerb:"me seco", verbOpts:["me seco","te secas","se seca","nos secamos","os secáis","se secan"], why:"Reflexive after shower.", teach:{ infinitive:"secar", reflexive:"secarse", en:"to dry oneself", forms:{yo:"me seco",tu:"te secas",el:"se seca",nos:"nos secamos",vos:"os secáis",ellos:"se secan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SECARSE"], q:"Tú ____ el pelo.", en:"You dry your hair.", aVerb:"te secas", verbOpts:["me seco","te secas","se seca","nos secamos","os secáis","se secan"], why:"Tú → te secas.", teach:{ infinitive:"secar", reflexive:"secarse", en:"to dry oneself", forms:{yo:"me seco",tu:"te secas",el:"se seca",nos:"nos secamos",vos:"os secáis",ellos:"se secan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SECARSE"], q:"Él ____ rápido.", en:"He dries himself quickly.", aVerb:"se seca", verbOpts:["me seco","te secas","se seca","nos secamos","os secáis","se secan"], why:"Él/Ella/Usted → se seca.", teach:{ infinitive:"secar", reflexive:"secarse", en:"to dry oneself", forms:{yo:"me seco",tu:"te secas",el:"se seca",nos:"nos secamos",vos:"os secáis",ellos:"se secan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SECARSE"], q:"Nosotros ____ después de la ducha.", en:"We dry ourselves after the shower.", aVerb:"nos secamos", verbOpts:["me seco","te secas","se seca","nos secamos","os secáis","se secan"], why:"Nosotros → nos secamos.", teach:{ infinitive:"secar", reflexive:"secarse", en:"to dry oneself", forms:{yo:"me seco",tu:"te secas",el:"se seca",nos:"nos secamos",vos:"os secáis",ellos:"se secan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SECARSE","VOS"], q:"Vosotros ____ rápido.", en:"You all dry yourselves quickly.", aVerb:"os secáis", verbOpts:["me seco","te secas","se seca","nos secamos","os secáis","se secan"], why:"Vosotros → os secáis.", teach:{ infinitive:"secar", reflexive:"secarse", en:"to dry oneself", forms:{yo:"me seco",tu:"te secas",el:"se seca",nos:"nos secamos",vos:"os secáis",ellos:"se secan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SECARSE"], q:"Ellas ____ con la toalla.", en:"They dry themselves with the towel.", aVerb:"se secan", verbOpts:["me seco","te secas","se seca","nos secamos","os secáis","se secan"], why:"Ellos/Ellas/Ustedes → se secan.", teach:{ infinitive:"secar", reflexive:"secarse", en:"to dry oneself", forms:{yo:"me seco",tu:"te secas",el:"se seca",nos:"nos secamos",vos:"os secáis",ellos:"se secan"} } },
+		
+		/* SENTARSE (to sit down) — e→ie */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SENTARSE"], q:"Yo ____ aquí.", en:"I sit down here.", aVerb:"me siento", verbOpts:["me siento","te sientas","se sienta","nos sentamos","os sentáis","se sientan"], why:"Reflexive + e→ie (except nosotros/vosotros).", teach:{ infinitive:"sentar", reflexive:"sentarse", en:"to sit down", stem:"e→ie", forms:{yo:"me siento",tu:"te sientas",el:"se sienta",nos:"nos sentamos",vos:"os sentáis",ellos:"se sientan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SENTARSE"], q:"Tú ____ en la silla.", en:"You sit down in the chair.", aVerb:"te sientas", verbOpts:["me siento","te sientas","se sienta","nos sentamos","os sentáis","se sientan"], why:"Tú → te sientas.", teach:{ infinitive:"sentar", reflexive:"sentarse", en:"to sit down", stem:"e→ie", forms:{yo:"me siento",tu:"te sientas",el:"se sienta",nos:"nos sentamos",vos:"os sentáis",ellos:"se sientan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SENTARSE"], q:"Él ____ en el sofá.", en:"He sits down on the couch.", aVerb:"se sienta", verbOpts:["me siento","te sientas","se sienta","nos sentamos","os sentáis","se sientan"], why:"Él/Ella/Usted → se sienta.", teach:{ infinitive:"sentar", reflexive:"sentarse", en:"to sit down", stem:"e→ie", forms:{yo:"me siento",tu:"te sientas",el:"se sienta",nos:"nos sentamos",vos:"os sentáis",ellos:"se sientan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SENTARSE"], q:"Nosotros ____ aquí.", en:"We sit down here.", aVerb:"nos sentamos", verbOpts:["me siento","te sientas","se sienta","nos sentamos","os sentáis","se sientan"], why:"Nosotros no stem change: nos sentamos.", teach:{ infinitive:"sentar", reflexive:"sentarse", en:"to sit down", stem:"e→ie", forms:{yo:"me siento",tu:"te sientas",el:"se sienta",nos:"nos sentamos",vos:"os sentáis",ellos:"se sientan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SENTARSE","VOS"], q:"Vosotros ____ aquí.", en:"You all sit down here.", aVerb:"os sentáis", verbOpts:["me siento","te sientas","se sienta","nos sentamos","os sentáis","se sientan"], why:"Vosotros no stem change: os sentáis.", teach:{ infinitive:"sentar", reflexive:"sentarse", en:"to sit down", stem:"e→ie", forms:{yo:"me siento",tu:"te sientas",el:"se sienta",nos:"nos sentamos",vos:"os sentáis",ellos:"se sientan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","SENTARSE"], q:"Ellas ____ aquí.", en:"They sit down here.", aVerb:"se sientan", verbOpts:["me siento","te sientas","se sienta","nos sentamos","os sentáis","se sientan"], why:"Ellos/Ellas/Ustedes → se sientan.", teach:{ infinitive:"sentar", reflexive:"sentarse", en:"to sit down", stem:"e→ie", forms:{yo:"me siento",tu:"te sientas",el:"se sienta",nos:"nos sentamos",vos:"os sentáis",ellos:"se sientan"} } },
+		
+		/* TAPARSE (to cover oneself) */
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","TAPARSE"], q:"Yo ____ con una manta.", en:"I cover myself with a blanket.", aVerb:"me tapo", verbOpts:["me tapo","te tapas","se tapa","nos tapamos","os tapáis","se tapan"], why:"Reflexive comfort verb.", teach:{ infinitive:"tapar", reflexive:"taparse", en:"to cover oneself", forms:{yo:"me tapo",tu:"te tapas",el:"se tapa",nos:"nos tapamos",vos:"os tapáis",ellos:"se tapan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","TAPARSE"], q:"Tú ____ por la noche.", en:"You cover yourself at night.", aVerb:"te tapas", verbOpts:["me tapo","te tapas","se tapa","nos tapamos","os tapáis","se tapan"], why:"Tú → te tapas.", teach:{ infinitive:"tapar", reflexive:"taparse", en:"to cover oneself", forms:{yo:"me tapo",tu:"te tapas",el:"se tapa",nos:"nos tapamos",vos:"os tapáis",ellos:"se tapan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","TAPARSE"], q:"Él ____ con una manta.", en:"He covers himself with a blanket.", aVerb:"se tapa", verbOpts:["me tapo","te tapas","se tapa","nos tapamos","os tapáis","se tapan"], why:"Él/Ella/Usted → se tapa.", teach:{ infinitive:"tapar", reflexive:"taparse", en:"to cover oneself", forms:{yo:"me tapo",tu:"te tapas",el:"se tapa",nos:"nos tapamos",vos:"os tapáis",ellos:"se tapan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","TAPARSE"], q:"Nosotros ____ cuando hace frío.", en:"We cover ourselves when it’s cold.", aVerb:"nos tapamos", verbOpts:["me tapo","te tapas","se tapa","nos tapamos","os tapáis","se tapan"], why:"Nosotros → nos tapamos.", teach:{ infinitive:"tapar", reflexive:"taparse", en:"to cover oneself", forms:{yo:"me tapo",tu:"te tapas",el:"se tapa",nos:"nos tapamos",vos:"os tapáis",ellos:"se tapan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","TAPARSE","VOS"], q:"Vosotros ____ por la noche.", en:"You all cover yourselves at night.", aVerb:"os tapáis", verbOpts:["me tapo","te tapas","se tapa","nos tapamos","os tapáis","se tapan"], why:"Vosotros → os tapáis.", teach:{ infinitive:"tapar", reflexive:"taparse", en:"to cover oneself", forms:{yo:"me tapo",tu:"te tapas",el:"se tapa",nos:"nos tapamos",vos:"os tapáis",ellos:"se tapan"} } },
+		{ type:"typein", tags:["VERB","PRES","REFLEXIVE","TAPARSE"], q:"Ellas ____ con mantas.", en:"They cover themselves with blankets.", aVerb:"se tapan", verbOpts:["me tapo","te tapas","se tapa","nos tapamos","os tapáis","se tapan"], why:"Ellos/Ellas/Ustedes → se tapan.", teach:{ infinitive:"tapar", reflexive:"taparse", en:"to cover oneself", forms:{yo:"me tapo",tu:"te tapas",el:"se tapa",nos:"nos tapamos",vos:"os tapáis",ellos:"se tapan"} } },
+		/* ======================================================================
+		   CONTINUATION — MORE VERB PACKS (PRESENT, FULL PRONOUN SWEEP)
+		   One-row-per-exercise objects, Spain focus (vosotros/as)
+		====================================================================== */
+		
+		/* =========================
+		   REGULAR -AR VERBS
+		========================= */
+		
+		/* BAILAR (to dance) */
+		{ type:"typein", tags:["VERB","PRES","BAILAR"], q:"Yo ____ en casa.", en:"I dance at home.", aVerb:"bailo", verbOpts:["bailo","bailas","baila","bailamos","bailáis","bailan"], why:"Regular -ar.", teach:{ infinitive:"bailar", en:"to dance", forms:{yo:"bailo",tu:"bailas",el:"baila",nos:"bailamos",vos:"bailáis",ellos:"bailan"} } },
+		{ type:"typein", tags:["VERB","PRES","BAILAR"], q:"Tú ____ bien.", en:"You dance well.", aVerb:"bailas", verbOpts:["bailo","bailas","baila","bailamos","bailáis","bailan"], why:"Tú → bailas.", teach:{ infinitive:"bailar", en:"to dance", forms:{yo:"bailo",tu:"bailas",el:"baila",nos:"bailamos",vos:"bailáis",ellos:"bailan"} } },
+		{ type:"typein", tags:["VERB","PRES","BAILAR"], q:"Ella ____ en la fiesta.", en:"She dances at the party.", aVerb:"baila", verbOpts:["bailo","bailas","baila","bailamos","bailáis","bailan"], why:"Él/Ella/Usted → baila.", teach:{ infinitive:"bailar", en:"to dance", forms:{yo:"bailo",tu:"bailas",el:"baila",nos:"bailamos",vos:"bailáis",ellos:"bailan"} } },
+		{ type:"typein", tags:["VERB","PRES","BAILAR"], q:"Nosotros ____ juntos.", en:"We dance together.", aVerb:"bailamos", verbOpts:["bailo","bailas","baila","bailamos","bailáis","bailan"], why:"Nosotros → bailamos.", teach:{ infinitive:"bailar", en:"to dance", forms:{yo:"bailo",tu:"bailas",el:"baila",nos:"bailamos",vos:"bailáis",ellos:"bailan"} } },
+		{ type:"typein", tags:["VERB","PRES","BAILAR","VOS"], q:"Vosotros ____ mucho.", en:"You all dance a lot.", aVerb:"bailáis", verbOpts:["bailo","bailas","baila","bailamos","bailáis","bailan"], why:"Vosotros → bailáis.", teach:{ infinitive:"bailar", en:"to dance", forms:{yo:"bailo",tu:"bailas",el:"baila",nos:"bailamos",vos:"bailáis",ellos:"bailan"} } },
+		{ type:"typein", tags:["VERB","PRES","BAILAR"], q:"Ellas ____ en el salón.", en:"They dance in the living room.", aVerb:"bailan", verbOpts:["bailo","bailas","baila","bailamos","bailáis","bailan"], why:"Ellos/Ellas/Ustedes → bailan.", teach:{ infinitive:"bailar", en:"to dance", forms:{yo:"bailo",tu:"bailas",el:"baila",nos:"bailamos",vos:"bailáis",ellos:"bailan"} } },
+		
+		/* VIAJAR (to travel) */
+		{ type:"typein", tags:["VERB","PRES","VIAJAR"], q:"Yo ____ a Madrid.", en:"I travel to Madrid.", aVerb:"viajo", verbOpts:["viajo","viajas","viaja","viajamos","viajáis","viajan"], why:"Regular -ar.", teach:{ infinitive:"viajar", en:"to travel", forms:{yo:"viajo",tu:"viajas",el:"viaja",nos:"viajamos",vos:"viajáis",ellos:"viajan"} } },
+		{ type:"typein", tags:["VERB","PRES","VIAJAR"], q:"Tú ____ en verano.", en:"You travel in summer.", aVerb:"viajas", verbOpts:["viajo","viajas","viaja","viajamos","viajáis","viajan"], why:"Tú → viajas.", teach:{ infinitive:"viajar", en:"to travel", forms:{yo:"viajo",tu:"viajas",el:"viaja",nos:"viajamos",vos:"viajáis",ellos:"viajan"} } },
+		{ type:"typein", tags:["VERB","PRES","VIAJAR"], q:"Él ____ a casa.", en:"He travels home.", aVerb:"viaja", verbOpts:["viajo","viajas","viaja","viajamos","viajáis","viajan"], why:"Él/Ella/Usted → viaja.", teach:{ infinitive:"viajar", en:"to travel", forms:{yo:"viajo",tu:"viajas",el:"viaja",nos:"viajamos",vos:"viajáis",ellos:"viajan"} } },
+		{ type:"typein", tags:["VERB","PRES","VIAJAR"], q:"Nosotros ____ mañana.", en:"We travel tomorrow.", aVerb:"viajamos", verbOpts:["viajo","viajas","viaja","viajamos","viajáis","viajan"], why:"Nosotros → viajamos.", teach:{ infinitive:"viajar", en:"to travel", forms:{yo:"viajo",tu:"viajas",el:"viaja",nos:"viajamos",vos:"viajáis",ellos:"viajan"} } },
+		{ type:"typein", tags:["VERB","PRES","VIAJAR","VOS"], q:"Vosotros ____ en tren.", en:"You all travel by train.", aVerb:"viajáis", verbOpts:["viajo","viajas","viaja","viajamos","viajáis","viajan"], why:"Vosotros → viajáis.", teach:{ infinitive:"viajar", en:"to travel", forms:{yo:"viajo",tu:"viajas",el:"viaja",nos:"viajamos",vos:"viajáis",ellos:"viajan"} } },
+		{ type:"typein", tags:["VERB","PRES","VIAJAR"], q:"Ellos ____ a menudo.", en:"They travel often.", aVerb:"viajan", verbOpts:["viajo","viajas","viaja","viajamos","viajáis","viajan"], why:"Ellos/Ellas/Ustedes → viajan.", teach:{ infinitive:"viajar", en:"to travel", forms:{yo:"viajo",tu:"viajas",el:"viaja",nos:"viajamos",vos:"viajáis",ellos:"viajan"} } },
+		
+		/* DIBUJAR (to draw) */
+		{ type:"typein", tags:["VERB","PRES","DIBUJAR"], q:"Yo ____ un gato.", en:"I draw a cat.", aVerb:"dibujo", verbOpts:["dibujo","dibujas","dibuja","dibujamos","dibujáis","dibujan"], why:"Regular -ar.", teach:{ infinitive:"dibujar", en:"to draw", forms:{yo:"dibujo",tu:"dibujas",el:"dibuja",nos:"dibujamos",vos:"dibujáis",ellos:"dibujan"} } },
+		{ type:"typein", tags:["VERB","PRES","DIBUJAR"], q:"Tú ____ un perro.", en:"You draw a dog.", aVerb:"dibujas", verbOpts:["dibujo","dibujas","dibuja","dibujamos","dibujáis","dibujan"], why:"Tú → dibujas.", teach:{ infinitive:"dibujar", en:"to draw", forms:{yo:"dibujo",tu:"dibujas",el:"dibuja",nos:"dibujamos",vos:"dibujáis",ellos:"dibujan"} } },
+		{ type:"typein", tags:["VERB","PRES","DIBUJAR"], q:"Ella ____ un caballo.", en:"She draws a horse.", aVerb:"dibuja", verbOpts:["dibujo","dibujas","dibuja","dibujamos","dibujáis","dibujan"], why:"Él/Ella/Usted → dibuja.", teach:{ infinitive:"dibujar", en:"to draw", forms:{yo:"dibujo",tu:"dibujas",el:"dibuja",nos:"dibujamos",vos:"dibujáis",ellos:"dibujan"} } },
+		{ type:"typein", tags:["VERB","PRES","DIBUJAR"], q:"Nosotros ____ en clase.", en:"We draw in class.", aVerb:"dibujamos", verbOpts:["dibujo","dibujas","dibuja","dibujamos","dibujáis","dibujan"], why:"Nosotros → dibujamos.", teach:{ infinitive:"dibujar", en:"to draw", forms:{yo:"dibujo",tu:"dibujas",el:"dibuja",nos:"dibujamos",vos:"dibujáis",ellos:"dibujan"} } },
+		{ type:"typein", tags:["VERB","PRES","DIBUJAR","VOS"], q:"Vosotros ____ muy bien.", en:"You all draw very well.", aVerb:"dibujáis", verbOpts:["dibujo","dibujas","dibuja","dibujamos","dibujáis","dibujan"], why:"Vosotros → dibujáis.", teach:{ infinitive:"dibujar", en:"to draw", forms:{yo:"dibujo",tu:"dibujas",el:"dibuja",nos:"dibujamos",vos:"dibujáis",ellos:"dibujan"} } },
+		{ type:"typein", tags:["VERB","PRES","DIBUJAR"], q:"Ellas ____ flores.", en:"They draw flowers.", aVerb:"dibujan", verbOpts:["dibujo","dibujas","dibuja","dibujamos","dibujáis","dibujan"], why:"Ellos/Ellas/Ustedes → dibujan.", teach:{ infinitive:"dibujar", en:"to draw", forms:{yo:"dibujo",tu:"dibujas",el:"dibuja",nos:"dibujamos",vos:"dibujáis",ellos:"dibujan"} } },
+		
+		/* ESCUCHAR (to listen) */
+		{ type:"typein", tags:["VERB","PRES","ESCUCHAR"], q:"Yo ____ música.", en:"I listen to music.", aVerb:"escucho", verbOpts:["escucho","escuchas","escucha","escuchamos","escucháis","escuchan"], why:"Regular -ar.", teach:{ infinitive:"escuchar", en:"to listen", forms:{yo:"escucho",tu:"escuchas",el:"escucha",nos:"escuchamos",vos:"escucháis",ellos:"escuchan"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCUCHAR"], q:"Tú ____ la radio.", en:"You listen to the radio.", aVerb:"escuchas", verbOpts:["escucho","escuchas","escucha","escuchamos","escucháis","escuchan"], why:"Tú → escuchas.", teach:{ infinitive:"escuchar", en:"to listen", forms:{yo:"escucho",tu:"escuchas",el:"escucha",nos:"escuchamos",vos:"escucháis",ellos:"escuchan"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCUCHAR"], q:"Él ____ a su madre.", en:"He listens to his mother.", aVerb:"escucha", verbOpts:["escucho","escuchas","escucha","escuchamos","escucháis","escuchan"], why:"Él/Ella/Usted → escucha.", teach:{ infinitive:"escuchar", en:"to listen", forms:{yo:"escucho",tu:"escuchas",el:"escucha",nos:"escuchamos",vos:"escucháis",ellos:"escuchan"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCUCHAR"], q:"Nosotros ____ en clase.", en:"We listen in class.", aVerb:"escuchamos", verbOpts:["escucho","escuchas","escucha","escuchamos","escucháis","escuchan"], why:"Nosotros → escuchamos.", teach:{ infinitive:"escuchar", en:"to listen", forms:{yo:"escucho",tu:"escuchas",el:"escucha",nos:"escuchamos",vos:"escucháis",ellos:"escuchan"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCUCHAR","VOS"], q:"Vosotros ____ el podcast.", en:"You all listen to the podcast.", aVerb:"escucháis", verbOpts:["escucho","escuchas","escucha","escuchamos","escucháis","escuchan"], why:"Vosotros → escucháis.", teach:{ infinitive:"escuchar", en:"to listen", forms:{yo:"escucho",tu:"escuchas",el:"escucha",nos:"escuchamos",vos:"escucháis",ellos:"escuchan"} } },
+		{ type:"typein", tags:["VERB","PRES","ESCUCHAR"], q:"Ellas ____ una canción.", en:"They listen to a song.", aVerb:"escuchan", verbOpts:["escucho","escuchas","escucha","escuchamos","escucháis","escuchan"], why:"Ellos/Ellas/Ustedes → escuchan.", teach:{ infinitive:"escuchar", en:"to listen", forms:{yo:"escucho",tu:"escuchas",el:"escucha",nos:"escuchamos",vos:"escucháis",ellos:"escuchan"} } },
+		
+		/* CANTAR (to sing) */
+		{ type:"typein", tags:["VERB","PRES","CANTAR"], q:"Yo ____ en la ducha.", en:"I sing in the shower.", aVerb:"canto", verbOpts:["canto","cantas","canta","cantamos","cantáis","cantan"], why:"Regular -ar.", teach:{ infinitive:"cantar", en:"to sing", forms:{yo:"canto",tu:"cantas",el:"canta",nos:"cantamos",vos:"cantáis",ellos:"cantan"} } },
+		{ type:"typein", tags:["VERB","PRES","CANTAR"], q:"Tú ____ una canción.", en:"You sing a song.", aVerb:"cantas", verbOpts:["canto","cantas","canta","cantamos","cantáis","cantan"], why:"Tú → cantas.", teach:{ infinitive:"cantar", en:"to sing", forms:{yo:"canto",tu:"cantas",el:"canta",nos:"cantamos",vos:"cantáis",ellos:"cantan"} } },
+		{ type:"typein", tags:["VERB","PRES","CANTAR"], q:"Ella ____ muy bien.", en:"She sings very well.", aVerb:"canta", verbOpts:["canto","cantas","canta","cantamos","cantáis","cantan"], why:"Él/Ella/Usted → canta.", teach:{ infinitive:"cantar", en:"to sing", forms:{yo:"canto",tu:"cantas",el:"canta",nos:"cantamos",vos:"cantáis",ellos:"cantan"} } },
+		{ type:"typein", tags:["VERB","PRES","CANTAR"], q:"Nosotros ____ juntos.", en:"We sing together.", aVerb:"cantamos", verbOpts:["canto","cantas","canta","cantamos","cantáis","cantan"], why:"Nosotros → cantamos.", teach:{ infinitive:"cantar", en:"to sing", forms:{yo:"canto",tu:"cantas",el:"canta",nos:"cantamos",vos:"cantáis",ellos:"cantan"} } },
+		{ type:"typein", tags:["VERB","PRES","CANTAR","VOS"], q:"Vosotros ____ en el coche.", en:"You all sing in the car.", aVerb:"cantáis", verbOpts:["canto","cantas","canta","cantamos","cantáis","cantan"], why:"Vosotros → cantáis.", teach:{ infinitive:"cantar", en:"to sing", forms:{yo:"canto",tu:"cantas",el:"canta",nos:"cantamos",vos:"cantáis",ellos:"cantan"} } },
+		{ type:"typein", tags:["VERB","PRES","CANTAR"], q:"Ellos ____ por la noche.", en:"They sing at night.", aVerb:"cantan", verbOpts:["canto","cantas","canta","cantamos","cantáis","cantan"], why:"Ellos/Ellas/Ustedes → cantan.", teach:{ infinitive:"cantar", en:"to sing", forms:{yo:"canto",tu:"cantas",el:"canta",nos:"cantamos",vos:"cantáis",ellos:"cantan"} } },
+		
+		/* CAMINAR (to walk) */
+		{ type:"typein", tags:["VERB","PRES","CAMINAR"], q:"Yo ____ al trabajo.", en:"I walk to work.", aVerb:"camino", verbOpts:["camino","caminas","camina","caminamos","camináis","caminan"], why:"Regular -ar.", teach:{ infinitive:"caminar", en:"to walk", forms:{yo:"camino",tu:"caminas",el:"camina",nos:"caminamos",vos:"camináis",ellos:"caminan"} } },
+		{ type:"typein", tags:["VERB","PRES","CAMINAR"], q:"Tú ____ al parque.", en:"You walk to the park.", aVerb:"caminas", verbOpts:["camino","caminas","camina","caminamos","camináis","caminan"], why:"Tú → caminas.", teach:{ infinitive:"caminar", en:"to walk", forms:{yo:"camino",tu:"caminas",el:"camina",nos:"caminamos",vos:"camináis",ellos:"caminan"} } },
+		{ type:"typein", tags:["VERB","PRES","CAMINAR"], q:"Él ____ rápido.", en:"He walks fast.", aVerb:"camina", verbOpts:["camino","caminas","camina","caminamos","camináis","caminan"], why:"Él/Ella/Usted → camina.", teach:{ infinitive:"caminar", en:"to walk", forms:{yo:"camino",tu:"caminas",el:"camina",nos:"caminamos",vos:"camináis",ellos:"caminan"} } },
+		{ type:"typein", tags:["VERB","PRES","CAMINAR"], q:"Nosotros ____ juntos.", en:"We walk together.", aVerb:"caminamos", verbOpts:["camino","caminas","camina","caminamos","camináis","caminan"], why:"Nosotros → caminamos.", teach:{ infinitive:"caminar", en:"to walk", forms:{yo:"camino",tu:"caminas",el:"camina",nos:"caminamos",vos:"camináis",ellos:"caminan"} } },
+		{ type:"typein", tags:["VERB","PRES","CAMINAR","VOS"], q:"Vosotros ____ por el centro.", en:"You all walk downtown.", aVerb:"camináis", verbOpts:["camino","caminas","camina","caminamos","camináis","caminan"], why:"Vosotros → camináis.", teach:{ infinitive:"caminar", en:"to walk", forms:{yo:"camino",tu:"caminas",el:"camina",nos:"caminamos",vos:"camináis",ellos:"caminan"} } },
+		{ type:"typein", tags:["VERB","PRES","CAMINAR"], q:"Ellas ____ por la tarde.", en:"They walk in the afternoon.", aVerb:"caminan", verbOpts:["camino","caminas","camina","caminamos","camináis","caminan"], why:"Ellos/Ellas/Ustedes → caminan.", teach:{ infinitive:"caminar", en:"to walk", forms:{yo:"camino",tu:"caminas",el:"camina",nos:"caminamos",vos:"camináis",ellos:"caminan"} } },
+		
+		/* BESAR (to kiss) */
+		{ type:"typein", tags:["VERB","PRES","BESAR"], q:"Yo ____ a mi madre.", en:"I kiss my mother.", aVerb:"beso", verbOpts:["beso","besas","besa","besamos","besáis","besan"], why:"Regular -ar.", teach:{ infinitive:"besar", en:"to kiss", forms:{yo:"beso",tu:"besas",el:"besa",nos:"besamos",vos:"besáis",ellos:"besan"} } },
+		{ type:"typein", tags:["VERB","PRES","BESAR"], q:"Tú ____ al perro.", en:"You kiss the dog.", aVerb:"besas", verbOpts:["beso","besas","besa","besamos","besáis","besan"], why:"Tú → besas.", teach:{ infinitive:"besar", en:"to kiss", forms:{yo:"beso",tu:"besas",el:"besa",nos:"besamos",vos:"besáis",ellos:"besan"} } },
+		{ type:"typein", tags:["VERB","PRES","BESAR"], q:"Ella ____ a su hijo.", en:"She kisses her son.", aVerb:"besa", verbOpts:["beso","besas","besa","besamos","besáis","besan"], why:"Él/Ella/Usted → besa.", teach:{ infinitive:"besar", en:"to kiss", forms:{yo:"beso",tu:"besas",el:"besa",nos:"besamos",vos:"besáis",ellos:"besan"} } },
+		{ type:"typein", tags:["VERB","PRES","BESAR"], q:"Nosotros ____ a los niños.", en:"We kiss the children.", aVerb:"besamos", verbOpts:["beso","besas","besa","besamos","besáis","besan"], why:"Nosotros → besamos.", teach:{ infinitive:"besar", en:"to kiss", forms:{yo:"beso",tu:"besas",el:"besa",nos:"besamos",vos:"besáis",ellos:"besan"} } },
+		{ type:"typein", tags:["VERB","PRES","BESAR","VOS"], q:"Vosotros ____ a la abuela.", en:"You all kiss grandma.", aVerb:"besáis", verbOpts:["beso","besas","besa","besamos","besáis","besan"], why:"Vosotros → besáis.", teach:{ infinitive:"besar", en:"to kiss", forms:{yo:"beso",tu:"besas",el:"besa",nos:"besamos",vos:"besáis",ellos:"besan"} } },
+		{ type:"typein", tags:["VERB","PRES","BESAR"], q:"Ellos ____ a sus padres.", en:"They kiss their parents.", aVerb:"besan", verbOpts:["beso","besas","besa","besamos","besáis","besan"], why:"Ellos/Ellas/Ustedes → besan.", teach:{ infinitive:"besar", en:"to kiss", forms:{yo:"beso",tu:"besas",el:"besa",nos:"besamos",vos:"besáis",ellos:"besan"} } },
+		
+		/* ABRAZAR (to hug) */
+		{ type:"typein", tags:["VERB","PRES","ABRAZAR"], q:"Yo ____ a mi familia.", en:"I hug my family.", aVerb:"abrazo", verbOpts:["abrazo","abrazas","abraza","abrazamos","abrazáis","abrazan"], why:"Regular -ar.", teach:{ infinitive:"abrazar", en:"to hug", forms:{yo:"abrazo",tu:"abrazas",el:"abraza",nos:"abrazamos",vos:"abrazáis",ellos:"abrazan"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRAZAR"], q:"Tú ____ a tu hermana.", en:"You hug your sister.", aVerb:"abrazas", verbOpts:["abrazo","abrazas","abraza","abrazamos","abrazáis","abrazan"], why:"Tú → abrazas.", teach:{ infinitive:"abrazar", en:"to hug", forms:{yo:"abrazo",tu:"abrazas",el:"abraza",nos:"abrazamos",vos:"abrazáis",ellos:"abrazan"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRAZAR"], q:"Él ____ al niño.", en:"He hugs the child.", aVerb:"abraza", verbOpts:["abrazo","abrazas","abraza","abrazamos","abrazáis","abrazan"], why:"Él/Ella/Usted → abraza.", teach:{ infinitive:"abrazar", en:"to hug", forms:{yo:"abrazo",tu:"abrazas",el:"abraza",nos:"abrazamos",vos:"abrazáis",ellos:"abrazan"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRAZAR"], q:"Nosotros ____ a los abuelos.", en:"We hug the grandparents.", aVerb:"abrazamos", verbOpts:["abrazo","abrazas","abraza","abrazamos","abrazáis","abrazan"], why:"Nosotros → abrazamos.", teach:{ infinitive:"abrazar", en:"to hug", forms:{yo:"abrazo",tu:"abrazas",el:"abraza",nos:"abrazamos",vos:"abrazáis",ellos:"abrazan"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRAZAR","VOS"], q:"Vosotros ____ a la familia.", en:"You all hug the family.", aVerb:"abrazáis", verbOpts:["abrazo","abrazas","abraza","abrazamos","abrazáis","abrazan"], why:"Vosotros → abrazáis.", teach:{ infinitive:"abrazar", en:"to hug", forms:{yo:"abrazo",tu:"abrazas",el:"abraza",nos:"abrazamos",vos:"abrazáis",ellos:"abrazan"} } },
+		{ type:"typein", tags:["VERB","PRES","ABRAZAR"], q:"Ellas ____ a sus hijos.", en:"They hug their children.", aVerb:"abrazan", verbOpts:["abrazo","abrazas","abraza","abrazamos","abrazáis","abrazan"], why:"Ellos/Ellas/Ustedes → abrazan.", teach:{ infinitive:"abrazar", en:"to hug", forms:{yo:"abrazo",tu:"abrazas",el:"abraza",nos:"abrazamos",vos:"abrazáis",ellos:"abrazan"} } },
+		
+		/* =========================
+		   REGULAR -ER VERBS
+		========================= */
+		
+		/* RESPONDER (to answer) */
+		{ type:"typein", tags:["VERB","PRES","RESPONDER"], q:"Yo ____ ahora.", en:"I answer now.", aVerb:"respondo", verbOpts:["respondo","respondes","responde","respondemos","respondéis","responden"], why:"Regular -er.", teach:{ infinitive:"responder", en:"to answer", forms:{yo:"respondo",tu:"respondes",el:"responde",nos:"respondemos",vos:"respondéis",ellos:"responden"} } },
+		{ type:"typein", tags:["VERB","PRES","RESPONDER"], q:"Tú ____ al mensaje.", en:"You answer the message.", aVerb:"respondes", verbOpts:["respondo","respondes","responde","respondemos","respondéis","responden"], why:"Tú → respondes.", teach:{ infinitive:"responder", en:"to answer", forms:{yo:"respondo",tu:"respondes",el:"responde",nos:"respondemos",vos:"respondéis",ellos:"responden"} } },
+		{ type:"typein", tags:["VERB","PRES","RESPONDER"], q:"Ella ____ la pregunta.", en:"She answers the question.", aVerb:"responde", verbOpts:["respondo","respondes","responde","respondemos","respondéis","responden"], why:"Él/Ella/Usted → responde.", teach:{ infinitive:"responder", en:"to answer", forms:{yo:"respondo",tu:"respondes",el:"responde",nos:"respondemos",vos:"respondéis",ellos:"responden"} } },
+		{ type:"typein", tags:["VERB","PRES","RESPONDER"], q:"Nosotros ____ en clase.", en:"We answer in class.", aVerb:"respondemos", verbOpts:["respondo","respondes","responde","respondemos","respondéis","responden"], why:"Nosotros → respondemos.", teach:{ infinitive:"responder", en:"to answer", forms:{yo:"respondo",tu:"respondes",el:"responde",nos:"respondemos",vos:"respondéis",ellos:"responden"} } },
+		{ type:"typein", tags:["VERB","PRES","RESPONDER","VOS"], q:"Vosotros ____ rápido.", en:"You all answer quickly.", aVerb:"respondéis", verbOpts:["respondo","respondes","responde","respondemos","respondéis","responden"], why:"Vosotros → respondéis.", teach:{ infinitive:"responder", en:"to answer", forms:{yo:"respondo",tu:"respondes",el:"responde",nos:"respondemos",vos:"respondéis",ellos:"responden"} } },
+		{ type:"typein", tags:["VERB","PRES","RESPONDER"], q:"Ellos ____ tarde.", en:"They answer late.", aVerb:"responden", verbOpts:["respondo","respondes","responde","respondemos","respondéis","responden"], why:"Ellos/Ellas/Ustedes → responden.", teach:{ infinitive:"responder", en:"to answer", forms:{yo:"respondo",tu:"respondes",el:"responde",nos:"respondemos",vos:"respondéis",ellos:"responden"} } },
+		
+		/* COMPRENDER (to understand) */
+		{ type:"typein", tags:["VERB","PRES","COMPRENDER"], q:"Yo ____.", en:"I understand.", aVerb:"comprendo", verbOpts:["comprendo","comprendes","comprende","comprendemos","comprendéis","comprenden"], why:"Regular -er.", teach:{ infinitive:"comprender", en:"to understand", forms:{yo:"comprendo",tu:"comprendes",el:"comprende",nos:"comprendemos",vos:"comprendéis",ellos:"comprenden"} } },
+		{ type:"typein", tags:["VERB","PRES","COMPRENDER"], q:"Tú ____ la idea.", en:"You understand the idea.", aVerb:"comprendes", verbOpts:["comprendo","comprendes","comprende","comprendemos","comprendéis","comprenden"], why:"Tú → comprendes.", teach:{ infinitive:"comprender", en:"to understand", forms:{yo:"comprendo",tu:"comprendes",el:"comprende",nos:"comprendemos",vos:"comprendéis",ellos:"comprenden"} } },
+		{ type:"typein", tags:["VERB","PRES","COMPRENDER"], q:"Él ____ la pregunta.", en:"He understands the question.", aVerb:"comprende", verbOpts:["comprendo","comprendes","comprende","comprendemos","comprendéis","comprenden"], why:"Él/Ella/Usted → comprende.", teach:{ infinitive:"comprender", en:"to understand", forms:{yo:"comprendo",tu:"comprendes",el:"comprende",nos:"comprendemos",vos:"comprendéis",ellos:"comprenden"} } },
+		{ type:"typein", tags:["VERB","PRES","COMPRENDER"], q:"Nosotros ____ español.", en:"We understand Spanish.", aVerb:"comprendemos", verbOpts:["comprendo","comprendes","comprende","comprendemos","comprendéis","comprenden"], why:"Nosotros → comprendemos.", teach:{ infinitive:"comprender", en:"to understand", forms:{yo:"comprendo",tu:"comprendes",el:"comprende",nos:"comprendemos",vos:"comprendéis",ellos:"comprenden"} } },
+		{ type:"typein", tags:["VERB","PRES","COMPRENDER","VOS"], q:"Vosotros ____ mucho.", en:"You all understand a lot.", aVerb:"comprendéis", verbOpts:["comprendo","comprendes","comprende","comprendemos","comprendéis","comprenden"], why:"Vosotros → comprendéis.", teach:{ infinitive:"comprender", en:"to understand", forms:{yo:"comprendo",tu:"comprendes",el:"comprende",nos:"comprendemos",vos:"comprendéis",ellos:"comprenden"} } },
+		{ type:"typein", tags:["VERB","PRES","COMPRENDER"], q:"Ellas ____ la lección.", en:"They understand the lesson.", aVerb:"comprenden", verbOpts:["comprendo","comprendes","comprende","comprendemos","comprendéis","comprenden"], why:"Ellos/Ellas/Ustedes → comprenden.", teach:{ infinitive:"comprender", en:"to understand", forms:{yo:"comprendo",tu:"comprendes",el:"comprende",nos:"comprendemos",vos:"comprendéis",ellos:"comprenden"} } },
+		
+		/* VENDER (to sell) */
+		{ type:"typein", tags:["VERB","PRES","VENDER"], q:"Yo ____ pan.", en:"I sell bread.", aVerb:"vendo", verbOpts:["vendo","vendes","vende","vendemos","vendéis","venden"], why:"Regular -er.", teach:{ infinitive:"vender", en:"to sell", forms:{yo:"vendo",tu:"vendes",el:"vende",nos:"vendemos",vos:"vendéis",ellos:"venden"} } },
+		{ type:"typein", tags:["VERB","PRES","VENDER"], q:"Tú ____ la casa.", en:"You sell the house.", aVerb:"vendes", verbOpts:["vendo","vendes","vende","vendemos","vendéis","venden"], why:"Tú → vendes.", teach:{ infinitive:"vender", en:"to sell", forms:{yo:"vendo",tu:"vendes",el:"vende",nos:"vendemos",vos:"vendéis",ellos:"venden"} } },
+		{ type:"typein", tags:["VERB","PRES","VENDER"], q:"Ella ____ un coche.", en:"She sells a car.", aVerb:"vende", verbOpts:["vendo","vendes","vende","vendemos","vendéis","venden"], why:"Él/Ella/Usted → vende.", teach:{ infinitive:"vender", en:"to sell", forms:{yo:"vendo",tu:"vendes",el:"vende",nos:"vendemos",vos:"vendéis",ellos:"venden"} } },
+		{ type:"typein", tags:["VERB","PRES","VENDER"], q:"Nosotros ____ comida.", en:"We sell food.", aVerb:"vendemos", verbOpts:["vendo","vendes","vende","vendemos","vendéis","venden"], why:"Nosotros → vendemos.", teach:{ infinitive:"vender", en:"to sell", forms:{yo:"vendo",tu:"vendes",el:"vende",nos:"vendemos",vos:"vendéis",ellos:"venden"} } },
+		{ type:"typein", tags:["VERB","PRES","VENDER","VOS"], q:"Vosotros ____ entradas.", en:"You all sell tickets.", aVerb:"vendéis", verbOpts:["vendo","vendes","vende","vendemos","vendéis","venden"], why:"Vosotros → vendéis.", teach:{ infinitive:"vender", en:"to sell", forms:{yo:"vendo",tu:"vendes",el:"vende",nos:"vendemos",vos:"vendéis",ellos:"venden"} } },
+		{ type:"typein", tags:["VERB","PRES","VENDER"], q:"Ellos ____ fruta.", en:"They sell fruit.", aVerb:"venden", verbOpts:["vendo","vendes","vende","vendemos","vendéis","venden"], why:"Ellos/Ellas/Ustedes → venden.", teach:{ infinitive:"vender", en:"to sell", forms:{yo:"vendo",tu:"vendes",el:"vende",nos:"vendemos",vos:"vendéis",ellos:"venden"} } },
+		
+		/* PROMETER (to promise) */
+		{ type:"typein", tags:["VERB","PRES","PROMETER"], q:"Yo ____ ayudar.", en:"I promise to help.", aVerb:"prometo", verbOpts:["prometo","prometes","promete","prometemos","prometéis","prometen"], why:"Regular -er.", teach:{ infinitive:"prometer", en:"to promise", forms:{yo:"prometo",tu:"prometes",el:"promete",nos:"prometemos",vos:"prometéis",ellos:"prometen"} } },
+		{ type:"typein", tags:["VERB","PRES","PROMETER"], q:"Tú ____ venir.", en:"You promise to come.", aVerb:"prometes", verbOpts:["prometo","prometes","promete","prometemos","prometéis","prometen"], why:"Tú → prometes.", teach:{ infinitive:"prometer", en:"to promise", forms:{yo:"prometo",tu:"prometes",el:"promete",nos:"prometemos",vos:"prometéis",ellos:"prometen"} } },
+		{ type:"typein", tags:["VERB","PRES","PROMETER"], q:"Él ____ estudiar.", en:"He promises to study.", aVerb:"promete", verbOpts:["prometo","prometes","promete","prometemos","prometéis","prometen"], why:"Él/Ella/Usted → promete.", teach:{ infinitive:"prometer", en:"to promise", forms:{yo:"prometo",tu:"prometes",el:"promete",nos:"prometemos",vos:"prometéis",ellos:"prometen"} } },
+		{ type:"typein", tags:["VERB","PRES","PROMETER"], q:"Nosotros ____ escuchar.", en:"We promise to listen.", aVerb:"prometemos", verbOpts:["prometo","prometes","promete","prometemos","prometéis","prometen"], why:"Nosotros → prometemos.", teach:{ infinitive:"prometer", en:"to promise", forms:{yo:"prometo",tu:"prometes",el:"promete",nos:"prometemos",vos:"prometéis",ellos:"prometen"} } },
+		{ type:"typein", tags:["VERB","PRES","PROMETER","VOS"], q:"Vosotros ____ ayudar.", en:"You all promise to help.", aVerb:"prometéis", verbOpts:["prometo","prometes","promete","prometemos","prometéis","prometen"], why:"Vosotros → prometéis.", teach:{ infinitive:"prometer", en:"to promise", forms:{yo:"prometo",tu:"prometes",el:"promete",nos:"prometemos",vos:"prometéis",ellos:"prometen"} } },
+		{ type:"typein", tags:["VERB","PRES","PROMETER"], q:"Ellas ____ venir.", en:"They promise to come.", aVerb:"prometen", verbOpts:["prometo","prometes","promete","prometemos","prometéis","prometen"], why:"Ellos/Ellas/Ustedes → prometen.", teach:{ infinitive:"prometer", en:"to promise", forms:{yo:"prometo",tu:"prometes",el:"promete",nos:"prometemos",vos:"prometéis",ellos:"prometen"} } },
+		
+		/* CREER (to believe) — accents in vosotros: creéis */
+		{ type:"typein", tags:["VERB","PRES","CREER"], q:"Yo ____ en ti.", en:"I believe in you.", aVerb:"creo", verbOpts:["creo","crees","cree","creemos","creéis","creen"], why:"Regular -er; watch accent in creéis.", teach:{ infinitive:"creer", en:"to believe", forms:{yo:"creo",tu:"crees",el:"cree",nos:"creemos",vos:"creéis",ellos:"creen"}, note:"Vosotros form has accent: creéis." } },
+		{ type:"typein", tags:["VERB","PRES","CREER"], q:"Tú ____ la historia.", en:"You believe the story.", aVerb:"crees", verbOpts:["creo","crees","cree","creemos","creéis","creen"], why:"Tú → crees.", teach:{ infinitive:"creer", en:"to believe", forms:{yo:"creo",tu:"crees",el:"cree",nos:"creemos",vos:"creéis",ellos:"creen"} } },
+		{ type:"typein", tags:["VERB","PRES","CREER"], q:"Ella ____ que sí.", en:"She believes yes.", aVerb:"cree", verbOpts:["creo","crees","cree","creemos","creéis","creen"], why:"Él/Ella/Usted → cree.", teach:{ infinitive:"creer", en:"to believe", forms:{yo:"creo",tu:"crees",el:"cree",nos:"creemos",vos:"creéis",ellos:"creen"} } },
+		{ type:"typein", tags:["VERB","PRES","CREER"], q:"Nosotros ____ en la idea.", en:"We believe in the idea.", aVerb:"creemos", verbOpts:["creo","crees","cree","creemos","creéis","creen"], why:"Nosotros → creemos.", teach:{ infinitive:"creer", en:"to believe", forms:{yo:"creo",tu:"crees",el:"cree",nos:"creemos",vos:"creéis",ellos:"creen"} } },
+		{ type:"typein", tags:["VERB","PRES","CREER","VOS"], q:"Vosotros ____ en Dios.", en:"You all believe in God.", aVerb:"creéis", verbOpts:["creo","crees","cree","creemos","creéis","creen"], why:"Vosotros → creéis.", teach:{ infinitive:"creer", en:"to believe", forms:{yo:"creo",tu:"crees",el:"cree",nos:"creemos",vos:"creéis",ellos:"creen"} } },
+		{ type:"typein", tags:["VERB","PRES","CREER"], q:"Ellos ____ la verdad.", en:"They believe the truth.", aVerb:"creen", verbOpts:["creo","crees","cree","creemos","creéis","creen"], why:"Ellos/Ellas/Ustedes → creen.", teach:{ infinitive:"creer", en:"to believe", forms:{yo:"creo",tu:"crees",el:"cree",nos:"creemos",vos:"creéis",ellos:"creen"} } },
+		
+		/* LEER (to read) — accents: leéis */
+		{ type:"typein", tags:["VERB","PRES","LEER"], q:"Yo ____ un libro.", en:"I read a book.", aVerb:"leo", verbOpts:["leo","lees","lee","leemos","leéis","leen"], why:"Regular -er; watch accent in leéis.", teach:{ infinitive:"leer", en:"to read", forms:{yo:"leo",tu:"lees",el:"lee",nos:"leemos",vos:"leéis",ellos:"leen"}, note:"Vosotros form has accent: leéis." } },
+		{ type:"typein", tags:["VERB","PRES","LEER"], q:"Tú ____ el menú.", en:"You read the menu.", aVerb:"lees", verbOpts:["leo","lees","lee","leemos","leéis","leen"], why:"Tú → lees.", teach:{ infinitive:"leer", en:"to read", forms:{yo:"leo",tu:"lees",el:"lee",nos:"leemos",vos:"leéis",ellos:"leen"} } },
+		{ type:"typein", tags:["VERB","PRES","LEER"], q:"Él ____ una carta.", en:"He reads a letter.", aVerb:"lee", verbOpts:["leo","lees","lee","leemos","leéis","leen"], why:"Él/Ella/Usted → lee.", teach:{ infinitive:"leer", en:"to read", forms:{yo:"leo",tu:"lees",el:"lee",nos:"leemos",vos:"leéis",ellos:"leen"} } },
+		{ type:"typein", tags:["VERB","PRES","LEER"], q:"Nosotros ____ en casa.", en:"We read at home.", aVerb:"leemos", verbOpts:["leo","lees","lee","leemos","leéis","leen"], why:"Nosotros → leemos.", teach:{ infinitive:"leer", en:"to read", forms:{yo:"leo",tu:"lees",el:"lee",nos:"leemos",vos:"leéis",ellos:"leen"} } },
+		{ type:"typein", tags:["VERB","PRES","LEER","VOS"], q:"Vosotros ____ mucho.", en:"You all read a lot.", aVerb:"leéis", verbOpts:["leo","lees","lee","leemos","leéis","leen"], why:"Vosotros → leéis.", teach:{ infinitive:"leer", en:"to read", forms:{yo:"leo",tu:"lees",el:"lee",nos:"leemos",vos:"leéis",ellos:"leen"} } },
+		{ type:"typein", tags:["VERB","PRES","LEER"], q:"Ellas ____ el periódico.", en:"They read the newspaper.", aVerb:"leen", verbOpts:["leo","lees","lee","leemos","leéis","leen"], why:"Ellos/Ellas/Ustedes → leen.", teach:{ infinitive:"leer", en:"to read", forms:{yo:"leo",tu:"lees",el:"lee",nos:"leemos",vos:"leéis",ellos:"leen"} } },
+		
+		/* CORRER (to run) */
+		{ type:"typein", tags:["VERB","PRES","CORRER"], q:"Yo ____ en el parque.", en:"I run in the park.", aVerb:"corro", verbOpts:["corro","corres","corre","corremos","corréis","corren"], why:"Regular -er.", teach:{ infinitive:"correr", en:"to run", forms:{yo:"corro",tu:"corres",el:"corre",nos:"corremos",vos:"corréis",ellos:"corren"} } },
+		{ type:"typein", tags:["VERB","PRES","CORRER"], q:"Tú ____ rápido.", en:"You run fast.", aVerb:"corres", verbOpts:["corro","corres","corre","corremos","corréis","corren"], why:"Tú → corres.", teach:{ infinitive:"correr", en:"to run", forms:{yo:"corro",tu:"corres",el:"corre",nos:"corremos",vos:"corréis",ellos:"corren"} } },
+		{ type:"typein", tags:["VERB","PRES","CORRER"], q:"Ella ____ por la mañana.", en:"She runs in the morning.", aVerb:"corre", verbOpts:["corro","corres","corre","corremos","corréis","corren"], why:"Él/Ella/Usted → corre.", teach:{ infinitive:"correr", en:"to run", forms:{yo:"corro",tu:"corres",el:"corre",nos:"corremos",vos:"corréis",ellos:"corren"} } },
+		{ type:"typein", tags:["VERB","PRES","CORRER"], q:"Nosotros ____ juntos.", en:"We run together.", aVerb:"corremos", verbOpts:["corro","corres","corre","corremos","corréis","corren"], why:"Nosotros → corremos.", teach:{ infinitive:"correr", en:"to run", forms:{yo:"corro",tu:"corres",el:"corre",nos:"corremos",vos:"corréis",ellos:"corren"} } },
+		{ type:"typein", tags:["VERB","PRES","CORRER","VOS"], q:"Vosotros ____ mucho.", en:"You all run a lot.", aVerb:"corréis", verbOpts:["corro","corres","corre","corremos","corréis","corren"], why:"Vosotros → corréis.", teach:{ infinitive:"correr", en:"to run", forms:{yo:"corro",tu:"corres",el:"corre",nos:"corremos",vos:"corréis",ellos:"corren"} } },
+		{ type:"typein", tags:["VERB","PRES","CORRER"], q:"Ellos ____ en el parque.", en:"They run in the park.", aVerb:"corren", verbOpts:["corro","corres","corre","corremos","corréis","corren"], why:"Ellos/Ellas/Ustedes → corren.", teach:{ infinitive:"correr", en:"to run", forms:{yo:"corro",tu:"corres",el:"corre",nos:"corremos",vos:"corréis",ellos:"corren"} } },
+		
+		/* =========================
+		   REGULAR -IR VERBS
+		========================= */
+		
+		/* VIVIR (to live) */
+		{ type:"typein", tags:["VERB","PRES","VIVIR"], q:"Yo ____ en Madrid.", en:"I live in Madrid.", aVerb:"vivo", verbOpts:["vivo","vives","vive","vivimos","vivís","viven"], why:"Regular -ir.", teach:{ infinitive:"vivir", en:"to live", forms:{yo:"vivo",tu:"vives",el:"vive",nos:"vivimos",vos:"vivís",ellos:"viven"} } },
+		{ type:"typein", tags:["VERB","PRES","VIVIR"], q:"Tú ____ aquí.", en:"You live here.", aVerb:"vives", verbOpts:["vivo","vives","vive","vivimos","vivís","viven"], why:"Tú → vives.", teach:{ infinitive:"vivir", en:"to live", forms:{yo:"vivo",tu:"vives",el:"vive",nos:"vivimos",vos:"vivís",ellos:"viven"} } },
+		{ type:"typein", tags:["VERB","PRES","VIVIR"], q:"Ella ____ con su familia.", en:"She lives with her family.", aVerb:"vive", verbOpts:["vivo","vives","vive","vivimos","vivís","viven"], why:"Él/Ella/Usted → vive.", teach:{ infinitive:"vivir", en:"to live", forms:{yo:"vivo",tu:"vives",el:"vive",nos:"vivimos",vos:"vivís",ellos:"viven"} } },
+		{ type:"typein", tags:["VERB","PRES","VIVIR"], q:"Nosotros ____ en España.", en:"We live in Spain.", aVerb:"vivimos", verbOpts:["vivo","vives","vive","vivimos","vivís","viven"], why:"Nosotros → vivimos.", teach:{ infinitive:"vivir", en:"to live", forms:{yo:"vivo",tu:"vives",el:"vive",nos:"vivimos",vos:"vivís",ellos:"viven"} } },
+		{ type:"typein", tags:["VERB","PRES","VIVIR","VOS"], q:"Vosotros ____ cerca.", en:"You all live nearby.", aVerb:"vivís", verbOpts:["vivo","vives","vive","vivimos","vivís","viven"], why:"Vosotros → vivís.", teach:{ infinitive:"vivir", en:"to live", forms:{yo:"vivo",tu:"vives",el:"vive",nos:"vivimos",vos:"vivís",ellos:"viven"} } },
+		{ type:"typein", tags:["VERB","PRES","VIVIR"], q:"Ellas ____ lejos.", en:"They live far away.", aVerb:"viven", verbOpts:["vivo","vives","vive","vivimos","vivís","viven"], why:"Ellos/Ellas/Ustedes → viven.", teach:{ infinitive:"vivir", en:"to live", forms:{yo:"vivo",tu:"vives",el:"vive",nos:"vivimos",vos:"vivís",ellos:"viven"} } },
+		
+		/* DESCRIBIR (to describe) */
+		{ type:"typein", tags:["VERB","PRES","DESCRIBIR"], q:"Yo ____ el lugar.", en:"I describe the place.", aVerb:"describo", verbOpts:["describo","describes","describe","describimos","describís","describen"], why:"Regular -ir.", teach:{ infinitive:"describir", en:"to describe", forms:{yo:"describo",tu:"describes",el:"describe",nos:"describimos",vos:"describís",ellos:"describen"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCRIBIR"], q:"Tú ____ el perro.", en:"You describe the dog.", aVerb:"describes", verbOpts:["describo","describes","describe","describimos","describís","describen"], why:"Tú → describes.", teach:{ infinitive:"describir", en:"to describe", forms:{yo:"describo",tu:"describes",el:"describe",nos:"describimos",vos:"describís",ellos:"describen"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCRIBIR"], q:"Él ____ el color.", en:"He describes the color.", aVerb:"describe", verbOpts:["describo","describes","describe","describimos","describís","describen"], why:"Él/Ella/Usted → describe.", teach:{ infinitive:"describir", en:"to describe", forms:{yo:"describo",tu:"describes",el:"describe",nos:"describimos",vos:"describís",ellos:"describen"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCRIBIR"], q:"Nosotros ____ la foto.", en:"We describe the photo.", aVerb:"describimos", verbOpts:["describo","describes","describe","describimos","describís","describen"], why:"Nosotros → describimos.", teach:{ infinitive:"describir", en:"to describe", forms:{yo:"describo",tu:"describes",el:"describe",nos:"describimos",vos:"describís",ellos:"describen"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCRIBIR","VOS"], q:"Vosotros ____ la película.", en:"You all describe the movie.", aVerb:"describís", verbOpts:["describo","describes","describe","describimos","describís","describen"], why:"Vosotros → describís.", teach:{ infinitive:"describir", en:"to describe", forms:{yo:"describo",tu:"describes",el:"describe",nos:"describimos",vos:"describís",ellos:"describen"} } },
+		{ type:"typein", tags:["VERB","PRES","DESCRIBIR"], q:"Ellas ____ la historia.", en:"They describe the story.", aVerb:"describen", verbOpts:["describo","describes","describe","describimos","describís","describen"], why:"Ellos/Ellas/Ustedes → describen.", teach:{ infinitive:"describir", en:"to describe", forms:{yo:"describo",tu:"describes",el:"describe",nos:"describimos",vos:"describís",ellos:"describen"} } },
+		/* ======================================================================
+		   TIME FOCUS — TELLING TIME (Spain)
+		   Mix of: typein (build the time), translation (ES↔EN), and recognition MC
+		   One-row-per-exercise objects
+		====================================================================== */
+		
+		/* =========================
+		   CORE FORMS: ES LA / SON LAS
+		========================= */
+		
+		{ type:"typein", tags:["TIME","CORE"], q:"Complete: ____ la una.", en:"It is one o'clock.", a:"Es", why:"For 1: Es la una.", teach:{ es:"Es la una", en:"It is one o'clock", note:"Only 1 uses 'Es la'." } },
+		{ type:"typein", tags:["TIME","CORE"], q:"Complete: ____ las dos.", en:"It is two o'clock.", a:"Son", why:"For 2–12: Son las + number.", teach:{ es:"Son las dos", en:"It is two o'clock", note:"2–12 use 'Son las'." } },
+		{ type:"typein", tags:["TIME","CORE"], q:"Complete: ____ las doce.", en:"It is twelve o'clock.", a:"Son", why:"2–12: Son las.", teach:{ es:"Son las doce", en:"It is twelve o'clock" } },
+		
+		/* =========================
+		   ON THE HOUR: EN PUNTO
+		========================= */
+		
+		{ type:"typein", tags:["TIME","EN_PUNTO"], q:"Build: It is three o'clock sharp.", en:"Use 'en punto'.", a:"Son las tres en punto", why:"Exact hour: en punto.", teach:{ es:"Son las tres en punto", en:"It is three o'clock sharp", note:"Spain: very common." } },
+		{ type:"typein", tags:["TIME","EN_PUNTO"], q:"Build: It is one o'clock sharp.", en:"Use 'en punto'.", a:"Es la una en punto", why:"1 uses 'Es la'.", teach:{ es:"Es la una en punto", en:"It is one o'clock sharp" } },
+		
+		/* =========================
+		   MINUTES PAST: Y (NUMERO)
+		========================= */
+		
+		{ type:"typein", tags:["TIME","Y"], q:"Build: It is two ten.", en:"(2:10)", a:"Son las dos y diez", why:"Minutes past: y + minutes.", teach:{ es:"Son las dos y diez", en:"It is 2:10" } },
+		{ type:"typein", tags:["TIME","Y"], q:"Build: It is five twenty.", en:"(5:20)", a:"Son las cinco y veinte", why:"y + veinte.", teach:{ es:"Son las cinco y veinte", en:"It is 5:20" } },
+		{ type:"typein", tags:["TIME","Y"], q:"Build: It is one five.", en:"(1:05)", a:"Es la una y cinco", why:"1 uses 'Es la'.", teach:{ es:"Es la una y cinco", en:"It is 1:05" } },
+		
+		/* =========================
+		   QUARTER / HALF
+		========================= */
+		
+		{ type:"typein", tags:["TIME","CUARTO"], q:"Build: It is four fifteen.", en:"(4:15)", a:"Son las cuatro y cuarto", why:"Quarter past: y cuarto.", teach:{ es:"Son las cuatro y cuarto", en:"It is 4:15" } },
+		{ type:"typein", tags:["TIME","MEDIA"], q:"Build: It is six thirty.", en:"(6:30)", a:"Son las seis y media", why:"Half past: y media.", teach:{ es:"Son las seis y media", en:"It is 6:30" } },
+		{ type:"typein", tags:["TIME","CUARTO"], q:"Build: It is one fifteen.", en:"(1:15)", a:"Es la una y cuarto", why:"1 uses 'Es la'.", teach:{ es:"Es la una y cuarto", en:"It is 1:15" } },
+		
+		/* =========================
+		   MINUTES TO: MENOS (NUMERO)
+		========================= */
+		
+		{ type:"typein", tags:["TIME","MENOS"], q:"Build: It is three fifty.", en:"(2:50) → 'ten to three'", a:"Son las tres menos diez", why:"To the next hour: menos + minutes.", teach:{ es:"Son las tres menos diez", en:"It is 2:50 (ten to three)" } },
+		{ type:"typein", tags:["TIME","MENOS"], q:"Build: It is eight forty.", en:"(7:40) → 'twenty to eight'", a:"Son las ocho menos veinte", why:"menos + veinte.", teach:{ es:"Son las ocho menos veinte", en:"It is 7:40 (twenty to eight)" } },
+		{ type:"typein", tags:["TIME","MENOS","CUARTO"], q:"Build: It is quarter to ten.", en:"(9:45)", a:"Son las diez menos cuarto", why:"Quarter to: menos cuarto.", teach:{ es:"Son las diez menos cuarto", en:"It is 9:45" } },
+		{ type:"typein", tags:["TIME","MENOS","CUARTO"], q:"Build: It is quarter to one.", en:"(12:45)", a:"Es la una menos cuarto", why:"Next hour is 1 → Es la una.", teach:{ es:"Es la una menos cuarto", en:"It is 12:45" } },
+		
+		/* =========================
+		   ADDING TIME OF DAY: DE LA MAÑANA / TARDE / NOCHE
+		========================= */
+		
+		{ type:"typein", tags:["TIME","DAYPART","MANANA"], q:"Build: It is seven in the morning.", en:"(7:00 a.m.)", a:"Son las siete de la mañana", why:"Morning: de la mañana.", teach:{ es:"Son las siete de la mañana", en:"It is seven in the morning" } },
+		{ type:"typein", tags:["TIME","DAYPART","TARDE"], q:"Build: It is three in the afternoon.", en:"(3:00 p.m.)", a:"Son las tres de la tarde", why:"Afternoon: de la tarde.", teach:{ es:"Son las tres de la tarde", en:"It is three in the afternoon" } },
+		{ type:"typein", tags:["TIME","DAYPART","NOCHE"], q:"Build: It is ten at night.", en:"(10:00 p.m.)", a:"Son las diez de la noche", why:"Night: de la noche.", teach:{ es:"Son las diez de la noche", en:"It is ten at night" } },
+		{ type:"typein", tags:["TIME","DAYPART","MANANA"], q:"Build: It is one in the morning.", en:"(1:00 a.m.)", a:"Es la una de la mañana", why:"1 uses 'Es la'.", teach:{ es:"Es la una de la mañana", en:"It is one in the morning" } },
+		
+		/* =========================
+		   SPANISH → ENGLISH (FAST CHECKS)
+		========================= */
+		
+		{ type:"typein", tags:["TIME","ES_EN"], q:"Traduce al inglés: Son las cinco y media.", a:"It is five thirty", why:"y media = half past.", teach:{ es:"Son las cinco y media", en:"It is 5:30" } },
+		{ type:"typein", tags:["TIME","ES_EN"], q:"Traduce al inglés: Son las nueve menos cuarto.", a:"It is eight forty-five", why:"menos cuarto = quarter to next hour.", teach:{ es:"Son las nueve menos cuarto", en:"It is 8:45" } },
+		{ type:"typein", tags:["TIME","ES_EN"], q:"Traduce al inglés: Es la una en punto.", a:"It is one o'clock sharp", why:"en punto = sharp.", teach:{ es:"Es la una en punto", en:"It is 1:00 sharp" } },
+		{ type:"typein", tags:["TIME","ES_EN"], q:"Traduce al inglés: Son las seis y cuarto.", a:"It is six fifteen", why:"y cuarto = quarter past.", teach:{ es:"Son las seis y cuarto", en:"It is 6:15" } },
+		{ type:"typein", tags:["TIME","ES_EN"], q:"Traduce al inglés: Son las cuatro menos veinte.", a:"It is three forty", why:"menos veinte = 20 to next hour.", teach:{ es:"Son las cuatro menos veinte", en:"It is 3:40" } },
+		
+		/* =========================
+		   MULTIPLE CHOICE (RECOGNITION)
+		========================= */
+		
+		{ type:"mc", tags:["TIME","MC"], q:"Pick the correct Spanish for: 2:00", a:"Son las dos", opts:["Son las dos","Es la dos","Son las dos y media","Son las dos menos cuarto"], why:"2–12 use Son las.", teach:{ es:"Son las dos", en:"It is 2:00" } },
+		{ type:"mc", tags:["TIME","MC"], q:"Pick the correct Spanish for: 1:00", a:"Es la una", opts:["Es la una","Son las una","Es la una y media","Son las una en punto"], why:"1 uses Es la una.", teach:{ es:"Es la una", en:"It is 1:00" } },
+		{ type:"mc", tags:["TIME","MC"], q:"Pick the correct Spanish for: 6:30", a:"Son las seis y media", opts:["Son las seis y media","Son las seis y cuarto","Son las seis menos cuarto","Es la seis y media"], why:"Half past: y media.", teach:{ es:"Son las seis y media", en:"It is 6:30" } },
+		{ type:"mc", tags:["TIME","MC"], q:"Pick the correct Spanish for: 9:45", a:"Son las diez menos cuarto", opts:["Son las diez menos cuarto","Son las nueve y cuarto","Son las nueve menos cuarto","Son las diez y cuarto"], why:"Quarter to 10 = 9:45.", teach:{ es:"Son las diez menos cuarto", en:"It is 9:45" } },
+		{ type:"mc", tags:["TIME","MC"], q:"Pick the correct Spanish for: 3:10", a:"Son las tres y diez", opts:["Son las tres y diez","Son las tres menos diez","Son las dos y diez","Es la tres y diez"], why:"Minutes past: y + diez.", teach:{ es:"Son las tres y diez", en:"It is 3:10" } },
+		
+		/* =========================
+		   MIXED: TIME + DAYPART (MC)
+		========================= */
+		
+		{ type:"mc", tags:["TIME","DAYPART","MC"], q:"Pick the correct Spanish for: 7:00 a.m.", a:"Son las siete de la mañana", opts:["Son las siete de la mañana","Son las siete de la noche","Son las siete de la tarde","Es la siete de la mañana"], why:"Morning = de la mañana; 7 uses Son las.", teach:{ es:"Son las siete de la mañana", en:"It is 7:00 a.m." } },
+		{ type:"mc", tags:["TIME","DAYPART","MC"], q:"Pick the correct Spanish for: 3:00 p.m.", a:"Son las tres de la tarde", opts:["Son las tres de la tarde","Son las tres de la noche","Son las tres de la mañana","Es la tres de la tarde"], why:"Afternoon = de la tarde.", teach:{ es:"Son las tres de la tarde", en:"It is 3:00 p.m." } },
+		{ type:"mc", tags:["TIME","DAYPART","MC"], q:"Pick the correct Spanish for: 10:00 p.m.", a:"Son las diez de la noche", opts:["Son las diez de la noche","Son las diez de la mañana","Son las diez de la tarde","Es la diez de la noche"], why:"Night = de la noche; 10 uses Son las.", teach:{ es:"Son las diez de la noche", en:"It is 10:00 p.m." } }
 
 
     ]
@@ -2357,5 +2852,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
