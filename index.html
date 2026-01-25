@@ -2196,20 +2196,23 @@ function updateNextButtonColor(){
 }
 
 	
-// Gets an English hint for type-ins (supports multiple item shapes)
-function getEnglishHint(item){
-  // Prefer explicit enHint
-  if (item?.enHint) return item.enHint;
+// Gets a hint for type-ins (supports multiple item shapes)
+function getHint(item) {
+  const dir = getDirection(item);
 
-  // If you store the English question on typed items as "en", use that as fallback
-  // Example: en:"Type the Spanish: living room"
-  if (item?.en) return item.en;
+  if (dir === "EN_ES") {
+    // user types Spanish → show English
+    return item.enHint ?? item.en ?? null;
+  }
 
-  // If teach.en exists, that’s usually the word/phrase you want
-  if (item?.teach?.en) return item.teach.en;
+  if (dir === "ES_EN") {
+    // user types English → show Spanish
+    return item.esHint ?? item.es ?? null;
+  }
 
-  return "";
+  return null;
 }
+
 
 function setTypedHintVisible(show, item){
   hintShown = !!show;
@@ -2223,7 +2226,7 @@ function setTypedHintVisible(show, item){
     return;
   }
 
-  const hint = getEnglishHint(item);
+  const hint = getHint(item);
   if (!hint){
     row.classList.add("hidden");
     txt.textContent = "";
@@ -2241,6 +2244,14 @@ function initRounds(){
   remaining = shuffle([...Array(items.length).keys()]);
 }
 
+function getDirection(item) {
+  if (!Array.isArray(item.tags)) return null;
+  if (item.tags.includes("EN_ES")) return "EN_ES";
+  if (item.tags.includes("ES_EN")) return "ES_EN";
+  return null;
+}
+
+	
 function pickNextIndexRound(){
   if (items.length === 0) return 0;
 
@@ -2949,6 +2960,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
