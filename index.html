@@ -321,16 +321,16 @@ const EXERCISE_SETS = [
 		{ type:"serestar", tags:["SER_ESTAR","FEEL"], q:"Yo ____ sin palabras.", a:"estoy", why:"Expresión fija (estar).", teach:{es:"sin palabras", en:"speechless", note:"Fixed phrase."}},
 
 		// How are you scale (type-in is also good here)
-		{ type:"typein", tags:["VOCAB","FEEL"], prompt:"Type the Spanish: more or less", a:"más o menos", why:"Cómo estás: más o menos.", teach:{es:"más o menos", en:"more or less", note:"Phrase."}},
-		{ type:"typein", tags:["VOCAB","FEEL"], prompt:"Type the Spanish: so-so", a:"así así", why:"Cómo estás: así así.", teach:{es:"así así", en:"so-so", note:"Phrase."}},
-		{ type:"typein", tags:["VOCAB","FEEL"], prompt:"Type the Spanish: terrible", a:"fatal", why:"Cómo estás: fatal.", teach:{es:"fatal", en:"terrible", note:"Phrase."}},
+		{ type:"typein", tags:["VOCAB","FEEL"], q:"Type the Spanish: more or less", a:"más o menos", why:"Cómo estás: más o menos.", teach:{es:"más o menos", en:"more or less", note:"Phrase."}},
+		{ type:"typein", tags:["VOCAB","FEEL"], q:"Type the Spanish: so-so", a:"así así", why:"Cómo estás: así así.", teach:{es:"así así", en:"so-so", note:"Phrase."}},
+		{ type:"typein", tags:["VOCAB","FEEL"], q:"Type the Spanish: terrible", a:"fatal", why:"Cómo estás: fatal.", teach:{es:"fatal", en:"terrible", note:"Phrase."}},
 
 
 		// ===== Rooms / house =====
-		{ type:"typein", tags:["VOCAB","ROOMS"], prompt:"Type the Spanish: kitchen", a:"la cocina", why:"Room vocab.", teach:{es:"la cocina", en:"kitchen", note:"feminine"}},
-		{ type:"typein", tags:["VOCAB","ROOMS"], prompt:"Type the Spanish: living room", a:"el salón", why:"Room vocab.", teach:{es:"el salón", en:"living room", note:"masculine"}},
-		{ type:"typein", tags:["VOCAB","ROOMS"], prompt:"Type the Spanish: bathroom", a:"el baño", why:"Room vocab.", teach:{es:"el baño", en:"bathroom", note:"masculine"}},
-		{ type:"typein", tags:["VOCAB","ROOMS"], prompt:"Type the Spanish: stairs", a:"las escaleras", why:"Room vocab.", teach:{es:"las escaleras", en:"stairs", note:"plural"}},
+		{ type:"typein", tags:["VOCAB","ROOMS"], q:"Type the Spanish: kitchen", a:"la cocina", why:"Room vocab.", teach:{es:"la cocina", en:"kitchen", note:"feminine"}},
+		{ type:"typein", tags:["VOCAB","ROOMS"], q:"Type the Spanish: living room", a:"el salón", why:"Room vocab.", teach:{es:"el salón", en:"living room", note:"masculine"}},
+		{ type:"typein", tags:["VOCAB","ROOMS"], q:"Type the Spanish: bathroom", a:"el baño", why:"Room vocab.", teach:{es:"el baño", en:"bathroom", note:"masculine"}},
+		{ type:"typein", tags:["VOCAB","ROOMS"], q:"Type the Spanish: stairs", a:"las escaleras", why:"Room vocab.", teach:{es:"las escaleras", en:"stairs", note:"plural"}},
 		{ type:"mc", tags:["VOCAB","ROOMS"], q:"Pick the Spanish for: roof (not ceiling)", a:"el tejado",
 		  opts:["el tejado","el techo","la pared","la chimenea"], why:"El tejado = roof (outside/roof).", teach:{es:"el tejado", en:"roof", note:"Techo can be ceiling/roof depending on context."}},
 		{ type:"mc", tags:["VOCAB","ROOMS"], q:"Pick the Spanish for: basement (ground floor)", a:"la planta baja",
@@ -338,23 +338,23 @@ const EXERCISE_SETS = [
 
 
 		// ===== Professions =====
-		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: teacher (m.)", a:"el maestro", why:"Profession vocab.", teach:{es:"el maestro / la maestra", en:"teacher", note:"gendered forms"}},
-		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: student", a:"el/la estudiante", why:"Same word; article changes.", teach:{es:"el/la estudiante", en:"student", note:"same word"}},
-		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: police officer", a:"el/la policía", why:"Same word; article changes.", teach:{es:"el/la policía", en:"police officer", note:"same word"}},
-		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: dentist", a:"el/la dentista", why:"Same word; article changes.", teach:{es:"el/la dentista", en:"dentist", note:"same word"}},
-		{ type:"typein", tags:["VOCAB","PROFESSION"], prompt:"Type the Spanish: engineer (f.)", a:"la ingeniera", why:"Profession vocab.", teach:{es:"el ingeniero / la ingeniera", en:"engineer", note:"gendered forms"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], q:"Type the Spanish: teacher (m.)", a:"el maestro", why:"Profession vocab.", teach:{es:"el maestro / la maestra", en:"teacher", note:"gendered forms"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], q:"Type the Spanish: student", a:"el/la estudiante", why:"Same word; article changes.", teach:{es:"el/la estudiante", en:"student", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], q:"Type the Spanish: police officer", a:"el/la policía", why:"Same word; article changes.", teach:{es:"el/la policía", en:"police officer", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], q:"Type the Spanish: dentist", a:"el/la dentista", why:"Same word; article changes.", teach:{es:"el/la dentista", en:"dentist", note:"same word"}},
+		{ type:"typein", tags:["VOCAB","PROFESSION"], q:"Type the Spanish: engineer (f.)", a:"la ingeniera", why:"Profession vocab.", teach:{es:"el ingeniero / la ingeniera", en:"engineer", note:"gendered forms"}},
 
 
 		// ===== Verbs: infinitive =====
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to see", a:"ver", why:"Infinitive.", teach:{es:"ver", en:"to see", note:"yo veo"}},
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to say", a:"decir", why:"Infinitive.", teach:{es:"decir", en:"to say/tell", note:"yo digo"}},
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to go", a:"ir", why:"Infinitive.", teach:{es:"ir", en:"to go", note:"yo voy"}},
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to have", a:"tener", why:"Infinitive.", teach:{es:"tener", en:"to have", note:"yo tengo"}},
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to come", a:"venir", why:"Infinitive.", teach:{es:"venir", en:"to come", note:"yo vengo"}},
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to eat", a:"comer", why:"Infinitive.", teach:{es:"comer", en:"to eat", note:"yo como"}},
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to drink", a:"beber", why:"Infinitive.", teach:{es:"beber", en:"to drink", note:"yo bebo (also: tomar)"}},
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to learn", a:"aprender", why:"Infinitive.", teach:{es:"aprender", en:"to learn", note:"yo aprendo"}},
-		{ type:"typein", tags:["VOCAB","VERB"], prompt:"Type the Spanish infinitive: to study", a:"estudiar", why:"Infinitive.", teach:{es:"estudiar", en:"to study", note:"yo estudio"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to see", a:"ver", why:"Infinitive.", teach:{es:"ver", en:"to see", note:"yo veo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to say", a:"decir", why:"Infinitive.", teach:{es:"decir", en:"to say/tell", note:"yo digo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to go", a:"ir", why:"Infinitive.", teach:{es:"ir", en:"to go", note:"yo voy"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to have", a:"tener", why:"Infinitive.", teach:{es:"tener", en:"to have", note:"yo tengo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to come", a:"venir", why:"Infinitive.", teach:{es:"venir", en:"to come", note:"yo vengo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to eat", a:"comer", why:"Infinitive.", teach:{es:"comer", en:"to eat", note:"yo como"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to drink", a:"beber", why:"Infinitive.", teach:{es:"beber", en:"to drink", note:"yo bebo (also: tomar)"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to learn", a:"aprender", why:"Infinitive.", teach:{es:"aprender", en:"to learn", note:"yo aprendo"}},
+		{ type:"typein", tags:["VOCAB","VERB"], q:"Type the Spanish infinitive: to study", a:"estudiar", why:"Infinitive.", teach:{es:"estudiar", en:"to study", note:"yo estudio"}},
 
 
 		// ===== ADJECTIVE FORM DRILL (gender + plural) =====
@@ -1225,26 +1225,26 @@ const EXERCISE_SETS = [
 		  why:"Ellos → m plural.", teach:{es:"aburrido/aburrida", en:"bored", forms:{m_s:"aburrido", f_s:"aburrida", m_p:"aburridos", f_p:"aburridas"}, note:"" }},
 		
 		// ===== VOCAB ADDITIONS (from existing words) =====
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: the gym",a:"el gimnasio"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: work (place)",a:"el trabajo"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: home",a:"la casa"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: restaurant",a:"el restaurante"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: park",a:"el parque"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: university",a:"la universidad"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: bank",a:"el banco"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: café",a:"la cafetería"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: airport",a:"el aeropuerto"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: museum",a:"el museo"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: city",a:"la ciudad"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: party",a:"la fiesta"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: office",a:"la oficina"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: library",a:"la biblioteca"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: TV",a:"la tele"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: menu",a:"el menú"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: movie",a:"la película"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: photos",a:"las fotos"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: door",a:"la puerta"},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: train",a:"el tren"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: the gym",a:"el gimnasio"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: work (place)",a:"el trabajo"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: home",a:"la casa"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: restaurant",a:"el restaurante"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: park",a:"el parque"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: university",a:"la universidad"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: bank",a:"el banco"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: café",a:"la cafetería"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: airport",a:"el aeropuerto"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: museum",a:"el museo"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: city",a:"la ciudad"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: party",a:"la fiesta"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: office",a:"la oficina"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: library",a:"la biblioteca"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: TV",a:"la tele"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: menu",a:"el menú"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: movie",a:"la película"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: photos",a:"las fotos"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: door",a:"la puerta"},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: train",a:"el tren"},
 
 		{type:"mc",tags:["VOCAB","DEF"],q:"el gimnasio",a:"the gym",opts:["the gym","the bank","the airport","the park"]},
 		{type:"mc",tags:["VOCAB","DEF"],q:"la casa",a:"the house",opts:["the house","the office","the library","the city"]},
@@ -1260,30 +1260,30 @@ const EXERCISE_SETS = [
 		{type:"mc",tags:["VOCAB","NOUN"],q:"Pick the Spanish: the movie",a:"la película",opts:["la película","el menú","la tele","las fotos"]},
 		{type:"mc",tags:["VOCAB","NOUN"],q:"Pick the Spanish: the park",a:"el parque",opts:["el parque","el restaurante","la fiesta","la ciudad"]},
 
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: teacher (m.)",a:"el profesor"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: teacher (f.)",a:"la profesora"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: student (m.)",a:"el alumno"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: student (f.)",a:"la alumna"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: doctor (m.)",a:"el médico"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: doctor (f.)",a:"la médica"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: police officer",a:"el/la policía"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: engineer (m.)",a:"el ingeniero"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: engineer (f.)",a:"la ingeniera"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: waiter",a:"el camarero"},
-		{type:"typein",tags:["VOCAB","PROFESSION"],prompt:"Type the Spanish: waitress",a:"la camarera"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: teacher (m.)",a:"el profesor"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: teacher (f.)",a:"la profesora"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: student (m.)",a:"el alumno"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: student (f.)",a:"la alumna"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: doctor (m.)",a:"el médico"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: doctor (f.)",a:"la médica"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: police officer",a:"el/la policía"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: engineer (m.)",a:"el ingeniero"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: engineer (f.)",a:"la ingeniera"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: waiter",a:"el camarero"},
+		{type:"typein",tags:["VOCAB","PROFESSION"],q:"Type the Spanish: waitress",a:"la camarera"},
 
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: the truth",a:"la verdad",teach:{es:"la verdad",en:"the truth"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: the answer",a:"la respuesta",teach:{es:"la respuesta",en:"the answer"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: a joke",a:"una broma",teach:{es:"una broma",en:"a joke"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: a car",a:"un coche",teach:{es:"un coche",en:"a car"}},
-		{type:"typein",tags:["VOCAB","PHRASE"],prompt:"Type the Spanish: (you are) right",a:"tienes razón",teach:{es:"tienes razón",en:"you are right (lit. you have reason)"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: hunger",a:"hambre",teach:{es:"hambre",en:"hunger (to be hungry: tener hambre)"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: thirst",a:"sed",teach:{es:"sed",en:"thirst (to be thirsty: tener sed)"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: time",a:"tiempo",teach:{es:"tiempo",en:"time"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: a hurry",a:"prisa",teach:{es:"prisa",en:"hurry (to be in a hurry: tener prisa)"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: fear",a:"miedo",teach:{es:"miedo",en:"fear (to be afraid: tener miedo)"}},
-		{type:"typein",tags:["VOCAB","NOUN"],prompt:"Type the Spanish: luck",a:"suerte",teach:{es:"suerte",en:"luck (to be lucky: tener suerte)"}},
-		{type:"typein",tags:["VOCAB","PHRASE"],prompt:"Type the Spanish: feel like (doing)",a:"tener ganas de",teach:{es:"tener ganas de",en:"to feel like (doing)"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: the truth",a:"la verdad",teach:{es:"la verdad",en:"the truth"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: the answer",a:"la respuesta",teach:{es:"la respuesta",en:"the answer"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: a joke",a:"una broma",teach:{es:"una broma",en:"a joke"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: a car",a:"un coche",teach:{es:"un coche",en:"a car"}},
+		{type:"typein",tags:["VOCAB","PHRASE"],q:"Type the Spanish: (you are) right",a:"tienes razón",teach:{es:"tienes razón",en:"you are right (lit. you have reason)"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: hunger",a:"hambre",teach:{es:"hambre",en:"hunger (to be hungry: tener hambre)"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: thirst",a:"sed",teach:{es:"sed",en:"thirst (to be thirsty: tener sed)"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: time",a:"tiempo",teach:{es:"tiempo",en:"time"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: a hurry",a:"prisa",teach:{es:"prisa",en:"hurry (to be in a hurry: tener prisa)"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: fear",a:"miedo",teach:{es:"miedo",en:"fear (to be afraid: tener miedo)"}},
+		{type:"typein",tags:["VOCAB","NOUN"],q:"Type the Spanish: luck",a:"suerte",teach:{es:"suerte",en:"luck (to be lucky: tener suerte)"}},
+		{type:"typein",tags:["VOCAB","PHRASE"],q:"Type the Spanish: feel like (doing)",a:"tener ganas de",teach:{es:"tener ganas de",en:"to feel like (doing)"}},
 
 		/* =========================
    			VOCAB — ANIMALS (MC)
@@ -1546,7 +1546,7 @@ const EXERCISE_SETS = [
 		{ type:"typein", tags:["VERB","PRES","EXISTIR"], q:"Ellas ____.", en:"They exist.", aVerb:"existen", verbOpts:["existo","existes","existe","existimos","existís","existen"], why:"Ellos/Ellas/Ustedes → existen.", teach:{ infinitive:"existir", en:"to exist", forms:{yo:"existo",tu:"existes",el:"existe",nos:"existimos",vos:"existís",ellos:"existen"} } },
 		
 		/* HABER — HAY (there is/are) best as vocab phrase */
-		{ type:"typein", tags:["VERB","PRES","HABER","HAY"], prompt:"Type the Spanish: there is / there are", a:"hay", why:"Most common present form of haber (impersonal).", teach:{ infinitive:"haber", es:"hay", en:"there is / there are", note:"Impersonal: no *yo hay*." } },
+		{ type:"typein", tags:["VERB","PRES","HABER","HAY"], q:"Type the Spanish: there is / there are", a:"hay", why:"Most common present form of haber (impersonal).", teach:{ infinitive:"haber", es:"hay", en:"there is / there are", note:"Impersonal: no *yo hay*." } },
 		{ type:"typein", tags:["VOCAB","HAY"], q:"Traduce al inglés: Hay un perro.", a:"There is a dog", teach:{ es:"Hay un perro", en:"There is a dog" } },
 		{ type:"typein", tags:["VOCAB","HAY"], q:"Traduce al inglés: Hay dos gatos.", a:"There are two cats", teach:{ es:"Hay dos gatos", en:"There are two cats" } },
 		
@@ -2949,6 +2949,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
