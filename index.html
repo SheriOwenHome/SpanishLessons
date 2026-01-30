@@ -3083,6 +3083,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	  $("formsModal")?.setAttribute("aria-hidden","true");
   });
 
+  document.getElementById("formsModalForm")
+  ?.addEventListener("submit", (e) => {
+    e.preventDefault();   // prevent page reload
+    closeFormsModal();
+  });
+
 });
 </script>
 
@@ -3107,6 +3113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
