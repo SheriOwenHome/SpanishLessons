@@ -96,6 +96,16 @@
 	@media (max-width: 820px){
 	  .verbSidebar { display: none !important; }
 	}
+
+	.verbToggleTop {
+	  font-size: 13px;
+	  margin-left: 12px;
+	  display: inline-flex;
+	  gap: 6px;
+	  align-items: center;
+	  cursor: pointer;
+	}
+
   </style>
 </head>
 
@@ -141,6 +151,11 @@
 
       <input id="teachSearch" class="hidden" type="search" placeholder="Search teaching list (English/Spanish)…" />
       <span class="pill muted">Tip: press <span class="kbd">Enter</span> to check typed answers</span>
+
+	  <label class="verbToggleTop">
+		  <input type="checkbox" id="verbSidebarToggle">
+		  Verb list
+	  </label>
     </div>
 
     <div id="drillPane">
@@ -2611,14 +2626,20 @@ function buildVerbSidebar(){
   sidebar.classList.toggle("hidden", !saved);
 }
 
-function initVerbSidebarToggle(){
+function initVerbSidebar(){
   const toggle = document.getElementById("verbSidebarToggle");
   const sidebar = document.getElementById("verbSidebar");
   if (!toggle || !sidebar) return;
 
+  // Restore saved state
+  const saved = localStorage.getItem("showVerbSidebar") === "true";
+  toggle.checked = saved;
+  sidebar.classList.toggle("hidden", !saved);
+
   toggle.addEventListener("change", () => {
-    localStorage.setItem("showVerbSidebar", toggle.checked ? "true" : "false");
-    sidebar.classList.toggle("hidden", !toggle.checked);
+    const on = toggle.checked;
+    localStorage.setItem("showVerbSidebar", on ? "true" : "false");
+    sidebar.classList.toggle("hidden", !on);
   });
 }
 
@@ -2983,7 +3004,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // initial dropdowns
   populateSetDropdown();
 
-  initVerbSidebarToggle();
+  initVerbSidebar();
   buildVerbSidebar();
 
 
@@ -3034,17 +3055,12 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
 <div id="verbSidebar" class="verbSidebar hidden" aria-label="Verb list">
-  <div class="verbSidebarHeader">
-    <label class="verbToggle">
-      <input type="checkbox" id="verbSidebarToggle">
-      Show verb list
-    </label>
-  </div>
   <div id="verbSidebarList" class="verbSidebarList"></div>
 </div>
 
 </body>
 </html>
+
 
 
 
