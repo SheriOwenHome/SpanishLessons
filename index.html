@@ -2087,6 +2087,8 @@ let due = [];              // queue of { idx, dueAt }
 let steps = 0;
 let stats = {};            // idx -> { correct, wrong, streak }
 let lastOutcome = null;    //null, true, false
+let verbMeaningMap = new Map(); // infinitive (lowercase) -> English
+
 
 /* ============================================================================
    SR Engine (light spaced repetition)
@@ -2645,15 +2647,19 @@ function initVerbSidebar(){
   });
 }
 
-function buildVerbMeaningMap(){
-  const m = new Map();
+function initVerbMeaningMap(){
+  verbMeaningMap.clear();
+
   for (const it of items){
     const inf = it?.teach?.infinitive?.trim();
     const en  = it?.teach?.en?.trim();
     if (!inf || !en) continue;
-    if (!m.has(inf.toLowerCase())) m.set(inf.toLowerCase(), en);
+
+    const key = inf.toLowerCase();
+    if (!verbMeaningMap.has(key)){
+      verbMeaningMap.set(key, en);
+    }
   }
-  return m;
 }
 
 function initVerbSidebarClicks(){
@@ -2665,18 +2671,21 @@ function initVerbSidebarClicks(){
     if (!btn) return;
 
     const verb = btn.getAttribute("data-verb");
-    const map = buildVerbMeaningMap();
-    const en = map.get(verb) || "(no English found yet)";
+    const en = verbMeaningMap.get(verb) || "(no English found yet)";
 
-    // Use your existing modal
-    if (typeof openFormsModal === "function"){
-      openFormsModal("Verb flashcard", `<div><b>${verb}</b><div style="margin-top:6px">${en}</div></div>`);
-    } else {
-      // fallback
-      alert(`${verb} = ${en}`);
+    const titleEl = document.getElementById("formsModalTitle");
+    const bodyEl  = document.getElementById("formsModalBody");
+    const modalEl = document.getElementById("formsModal");
+
+    if (titleEl) titleEl.textContent = "Verb flashcard";
+    if (bodyEl)  bodyEl.innerHTML = `<div><b>${verb}</b><div style="margin-top:6px">${en}</div></div>`;
+    if (modalEl){
+      modalEl.classList.remove("hidden");
+      modalEl.setAttribute("aria-hidden","false");
     }
   });
 }
+
 
 
 /* ============================================================================
@@ -2984,6 +2993,7 @@ function applyActiveSet(){
   ? base
   : base.filter(it => (it.tags || []).includes(activeTag));
 
+  initVerbMeaningMap();
   buildVerbSidebar();
   populateTagDropdown();
   enrichItemsPresent(base);
@@ -3039,6 +3049,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // initial dropdowns
   populateSetDropdown();
 
+  initVerbMeaningMap();
   initVerbSidebar();
   initVerbSidebarClicks();
   buildVerbSidebar();
@@ -3096,6 +3107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
