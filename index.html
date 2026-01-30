@@ -106,6 +106,16 @@
 	  cursor: pointer;
 	}
 
+	.verbChip{
+	  width:100%;
+	  text-align:left;
+	  background:transparent;
+	  border:0;
+	  padding:6px 0;
+	  font-size:13px;
+	  cursor:pointer;
+	}
+	.verbChip:hover{ text-decoration: underline; }
   </style>
 </head>
 
@@ -2594,37 +2604,29 @@ function getInfinitiveFromItem(it){
 }
 
 function buildVerbSidebar(){
-  const toggle = document.getElementById("verbSidebarToggle");
   const sidebar = document.getElementById("verbSidebar");
   const listEl = document.getElementById("verbSidebarList");
-  if (!toggle || !sidebar || !listEl) return;
+  if (!sidebar || !listEl) return;
 
-  // Collect unique infinitives from current active items
   const seen = new Set();
   const verbs = [];
   for (const it of items){
-    // Only include verbs you’re actually drilling
     if (!it?.tags?.includes("VERB")) continue;
-
-    const inf = getInfinitiveFromItem(it);
-    if (!inf || seen.has(inf)) continue;
-    seen.add(inf);
-    verbs.push(inf);
+    const inf = it?.teach?.infinitive;
+    if (!inf) continue;
+    const v = String(inf).trim().toLowerCase();
+    if (!v || seen.has(v)) continue;
+    seen.add(v);
+    verbs.push(v);
   }
 
-  // Alphabetize with Spanish-friendly compare (accents behave nicely)
   verbs.sort((a,b) => a.localeCompare(b, "es", { sensitivity: "base" }));
 
-  listEl.innerHTML = verbs.map(v => `<div class="v">${v}</div>`).join("");
-
-  // Restore saved toggle state
-  const saved = localStorage.getItem("showVerbSidebar") === "true";
-  toggle.checked = saved;
-
-  // Show sidebar container on desktop regardless, but list visibility controlled by toggle
-  // If you want the whole box gone when off:
-  sidebar.classList.toggle("hidden", !saved);
+  listEl.innerHTML = verbs
+    .map(v => `<button class="verbChip" type="button" data-verb="${v}">${v}</button>`)
+    .join("");
 }
+
 
 function initVerbSidebar(){
   const toggle = document.getElementById("verbSidebarToggle");
@@ -2640,6 +2642,39 @@ function initVerbSidebar(){
     const on = toggle.checked;
     localStorage.setItem("showVerbSidebar", on ? "true" : "false");
     sidebar.classList.toggle("hidden", !on);
+  });
+}
+
+function buildVerbMeaningMap(){
+  const m = new Map();
+  for (const it of items){
+    const inf = it?.teach?.infinitive?.trim();
+    const en  = it?.teach?.en?.trim();
+    if (!inf || !en) continue;
+    if (!m.has(inf.toLowerCase())) m.set(inf.toLowerCase(), en);
+  }
+  return m;
+}
+
+function initVerbSidebarClicks(){
+  const listEl = document.getElementById("verbSidebarList");
+  if (!listEl) return;
+
+  listEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-verb]");
+    if (!btn) return;
+
+    const verb = btn.getAttribute("data-verb");
+    const map = buildVerbMeaningMap();
+    const en = map.get(verb) || "(no English found yet)";
+
+    // Use your existing modal
+    if (typeof openFormsModal === "function"){
+      openFormsModal("Verb flashcard", `<div><b>${verb}</b><div style="margin-top:6px">${en}</div></div>`);
+    } else {
+      // fallback
+      alert(`${verb} = ${en}`);
+    }
   });
 }
 
@@ -3005,6 +3040,7 @@ document.addEventListener("DOMContentLoaded", () => {
   populateSetDropdown();
 
   initVerbSidebar();
+  initVerbSidebarClicks();
   buildVerbSidebar();
 
 
@@ -3060,6 +3096,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
