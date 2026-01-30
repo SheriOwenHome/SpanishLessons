@@ -77,6 +77,25 @@
 	.formsTable th { font-weight:700; background:rgba(0,0,0,.03); }
 	.kv { display:grid; grid-template-columns: 150px 1fr; gap:6px 12px; }
 	.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }  
+
+	/* Desktop-only verb sidebar */
+	.verbSidebar { position: fixed; top: 12px; right: 12px; width: 220px; max-height: calc(100vh - 24px);
+	  background: rgba(255,255,255,.92); border: 1px solid rgba(0,0,0,.08); border-radius: 12px;
+	  box-shadow: 0 10px 30px rgba(0,0,0,.12); z-index: 9998; overflow: hidden;
+	}
+	.verbSidebar.hidden { display: none; }
+	
+	.verbSidebarHeader { padding: 10px 12px; border-bottom: 1px solid rgba(0,0,0,.08); }
+	.verbToggle { font-size: 13px; display: flex; gap: 8px; align-items: center; user-select: none; }
+	
+	.verbSidebarList { padding: 10px 12px; overflow: auto; max-height: calc(100vh - 70px); }
+	.verbSidebarList .v { font-size: 13px; padding: 4px 0; border-bottom: 1px dashed rgba(0,0,0,.06); }
+	.verbSidebarList .v:last-child { border-bottom: 0; }
+	
+	/* Don’t show on phone / narrow screens */
+	@media (max-width: 820px){
+	  .verbSidebar { display: none !important; }
+	}
   </style>
 </head>
 
@@ -2552,6 +2571,57 @@ function buildHelperHtmlForItem(item) {
   return `<div class="helperGrid">${blocks.join("")}</div>`;
 }
 
+function getInfinitiveFromItem(it){
+  const inf = it?.teach?.infinitive;
+  if (!inf) return "";
+  // Keep infinitive only (already passive/infinitive), normalize whitespace
+  return String(inf).trim().toLowerCase();
+}
+
+function buildVerbSidebar(){
+  const toggle = document.getElementById("verbSidebarToggle");
+  const sidebar = document.getElementById("verbSidebar");
+  const listEl = document.getElementById("verbSidebarList");
+  if (!toggle || !sidebar || !listEl) return;
+
+  // Collect unique infinitives from current active items
+  const seen = new Set();
+  const verbs = [];
+  for (const it of items){
+    // Only include verbs you’re actually drilling
+    if (!it?.tags?.includes("VERB")) continue;
+
+    const inf = getInfinitiveFromItem(it);
+    if (!inf || seen.has(inf)) continue;
+    seen.add(inf);
+    verbs.push(inf);
+  }
+
+  // Alphabetize with Spanish-friendly compare (accents behave nicely)
+  verbs.sort((a,b) => a.localeCompare(b, "es", { sensitivity: "base" }));
+
+  listEl.innerHTML = verbs.map(v => `<div class="v">${v}</div>`).join("");
+
+  // Restore saved toggle state
+  const saved = localStorage.getItem("showVerbSidebar") === "true";
+  toggle.checked = saved;
+
+  // Show sidebar container on desktop regardless, but list visibility controlled by toggle
+  // If you want the whole box gone when off:
+  sidebar.classList.toggle("hidden", !saved);
+}
+
+function initVerbSidebarToggle(){
+  const toggle = document.getElementById("verbSidebarToggle");
+  const sidebar = document.getElementById("verbSidebar");
+  if (!toggle || !sidebar) return;
+
+  toggle.addEventListener("change", () => {
+    localStorage.setItem("showVerbSidebar", toggle.checked ? "true" : "false");
+    sidebar.classList.toggle("hidden", !toggle.checked);
+  });
+}
+
 
 /* ============================================================================
    Teaching list builder
@@ -2858,6 +2928,7 @@ function applyActiveSet(){
   ? base
   : base.filter(it => (it.tags || []).includes(activeTag));
 
+  buildVerbSidebar();
   populateTagDropdown();
   enrichItemsPresent(base);
 
@@ -2912,6 +2983,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // initial dropdowns
   populateSetDropdown();
 
+  initVerbSidebarToggle();
+  buildVerbSidebar();
+
+
   // wire controls
   $("modeSel").onchange = (e) => { mode = e.target.value; updateModeUI(); };
   $("srSel").onchange = (e) => { srMode = e.target.value; applyActiveSet(); };
@@ -2958,8 +3033,19 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 </div>
 
+<div id="verbSidebar" class="verbSidebar hidden" aria-label="Verb list">
+  <div class="verbSidebarHeader">
+    <label class="verbToggle">
+      <input type="checkbox" id="verbSidebarToggle">
+      Show verb list
+    </label>
+  </div>
+  <div id="verbSidebarList" class="verbSidebarList"></div>
+</div>
+
 </body>
 </html>
+
 
 
 
