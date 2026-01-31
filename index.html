@@ -2051,6 +2051,7 @@ const IRREG_PRESENT = {
   conocer:["conozco","conoces","conoce","conocemos","conocéis","conocen"],
   poder: ["puedo","puedes","puede","podemos","podéis","pueden"],
   querer:["quiero","quieres","quiere","queremos","queréis","quieren"],
+  dormir: ["duermo","duermes","duerme","dormimos","dormís","duermen"]
 };
 	
 /* ============================================================================
@@ -2576,9 +2577,7 @@ function buildHelperHtmlForItem(item) {
 
     let forms = null;
 
-	if (item?.teach?.forms) {
-	  forms = item.teach.forms;
-	} else if (IRREG_PRESENT[lemma]) {
+	if (IRREG_PRESENT[lemma]) {
 	  forms = IRREG_PRESENT[lemma];
 	} else {
 	  forms = buildRegularPresent(lemma);
@@ -3118,6 +3117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
