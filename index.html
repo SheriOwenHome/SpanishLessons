@@ -2576,12 +2576,17 @@ function buildHelperHtmlForItem(item) {
 
     let forms = null;
 
-    if (IRREG_PRESENT[lemma]) forms = IRREG_PRESENT[lemma];
-    else forms = buildRegularPresent(lemma);
+	if (item?.teach?.forms) {
+	  forms = item.teach.forms;
+	} else if (IRREG_PRESENT[lemma]) {
+	  forms = IRREG_PRESENT[lemma];
+	} else {
+	  forms = buildRegularPresent(lemma);
+	}
 
     // Only show if we have something real (avoid blank cards)
     if (forms) {
-      blocks.push(formsTableHtml(`${lemmaRaw || "Verbo"} (presente)`, forms));
+      blocks.push(formsTableHtml(`${item?.teach?.infinitive || lemmaRaw || "Verbo"} (presente)`, forms));
     }
   }
 
@@ -3113,6 +3118,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
