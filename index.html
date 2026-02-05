@@ -129,6 +129,7 @@
         <select id="modeSel">
           <option value="drill">Drill</option>
           <option value="teach">Teaching</option>
+		  <option value="flash">Flashcards</option>
         </select>
       </label>
 
@@ -158,6 +159,24 @@
           <option value="off">Off</option>
         </select>
       </label>
+
+	  <label class="pill">
+	   Flash
+		<select id="flashSel">
+		  <option value="beg">Beginner (MC-4)</option>
+		  <option value="int">Intermediate (MC-8)</option>
+		  <option value="exp">Expert (Type)</option>
+		</select>
+	  </label>
+
+	  <label class="pill" id="flashDirWrap">
+		  Dir
+		  <select id="flashDirSel">
+		    <option value="ES_EN">ES→EN</option>
+		    <option value="EN_ES">EN→ES</option>
+		  </select>
+		</label>
+
 
       <input id="teachSearch" class="hidden" type="search" placeholder="Search teaching list (English/Spanish)…" />
       <span class="pill muted">Tip: press <span class="kbd">Enter</span> to check typed answers</span>
@@ -226,6 +245,9 @@
         </div>
       </div>
 
+	  <div id="flashPane" class="hidden"></div>
+
+
       <div class="teachTableWrap" style="margin-top:10px;">
 		  <table>
 			<thead>
@@ -238,6 +260,7 @@
 			<tbody id="teachTable"></tbody>
 		  </table>
 	  </div>
+		
 
     </div>
   </div>
@@ -2096,6 +2119,20 @@ let stats = {};            // idx -> { correct, wrong, streak }
 let lastOutcome = null;    //null, true, false
 let verbMeaningMap = new Map(); // infinitive (lowercase) -> English
 
+// Flashcards state
+let flashLevel = "beg";        // beg | int | exp
+let flashDir = "ES_EN";        // ES_EN | EN_ES (optional toggle later)
+
+let flashDeck = [];            // array of {id, es, en, tags}
+let flashRemaining = [];       // ids not yet seen this pass
+let flashDue = [];             // array of {id, dueAt}
+let flashImmediate = [];       // ids to show next (beginner wrong)
+let flashStep = 0;             // increments each shown card
+let flashCurrentId = null;
+let flashDir = "ES_EN"; // ES_EN | EN_ES
+
+
+let flashStats = {};           // id -> {correct, wrong, streak}
 
 /* ============================================================================
    SR Engine (light spaced repetition)
@@ -2696,6 +2733,242 @@ function initVerbSidebarClicks(){
   });
 }
 
+function buildFlashDeckFromItems(activeItems){
+  const map = new Map(); // id -> card
+
+  for (const it of activeItems){
+    const tags = it?.tags || [];
+    const teach = it?.teach || {};
+
+    // Prefer explicit vocab items; but also accept anything with teach.es+teach.en
+    const hasVocab = tags.includes("VOCAB") || (teach.es && teach.en);
+
+    // Also allow verbs as infinitive flashcards (infinitive -> English)
+    const hasVerb = teach.infinitive && teach.en;
+
+    if (!hasVocab && !hasVerb) continue;
+
+    const es = (teach.es || teach.infinitive || "").trim();
+    const en = (teach.en || "").trim();
+    if (!es || !en) continue;
+
+    const id = normalizeLemma(es); // stable-ish key
+
+    if (!map.has(id)){
+	  const cat = flashCategoryFromTags(tags);
+	  map.set(id, { id, es, en, tags, cat });
+	}
+
+  }
+
+  const deck = Array.from(map.values());
+  deck.sort((a,b)=>a.es.localeCompare(b.es, "es", { sensitivity:"base" }));
+  return deck;
+}
+
+function resetFlash(){
+  flashDeck = buildFlashDeckFromItems(items); // items already respects Set + Tag
+  flashRemaining = shuffle(flashDeck.map(c => c.id));
+  flashDue = [];
+  flashImmediate = [];
+  flashStep = 0;
+  flashCurrentId = null;
+
+  flashStats = {};
+  for (const c of flashDeck){
+    flashStats[c.id] = { correct:0, wrong:0, streak:0 };
+  }
+
+  flashPickNext();
+}
+
+function getFlashCardById(id){
+  return flashDeck.find(c => c.id === id) || null;
+}
+
+function flashPickNext(){
+  flashStep++;
+
+  // 1) beginner immediate repeats
+  if (flashImmediate.length){
+    flashCurrentId = flashImmediate.shift();
+    return;
+  }
+
+  // 2) due repeats (small spacing)
+  const dueNowIdx = flashDue.findIndex(x => x.dueAt <= flashStep);
+  if (dueNowIdx >= 0){
+    flashCurrentId = flashDue.splice(dueNowIdx, 1)[0].id;
+    return;
+  }
+
+  // 3) new cards
+  if (flashRemaining.length){
+    flashCurrentId = flashRemaining.shift();
+    return;
+  }
+
+  // 4) if finished, restart a new pass (or you can “freeze” instead)
+  flashRemaining = shuffle(flashDeck.map(c => c.id));
+  flashCurrentId = flashRemaining.shift() || null;
+}
+
+function scheduleFlashAfter(isCorrect){
+  const id = flashCurrentId;
+  if (!id) return;
+
+  const s = flashStats[id] || (flashStats[id] = {correct:0, wrong:0, streak:0});
+
+  if (isCorrect){
+    s.correct++;
+    s.streak++;
+    return;
+  }
+
+  s.wrong++;
+  s.streak = 0;
+
+  if (flashLevel === "beg"){
+    // show next
+    flashImmediate.unshift(id);
+  } else if (flashLevel === "int"){
+    flashDue.push({ id, dueAt: flashStep + 3 });
+  } else {
+    flashDue.push({ id, dueAt: flashStep + 10 });
+  }
+}
+
+function flashPromptAndAnswer(card){
+  if (flashDir === "EN_ES"){
+    return { prompt: card.en, answer: card.es, hint: card.es }; // you can adjust hint later
+  }
+  return { prompt: card.es, answer: card.en, hint: card.en };
+}
+
+function renderFlash(){
+  locked = false;
+
+  if (!flashDeck.length){
+    setText($("sentence"), "No flashcards available for this filter yet.");
+    setHidden($("enLine"), true);
+    $("options").innerHTML = "";
+    setHidden($("typedRow"), true);
+    setText($("meta"), `Flashcards • Set: ${setId} • Tag: ${activeTag}`);
+    return;
+  }
+
+  const card = getFlashCardById(flashCurrentId);
+  const qa = flashPromptAndAnswer(card);
+
+  setText($("sentence"), qa.prompt);
+  setText($("feedback"), "");
+  setHidden($("enLine"), true);
+
+  // meta (flash stats)
+  let totalC = 0, totalW = 0;
+  for (const v of Object.values(flashStats)){
+    totalC += v.correct || 0;
+    totalW += v.wrong || 0;
+  }
+  const attempts = totalC + totalW;
+  const acc = attempts ? Math.round((totalC/attempts)*100) : 0;
+  const cur = flashStats[flashCurrentId] || {correct:0, wrong:0, streak:0};
+
+  setText($("meta"),
+    `Flashcards • Level: ${flashLevel} • ${flashDir} • Set: ${setId} • Tag: ${activeTag}` +
+    ` • Total: ✅ ${totalC} / ❌ ${totalW} (${acc}%)` +
+    ` • This: ✅ ${cur.correct} / ❌ ${cur.wrong} • Streak: ${cur.streak}`
+  );
+
+  // typed vs MC
+  const wantsTyped = (flashLevel === "exp");
+  setHidden($("typedRow"), !wantsTyped);
+
+  const opts = $("options");
+  opts.innerHTML = "";
+
+  if (wantsTyped){
+    const t = $("typed");
+    if (t) t.value = "";
+    return;
+  }
+
+ const n = (flashLevel === "beg") ? 4 : 8;
+	const correct = qa.answer;
+	
+	const sameCat = flashDeck.filter(c => c.cat === card.cat && c.id !== card.id);
+	const otherCat = flashDeck.filter(c => c.cat !== card.cat && c.id !== card.id);
+	
+	const samePool = sameCat
+	  .map(c => flashPromptAndAnswer(c).answer)
+	  .filter(a => a && a !== correct);
+	
+	const otherPool = otherCat
+	  .map(c => flashPromptAndAnswer(c).answer)
+	  .filter(a => a && a !== correct);
+	
+	const need = Math.max(0, n - 1);
+	const pickedSame = shuffle(samePool).slice(0, Math.min(need, samePool.length));
+	const pickedOther = shuffle(otherPool).slice(0, Math.max(0, need - pickedSame.length));
+	
+	const distractors = [...pickedSame, ...pickedOther];
+	const optionList = shuffle([correct, ...distractors]);
+
+  optionList.forEach(opt => {
+    const b = document.createElement("button");
+    b.className = "btn";
+    b.textContent = opt;
+    b.onclick = () => {
+      if (locked) return;
+      locked = true;
+
+      const ok = (opt === correct);
+      scheduleFlashAfter(ok);
+
+      if (ok){
+        $("feedback").innerHTML = `<span class="ok">✓ Correct</span>`;
+      } else {
+        $("feedback").innerHTML = `<span class="bad">✗ Not quite.</span> Correct: <b>${escapeHtml(correct)}</b>`;
+      }
+
+      // advance immediately
+      setTimeout(() => {
+        locked = false;
+        flashPickNext();
+        render();
+      }, ok ? 250 : 600);
+    };
+    opts.appendChild(b);
+  });
+}
+
+function flashCategoryFromTags(tags){
+  const t = new Set(tags || []);
+
+  // Prefer more specific buckets first
+  if (t.has("ANIMAL")) return "ANIMAL";
+  if (t.has("COLOR"))  return "COLOR";
+  if (t.has("FAMILY")) return "FAMILY";
+
+  // Otherwise group by part-of-speech-ish tags
+  if (t.has("VERB")) return "VERB";
+  if (t.has("ADJ"))  return "ADJ";
+  if (t.has("NOUN")) return "NOUN";
+
+  // Fallback
+  return "MIXED";
+}
+
+	function stripAccents(s){
+	  return (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+	}
+	
+	function normLoose(s){
+	  return stripAccents(String(s || ""))
+	    .toLowerCase()
+	    .trim()
+	    .replace(/\s+/g, " ");
+	}
 
 
 /* ============================================================================
@@ -2759,6 +3032,11 @@ function wantsTypedUI(item){
 
 
 function render(){
+  if (mode === "flash"){
+    renderFlash();
+    return;
+  }
+	
   locked = false;
   const item = items[currentIndex];
   const typedOnly = (item.type === "typed" || item.input === "typed" || item.type === "typein" || item.input === "typein");
@@ -3030,8 +3308,17 @@ function updateModeUI(){
   setHidden($("drillPane"), mode !== "drill");
   setHidden($("teachPane"), mode !== "teach");
   setHidden($("teachSearch"), mode !== "teach");
+  setHidden($("flashPane"), mode !== "flash");
+  setHidden($("flashDirWrap"), mode !== "flash");
+  
+  setHidden($("srSel").closest("label"), mode === "flash");  // if you wrap it cleanly
+	
   if (mode === "teach"){
     renderTeachTable();
+  }
+
+  if (mode === "flash"){
+  resetFlash();
   }
 }
 
@@ -3064,13 +3351,23 @@ document.addEventListener("DOMContentLoaded", () => {
   initVerbSidebarClicks();
   buildVerbSidebar();
 
-
   // wire controls
-  $("modeSel").onchange = (e) => { mode = e.target.value; updateModeUI(); };
+  $("modeSel").onchange = (e) => { 
+	mode = e.target.value; updateModeUI(); 
+	if (mode === "flash") {
+		resetFlash();
+	}
+	render();
+  };
   $("srSel").onchange = (e) => { srMode = e.target.value; applyActiveSet(); };
   $("typedSel").onchange = (e) => { typedMode = e.target.value; render(); };
   $("setSel").onchange = (e) => { setId = e.target.value; activeTag = "ALL"; applyActiveSet(); };
   $("tagSel").onchange = (e) => { activeTag = e.target.value; applyActiveSet(); };
+  $("flashSel").onchange = (e) => { flashLevel = e.target.value; render(); };
+  $("flashDirSel").onchange = (e) => {
+	  flashDir = e.target.value;
+	  if (mode === "flash") render();
+	};
 
 
   $("teachSearch").addEventListener("input", renderTeachTable);
@@ -3123,6 +3420,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
