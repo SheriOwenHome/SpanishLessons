@@ -2979,22 +2979,19 @@ function getTeachEntriesForActiveSet(){
   const entries = [];
 
   for (const it of items){
-    if (it.teach && (it.teach.es || it.teach.en)){
-      const es = (it.teach.es || "").trim();
+    if (it.teach && (it.teach.es || it.teach.en || it.teach.infinitive)){
+      const es = (it.teach.es || it.teach.infinitive || "").trim();
       const en = (it.teach.en || "").trim();
       const note = (it.teach.note || "").trim();
 
-      // ✅ Skip anything with blank English
+      // Skip anything with blank English (your current behavior)
       if (!en) continue;
 
       entries.push({ es, en, note });
     }
   }
 
-  // de-dupe by normalized ES+EN
   const deduped = uniqBy(entries, x => norm(x.es) + "|" + norm(x.en));
-
-  // ✅ Safety: skip any blanks that slip through
   return deduped
     .filter(x => (x.en || "").trim().length > 0)
     .sort((a,b) => (a.es||"").localeCompare(b.es||"", "es"));
@@ -3438,6 +3435,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
