@@ -3303,7 +3303,7 @@ function applyActiveSet(){
 }
 
 function updateModeUI(){
-  setHidden($("drillPane"), mode !== "drill");
+  setHidden($("drillPane"), mode !== "drill" && mode !== "flash");
   setHidden($("teachPane"), mode !== "teach");
   setHidden($("teachSearch"), mode !== "teach");
   setHidden($("flashPane"), mode !== "flash");
@@ -3418,6 +3418,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
