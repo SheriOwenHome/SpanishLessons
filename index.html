@@ -2859,6 +2859,10 @@ function renderFlash(){
   const card = getFlashCardById(flashCurrentId);
   const qa = flashPromptAndAnswer(card);
 
+  // Define these BEFORE any branch uses them
+  const n = (flashLevel === "beg") ? 4 : 8;
+  const correct = qa.answer;
+
   setText($("sentence"), qa.prompt);
   setText($("feedback"), "");
   setHidden($("enLine"), true);
@@ -2887,34 +2891,30 @@ function renderFlash(){
   opts.innerHTML = "";
 
   if (wantsTyped){
-	  flashTypedAnswer = correct;        // <-- NEW
-	  setText($("sentence"), qa.prompt); // ensure it updates every time
-	  const t = $("typed");
-	  if (t) t.value = "";
-	  return;
-	}
+    flashTypedAnswer = correct;  // now valid
+    const t = $("typed");
+    if (t) t.value = "";
+    return;
+  }
 
+  // Same-category distractors
+  const sameCat = flashDeck.filter(c => c.cat === card.cat && c.id !== card.id);
+  const otherCat = flashDeck.filter(c => c.cat !== card.cat && c.id !== card.id);
 
- const n = (flashLevel === "beg") ? 4 : 8;
-	const correct = qa.answer;
-	
-	const sameCat = flashDeck.filter(c => c.cat === card.cat && c.id !== card.id);
-	const otherCat = flashDeck.filter(c => c.cat !== card.cat && c.id !== card.id);
-	
-	const samePool = sameCat
-	  .map(c => flashPromptAndAnswer(c).answer)
-	  .filter(a => a && a !== correct);
-	
-	const otherPool = otherCat
-	  .map(c => flashPromptAndAnswer(c).answer)
-	  .filter(a => a && a !== correct);
-	
-	const need = Math.max(0, n - 1);
-	const pickedSame = shuffle(samePool).slice(0, Math.min(need, samePool.length));
-	const pickedOther = shuffle(otherPool).slice(0, Math.max(0, need - pickedSame.length));
-	
-	const distractors = [...pickedSame, ...pickedOther];
-	const optionList = shuffle([correct, ...distractors]);
+  const samePool = sameCat
+    .map(c => flashPromptAndAnswer(c).answer)
+    .filter(a => a && a !== correct);
+
+  const otherPool = otherCat
+    .map(c => flashPromptAndAnswer(c).answer)
+    .filter(a => a && a !== correct);
+
+  const need = Math.max(0, n - 1);
+  const pickedSame = shuffle(samePool).slice(0, Math.min(need, samePool.length));
+  const pickedOther = shuffle(otherPool).slice(0, Math.max(0, need - pickedSame.length));
+
+  const distractors = [...pickedSame, ...pickedOther];
+  const optionList = shuffle([correct, ...distractors]);
 
   optionList.forEach(opt => {
     const b = document.createElement("button");
@@ -2933,7 +2933,6 @@ function renderFlash(){
         $("feedback").innerHTML = `<span class="bad">✗ Not quite.</span> Correct: <b>${escapeHtml(correct)}</b>`;
       }
 
-      // advance immediately
       setTimeout(() => {
         locked = false;
         flashPickNext();
@@ -3439,6 +3438,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
