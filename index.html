@@ -3219,10 +3219,7 @@ function check(pick){
   }
 }
 
-function checkTyped(typed){
-  if (locked) return;
-  const item = items[currentIndex];
-
+function checkTyped(typed){  
   if (mode === "flash"){
     const guess = $("typed").value;
     const ok = normLoose(guess) === normLoose(flashTypedAnswer);
@@ -3240,7 +3237,9 @@ function checkTyped(typed){
 
     return;
   }
-
+  if (locked) return;
+  const item = items[currentIndex];
+	
   const preExp = item.a ? item.a : item.aVerb;
   const expected = preExp ? preExp : item.aAdj;
 	
@@ -3440,6 +3439,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
