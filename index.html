@@ -2128,6 +2128,7 @@ let flashImmediate = [];       // ids to show next (beginner wrong)
 let flashStep = 0;             // increments each shown card
 let flashCurrentId = null;
 let flashDir = "ES_EN"; // ES_EN | EN_ES
+let flashTypedAnswer = null;
 
 
 let flashStats = {};           // id -> {correct, wrong, streak}
@@ -2886,10 +2887,13 @@ function renderFlash(){
   opts.innerHTML = "";
 
   if (wantsTyped){
-    const t = $("typed");
-    if (t) t.value = "";
-    return;
-  }
+	  flashTypedAnswer = correct;        // <-- NEW
+	  setText($("sentence"), qa.prompt); // ensure it updates every time
+	  const t = $("typed");
+	  if (t) t.value = "";
+	  return;
+	}
+
 
  const n = (flashLevel === "beg") ? 4 : 8;
 	const correct = qa.answer;
@@ -3219,6 +3223,24 @@ function checkTyped(typed){
   if (locked) return;
   const item = items[currentIndex];
 
+  if (mode === "flash"){
+    const guess = $("typed").value;
+    const ok = normLoose(guess) === normLoose(flashTypedAnswer);
+
+    scheduleFlashAfter(ok);
+
+    $("feedback").innerHTML = ok
+      ? `<span class="ok">✓ Correct</span>`
+      : `<span class="bad">✗ Not quite.</span> Correct: <b>${escapeHtml(flashTypedAnswer)}</b>`;
+
+    setTimeout(() => {
+      flashPickNext();
+      render();
+    }, ok ? 250 : 600);
+
+    return;
+  }
+
   const preExp = item.a ? item.a : item.aVerb;
   const expected = preExp ? preExp : item.aAdj;
 	
@@ -3418,6 +3440,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
 
 
